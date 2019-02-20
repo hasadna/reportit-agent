@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { HatoolLibModule } from 'hatool';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import {APP_BASE_HREF} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -11,8 +14,8 @@ import { HatoolLibModule } from 'hatool';
   imports: [
     BrowserModule,
     HatoolLibModule,
+    HttpClientModule,
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
