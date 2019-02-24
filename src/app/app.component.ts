@@ -93,6 +93,7 @@ export class AppComponent implements OnInit {
               private hubspot: HubspotService) {}
 
   ngOnInit() {
+    this.content.sendButtonText = 'שלח/י';
     this.doIt();
   }
 
