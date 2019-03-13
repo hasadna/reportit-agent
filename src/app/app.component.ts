@@ -2,84 +2,150 @@ import { Component, OnInit } from '@angular/core';
 import { ContentService } from 'hatool';
 import { HubspotService } from './hubspot.service';
 
-const offenders =
+const offenderScenarios =
 [
       {value: 0,
       display: 'משטרה',
       displayValue: 'משטרה',
-      complaints: [
-                {value: 'התנהגות או התבטאות גזענית מצד שוטר/ת',
-                  display: 'התנהגות או התבטאות גזענית מצד שוטר/ת'},
-                {value: 'פרופיילינג – הפעלת סמכות משטרתית על בסיס מראה, צבע עור וכדומה',
-                  display: 'פרופיילינג – הפעלת סמכות משטרתית על בסיס מראה, צבע עור וכדומה'},
-                {value: 'אחר',
-                  display: 'אחר'},
-              ],
-      services: [ {value: 'קבלת מידע', display: 'מידע על האפשרויות שעומדות בפניי' },
-              {value: 'הגשת תלונה', display: 'הגשת תלונה לרשות הרלוונטית' },
-                ],
-      relevant_recipients: [ {value: 'מח"ש', display: 'מחלקת חקירות שוטרים (מח"ש)'},
-                  {value: 'מחלקת פניות ציבור', display: 'מחלקת פניות ציבור במשטרה' },
+      relevantRecipients: [ {
+                             value: 'מח"ש',
+                             display: 'מחלקת חקירות שוטרים (מח"ש)',
+                             complaintTypes: ['התנהגות או התבטאות גזענית מצד שוטר/ת']
+                             },
+
+                             {value: 'מחלקת פניות ציבור',
+                              display: 'מחלקת פניות ציבור במשטרה',
+                              complaintTypes: ['התנהגות או התבטאות גזענית מצד שוטר/ת']
+                             },
                   ],
+      moreQuestions: [
+        {question: 'האם בוצע מעצר במסגרת המקרה?',
+         questionKey: 'מעצר',
+         answers: [
+           { display : 'כן, היה מעצר',
+             value: 'בוצע מעצר'
+           },
+           { display: 'לא',
+             value: 'לא בוצע מעצר'
+           }
+         ]
+       },
+       {question: 'האם הוגש כתב אישום ?',
+        questionKey: 'כתב אישום',
+        answers: [
+          { display : 'כן, הוגש כתב אישום',
+            value: 'הוגש כתב אישום'
+          },
+          { display: 'לא',
+            value: 'לא הוגש כתב אישום'
+          }
+        ]
       },
+      {question: 'האם הפונה כבר מיוצג/ת ע"י עו"ד?',
+       questionKey: 'מיוצג/ת ע"י עו"ד',
+       answers: [
+         { display : 'כן, הפונה מיוצג/ת על-ידי עו"ד',
+           value: 'מיוצג/ת ע"י עו"ד'
+         },
+         { display: 'לא',
+           value: 'לא מיוצג/ת ע"י עו"ד'
+         }
+       ]
+     },
+
+    {question: 'האם היו עדים למקרה? אם כן, הקלידו את הפרטים',     // * should enable empty submission, in case of one details
+     questionKey: 'פרטי העדים',
+     answers: null
+    },
+    {
+      question: 'פרטים חסרים לגבי האירוע: זמן, מקום, מה נאמר או נעשה שחשף את הגזענות/פרופיילינג?',
+      questionKey: 'מידע נוסף',
+      answers: null
+    }
+  ],
+   askForOffenderDetails: [
+     {
+       question: 'האם יש פרטים של השוטר/ים או הניידת? האם הם היו מזוהים בתג או שזיהו את עצמם?',
+       questionKey: 'יש/אין פרטים מזהים',
+       answers: [
+          {
+           display: 'כן',
+           value: [{
+             question: 'מהם פרטי השוטר/ים?',
+             question_key: 'פרטי השוטרים'
+           }]
+         },
+         {
+         value: 'אין',
+         display: 'לא'
+         },
+        ]
+      }
+    ]
+},
 
       {value: 1,
        display: 'מאבטח/ת',
        displayValue: 'מאבט/ת',
-       complaints: null,
-       services: null,
-       relevant_recipients: null,
+       relevantRecipients: null,
       },
 
       {value: 2,
-       display: 'עובד/ת רשות ציבורית',
-       displayValue: 'עובד/ת רשות ציבורית',
-       complaints: null,
-       services: null,
-       relevant_recipients: null,
+        display: 'תחום המגורים',
+        displayValue: 'גורם  בתחום המגורים/דיור',
+        relevantRecipients: null,
       },
 
       {value: 3,
-       display: 'עובד/ת רשות מקומית',
-       displayValue: 'עובד/ת רשות מקומית',
-       complaints: null,
-       services: null,
-       relevant_recipients: null,
+       display: 'עובד/ת רשות ציבורית',
+       displayValue: 'עובד/ת רשות ציבורית',
+       relevantRecipients: null,
       },
 
       {value: 4,
-       display: 'איש/אשת מקצוע',
-       displayValue: 'איש/אשת מקצוע',
-       complaints: null,
-       services: null,
-       relevant_recipients: null,
+       display: 'עובד/ת רשות מקומית',
+       displayValue: 'עובד/ת רשות מקומית',
+       relevantRecipients: null,
       },
 
       {value: 5,
-       display: 'עסק',
-       displayValue: 'עסק',
-       complaints: null,
-       services: null,
-       relevant_recipients: null,
+       display: 'איש/אשת מקצוע',
+       displayValue: 'איש/אשת מקצוע',
+       relevantRecipients: null,
       },
 
       {value: 6,
-       display: 'אדם פרטי',
-       displayValue: 'אדם פרטי',
-       complaints: null,
-       services: null,
-       relevant_recipients: null,
+       display: 'עסק',
+       displayValue: 'עסק',
+       relevantRecipients: null,
       },
 
       {value: 7,
+       display: 'אדם פרטי',
+       displayValue: 'אדם פרטי',
+       relevantRecipients: null,
+      },
+
+      {value: 8,
        display: 'other',
        displayValue: 'אחר',
-       complaints: null,
-       services: null,
-       relevant_recipients: null,
+       relevantRecipients: null,
      }
 ];
 
+
+const shareWithOrganizatoins = [
+  {
+    code: 0,
+    name:'הועד נגד עינויים',
+    description:'הוועד פועל למען בני אדם באשר הם - ישראלים, פלסטינים, מהגרי עבודה ואזרחים זרים נוספים, השוהים בישראל ובשטחים הכבושים, במטרה להגן עליהם מפני עינויים והתעללויות שנוקטות רשויות האכיפה והחקירה הישראליות, כלומר: משטרת ישראל, שירות הביטחון הכללי, שירות בתי הסוהר וצה"ל.',
+    moreinfo:[{website:'http://stoptorture.org.il/'}],
+    contacts: [
+      {email:'',phone:'',website:'http://stoptorture.org.il/'}
+    ]
+  }
+
+]
 
 @Component({
   selector: 'app-root',
@@ -91,9 +157,9 @@ export class AppComponent implements OnInit {
 
   constructor(private content: ContentService,
               private hubspot: HubspotService) {}
-
   ngOnInit() {
         this.content.sendButtonText = 'שלח/י';
+
         this.content.uploadFileText = 'לחצ/י לבחירת קובץ';
         this.content.uploadedFileText = 'קובץ הועלה בהצלחה';
         this.content.notUploadedFileText = 'תקלה בהעלאת קובץ';
@@ -105,13 +171,34 @@ export class AppComponent implements OnInit {
     //   service person side
     const vid = window.location.search.slice(1).split('&')[0].split('=')[1];
     const userInfo: any = await this.hubspot.getUser(vid);
-    console.log(userInfo);
+
+    const hubSpotContact: any = {};
+    this.hubspot.vid = vid;
     const name = userInfo.full_name;
     const complaintType = userInfo.complaint_type;
+    let eventDescription = userInfo.event_description;        // we will update the event Description during the process
     const requiredService = userInfo.required_service;
     const offender = userInfo.offender;
     const offenderIndex = userInfo.offender_code;
+
     const startDate = new Date(parseInt(userInfo.createdate, 10)).toISOString().slice(0, 10);
+    const modifiedDate = new Date(parseInt(userInfo.lastmodifieddate, 10)).toISOString().slice(0, 10);
+
+    let contact = {'email':'', 'phone':'', 'whatsapp':'', 'facebook':''};  // wrap contact details
+    Object.keys(contact).forEach((key) => {
+                                            if (key in userInfo) {
+                                              contact[key] = userInfo[key];
+                                            }
+                                          }
+                                  );
+    const files = {}
+    for (let fileIndex=0; fileIndex<=5; fileIndex++) {                    // wrap uploaded file info, up to 5 files
+      const filePointer = `file${fileIndex}`
+      const fileDescripionString = `file${fileIndex}description`;
+      if (filePointer in userInfo && fileDescripionString in userInfo) {
+        files[fileIndex] = {'description': userInfo[fileDescripionString], 'path':userInfo[filePointer]}
+      }
+    }
 
     this.content.addTo('[מעבר למוקדנ/ית - המידע מכאן והלאה יוצג במערכת ההנחיה למוקד/נית שיתקשר אותו מול הפונה במדיום שבחרו]');
 
@@ -120,30 +207,85 @@ export class AppComponent implements OnInit {
                          ${complaintType}, שבוצעה על ידי ${offender}.
                         על מנת שאוכל לסייע לך יש לי עוד מספר שאלות."`);
 
-    switch (offender) {
-      case 'משטרה':
-        this.content.setTextArea();
-        this.content.addTo(`השלימו את הפרטים הבאים בבירור עם הפונה: <br />
-                    "
-                        1. האם נעצרת? <br />
-                        2. האם הוגש נגדך כתב אישום? <br />
-                        3. האם מישהו מייצג אותך?  <br />
-                        4. איפה בדיוק אירע האירוע, מתי בדיוק? <br />
-                        5. האם יש תיאור של השוטר או שם? <br />
-                        6. האם תיעדת את המקרה <br />
-                        7. האם היו עדים שיכולם להעיד על המקרה? <br />
-                        8. האם יש לך מספר ניידת, וכו'?<br />
-                    "`);
+    const offenderScenario = offenderScenarios[offenderIndex]          // pull the relevant scenario
 
-        const moreDetails = Array();
-        moreDetails.push(await this.content.waitForInput());
+    switch (offenderIndex) {
+      case '0':
 
-        this.content.addTo(`בדקו והתייעצו:
-                            1. האם המידע הקיים מאפשר ${requiredService} בעקבות הארוע? <br />
-                            2. מיהו הגורם אליו יש להעביר תלונה או פניה בנושא? <br />
-                            3. האם ישנם ארגוני חברה אזרחית שיוכלו לסייע לפונה בנושא הפניה? <br />
-                          `);
+        if ('moreQuestions' in offenderScenario) {
+          let moreQuestions = offenderScenario['moreQuestions'];
+          const answers = Array();
 
+          this.content.addTo(`השלימו את הפרטים הבאים בבירור עם הפונה:`);
+
+          for (let questionIndex = 1; questionIndex <= moreQuestions.length; questionIndex++) {             // add more details to event_description
+            let questionObject = moreQuestions[questionIndex-1];
+            let question = `${questionIndex}. ${questionObject.question}`;
+            let questionKey = questionObject.questionKey;
+
+            if ('answers' in questionObject && questionObject.answers != null) {
+              this.content.addOptions(question, questionObject.answers);
+            } else {
+              this.content.addTo(question);
+              this.content.setTextArea();
+            }
+            const newAnswer = await this.content.waitForInput();
+            answers.push({'key': questionKey, 'detail': newAnswer});
+
+          }
+
+          let moreDetails = answers.map(e => (e.key + ': ' + e.detail)).join(', ');
+          eventDescription += `\nפרטים נוספים:\n ${moreDetails}`;
+          hubSpotContact.event_description = eventDescription;
+
+          await this.hubspot.updateUser(hubSpotContact);
+          console.log(`updated event details: ${userInfo.event_description}`)
+
+        }
+
+        console.log(`updated event details: ${userInfo.event_description}`)
+
+        if ('askForOffenderDetails' in offenderScenario) {                            // check if we should ask optional offender details quetsion
+          let answers;
+          const offenderDetails = [];
+          const offenderDetailsQuestions = offenderScenario.askForOffenderDetails;
+          for (let questionIndex = 0; questionIndex <= offenderDetailsQuestions.length - 1; questionIndex++) {
+
+            const questionObject = offenderDetailsQuestions[questionIndex];
+            const question = questionObject.question;
+
+            if ('answers' in questionObject) {                               // what is the type of the question: options / open question
+              this.content.addOptions(question,  questionObject.answers);
+              } else {
+              this.content.addTo(question);
+              this.content.setTextArea();
+            }
+            const answer = await this.content.waitForInput();
+
+            if (typeof answer === 'object') {                                        // check if we need to handle a follow-up question
+              const followUpQuestions = answer;
+              for (let followUpQuestionIndex = 0; followUpQuestionIndex <= followUpQuestions.length - 1; followUpQuestionIndex++) {
+                const newQuestion = followUpQuestions[followUpQuestionIndex].question;
+                const question_key = followUpQuestions[followUpQuestionIndex].question_key;
+
+                this.content.addTo(newQuestion);
+                this.content.setTextArea();
+
+                const newAnswer = await this.content.waitForInput();
+                offenderDetails.push({'key': question_key, 'detail': newAnswer});
+
+              }
+              answers = offenderDetails.map(e => (e.key + ': ' + e.detail)).join(', ');
+            } else {
+              answers = answer;
+            }
+          }
+
+        hubSpotContact.offender_person_details = answers;
+        await this.hubspot.updateUser(hubSpotContact);
+        console.log(`update offender_person_details: ${hubSpotContact.offender_person_details}`);
+
+      }
 
         this.content.addOptions(                                   // check if details enable complaint
                       `האם המידע הקיים מאפשר ${requiredService} בעקבות הארוע?`,
@@ -151,41 +293,60 @@ export class AppComponent implements OnInit {
                        { value: false, display: 'לא' },
                       ]);
 
-        const canComplain = await this.content.waitForInput();
-        this.content.addFrom(canComplain  ? 'כן' : 'לא');
+        const canBeServed = await this.content.waitForInput();
+        if (requiredService == 'הגשת תלונה') {
+          const wantsTocomplain = true;
+        } else {
+          const wantsTocomplain = false;
+        }
 
-        if (canComplain) {                                                    // if can complain thread
-          const relevantRecipientsOptions = offenders[offenderIndex].relevant_recipients;
+        hubSpotContact.can_service = canBeServed;
+        await this.hubspot.updateUser(hubSpotContact);
 
-          this.content.addOptions('מהבירור שערכתם, לאיזה גוף תוגש התלונה?',
-                            relevantRecipientsOptions);
+        this.content.addFrom(canBeServed  ? 'כן' : 'לא');
 
-          const complaintRecipient = await this.content.waitForInput();
-                                                        // check if help is needed writing a complaint
+        console.log(`updated can_service value: ${hubSpotContact.can_service}`)
 
-          this.content.addFrom(complaintRecipient);
-          this.content.addOptions(`עדכנו את הפונה: <br />
-                            "
-                              מהמידע שמסרת לנו עולה כי באפשרותכם להגיש תלונה ל${complaintRecipient}.<br />
-                              האם תרצה/תרצו שנסייע לך לנסח את התלונה ולשלוח אותה?<br />
-                            "
 
-                            האם הפונה מעוניינ/ת להעביר את הפרטים לארגונים אלו?`,
-                            [
-                              {value: true, display: 'כן'},
-                              {value: false, display: 'לא'},
-                            ]);
+        if (canBeServed) {                                                    // if can complain thread and user wants to complain
 
-          const writeComplaint = await this.content.waitForInput();
-          this.content.addFrom(writeComplaint ? 'כן' : 'לא');
+          const relevantRecipients = offenderScenario.relevantRecipients
+          const relevantRecipientsOptions = relevantRecipients.filter((org) => org.complaintTypes.indexOf(complaintType) > -1 );  // filter complaint recipients by offender + complaintType
 
-          if (writeComplaint) {                           // if user wants help delivering complaint
-            this.content.addTo(`ענו לפונה: <br />
-                          "בסדר גמור. אני אחזור אליך עם הצעה לנוסח הפניה ועם הסבר איך שולחים את התלונה"
-                          `);
-                        }
-      }                                               // end if user wants help delivering complaint
+          if (relevantRecipientsOptions.length == 0) {
+              this.content.addTo('לא נמצא במערכת מידע לגבי הגופים להם ניתן לדווח על המקרה. עדכנו את הפונה שתבררו מה האפשרויות ותעדכנו אותו/אותה בהמשך');
+          } else {
+              const approvedReciepents = [];
+              this.content.addTo(`ניתן לשלוח את התלונה ל-${relevantRecipientsOptions.length} גורמים. <br> אני אגיד לך מהם, כדי שתוכל/י להגיד לי למי מהם תרצה/תרצי לפנות:`);
 
+              for (let relevantRecipientsIndex = 0; relevantRecipientsIndex <= relevantRecipientsOptions.length - 1; relevantRecipientsIndex++) {
+                let recipient = relevantRecipientsOptions[relevantRecipientsIndex];
+                this.content.addOptions(`ניתן לפנות בנוגע למקרה הזה אל ${recipient.display}. <br>\
+                                          האם תרצו שנסייע לכם ב${requiredService} אליהם?`,
+                                        [
+                                         { display:'כן', value:true},
+                                         { display:'לא', value:false}
+                                       ]);
+                const sendToRecipient = await this.content.waitForInput();
+                if (sendToRecipient) {
+                  approvedReciepents.push(recipient);
+                }
+              }
+
+              const sendReportTo = approvedReciepents.map((org)=>org.display).join(', ');                       // unify list of compaint recievers
+              hubSpotContact.send_complaint_to = sendReportTo;
+
+              await this.hubspot.updateUser(hubSpotContact);
+              console.log(`updated send_complaint_to: ${hubSpotContact.send_complaint_to}`)
+
+
+              if (sendReportTo.length > 0 ) {                           // if user wants help delivering complaint
+                this.content.addTo(`ענו לפונה: <br />
+                              "בסדר גמור. אני אחזור אליך עם הצעה לנוסח הפניה ועם הסבר איך שולחים את התלונה"
+                              `);
+                            }
+
+            }                                            // check if help is needed writing a complain
 
                                                 // check if user want to share detais with other NGOs
       this.content.addOptions(`
@@ -202,28 +363,8 @@ export class AppComponent implements OnInit {
           {value: true, display: 'כן'},
           {value: false, display: 'לא'},
         ]);
+      }
 
-      const ngoContacts = await this.content.waitForInput();
-      this.content.addFrom(ngoContacts ? 'כן' : 'לא');
-      this.content.addTo(`סכמו את השיחה והנקודות העקריות מול הפונה: <br />
-                      " [פה יופיע סיכום דינמי של השיחה] <br />
-                      האם יש לך שאלות אם פרטים נוספים שתרצו להוסיף או לברר? <br />
-                      "
-                      הזינו את השאלות והמידע הנוסף: <br />
-                      `);
-
-      this.content.setTextArea();
-
-      const newDetails = await this.content.waitForInput();
-      moreDetails.push(newDetails);
-
-      // const contactDetailsStrinify = contacts.map(contact => contact.method + ':' + contact.details + '<br />');
-
-      this.content.addTo(`הודו לפונה ועדכנו אותו/אותה לגבי ההמשך:<br/>
-                      "תודה לך שפנית אלינו. אני או מישהו מהצוות שלי יהיו איתך בקשר
-                       בתוך שבוע. את/ה מוזמנ/ת ליצור איתנו קשר בכל שאלה או מידע נוסף שיהיו לך"ניצור איתך קשר באחד האמצעים הבאים:`
-                      // ${contactDetailsStrinify}
-                      );
 
       this.content.addTo(`משימות להמשך הטיפול: <br />
                       העבירו את פרטי הארוע לגורם הרלוונטי בארגון שלכם. <br />
