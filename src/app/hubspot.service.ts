@@ -9,7 +9,7 @@ export class HubspotService {
   CONTACT_URL = 'https://reportit.obudget.org/hubspot/contacts/v1/contact/';
   CONTACT_UPDATE_URL = 'https://reportit.obudget.org/hubspot/contacts/v1/contact/vid/:vid/profile';
   CONTACT_GET_URL = 'https://reportit.obudget.org/hubspot/contacts/v1/contact/vid/:vid/profile';
-
+  FILE_UPLOAD = 'https://reportit.obudget.org/hubspot/filemanager/api/v2/files';
   vid: any = null;
 
   constructor(private http: HttpClient) { }
