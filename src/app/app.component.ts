@@ -93,9 +93,12 @@ export class AppComponent implements OnInit {
               private hubspot: HubspotService) {}
 
   ngOnInit() {
-    this.content.sendButtonText = 'שלח/י';
-    this.doIt();
-  }
+        this.content.sendButtonText = 'שלח/י';
+        this.content.uploadFileText = 'לחצ/י לבחירת קובץ';
+        this.content.uploadedFileText = 'קובץ הועלה בהצלחה';
+        this.content.notUploadedFileText = 'תקלה בהעלאת קובץ';
+        this.doIt();
+      }
 
   async doIt() {
 
@@ -117,8 +120,10 @@ export class AppComponent implements OnInit {
                          ${complaintType}, שבוצעה על ידי ${offender}.
                         על מנת שאוכל לסייע לך יש לי עוד מספר שאלות."`);
 
-    this.content.setTextArea();
-    this.content.addTo(`השלימו את הפרטים הבאים בבירור עם הפונה: <br />
+    switch (offender) {
+      case 'משטרה':
+        this.content.setTextArea();
+        this.content.addTo(`השלימו את הפרטים הבאים בבירור עם הפונה: <br />
                     "
                         1. האם נעצרת? <br />
                         2. האם הוגש נגדך כתב אישום? <br />
@@ -130,36 +135,36 @@ export class AppComponent implements OnInit {
                         8. האם יש לך מספר ניידת, וכו'?<br />
                     "`);
 
-  const moreDetails = Array();
-  moreDetails.push(await this.content.waitForInput());
+        const moreDetails = Array();
+        moreDetails.push(await this.content.waitForInput());
 
-  this.content.addTo(`בדקו והתייעצו:
+        this.content.addTo(`בדקו והתייעצו:
                             1. האם המידע הקיים מאפשר ${requiredService} בעקבות הארוע? <br />
                             2. מיהו הגורם אליו יש להעביר תלונה או פניה בנושא? <br />
                             3. האם ישנם ארגוני חברה אזרחית שיוכלו לסייע לפונה בנושא הפניה? <br />
                           `);
 
 
-  this.content.addOptions(                                   // check if details enable complaint
+        this.content.addOptions(                                   // check if details enable complaint
                       `האם המידע הקיים מאפשר ${requiredService} בעקבות הארוע?`,
                       [{ value: true, display: 'כן'},
                        { value: false, display: 'לא' },
                       ]);
 
-  const canComplain = await this.content.waitForInput();
-  this.content.addFrom(canComplain  ? 'כן' : 'לא');
+        const canComplain = await this.content.waitForInput();
+        this.content.addFrom(canComplain  ? 'כן' : 'לא');
 
-  if (canComplain) {                                                    // if can complain thread
-    const relevantRecipientsOptions = offenders[offenderIndex].relevant_recipients;
+        if (canComplain) {                                                    // if can complain thread
+          const relevantRecipientsOptions = offenders[offenderIndex].relevant_recipients;
 
-    this.content.addOptions('מהבירור שערכתם, לאיזה גוף תוגש התלונה?',
+          this.content.addOptions('מהבירור שערכתם, לאיזה גוף תוגש התלונה?',
                             relevantRecipientsOptions);
 
-    const complaintRecipient = await this.content.waitForInput();
+          const complaintRecipient = await this.content.waitForInput();
                                                         // check if help is needed writing a complaint
 
-    this.content.addFrom(complaintRecipient);
-    this.content.addOptions(`עדכנו את הפונה: <br />
+          this.content.addFrom(complaintRecipient);
+          this.content.addOptions(`עדכנו את הפונה: <br />
                             "
                               מהמידע שמסרת לנו עולה כי באפשרותכם להגיש תלונה ל${complaintRecipient}.<br />
                               האם תרצה/תרצו שנסייע לך לנסח את התלונה ולשלוח אותה?<br />
@@ -171,57 +176,63 @@ export class AppComponent implements OnInit {
                               {value: false, display: 'לא'},
                             ]);
 
-    const writeComplaint = await this.content.waitForInput();
-    this.content.addFrom(writeComplaint ? 'כן' : 'לא');
+          const writeComplaint = await this.content.waitForInput();
+          this.content.addFrom(writeComplaint ? 'כן' : 'לא');
 
-    if (writeComplaint) {                           // if user wants help delivering complaint
-      this.content.addTo(`ענו לפונה: <br />
+          if (writeComplaint) {                           // if user wants help delivering complaint
+            this.content.addTo(`ענו לפונה: <br />
                           "בסדר גמור. אני אחזור אליך עם הצעה לנוסח הפניה ועם הסבר איך שולחים את התלונה"
                           `);
                         }
-    }                                               // end if user wants help delivering complaint
+      }                                               // end if user wants help delivering complaint
 
 
                                                 // check if user want to share detais with other NGOs
-  this.content.addOptions(`
-    עדכנו את הפונה: <br />
-     "ישנם מספר גורמי חברה אזרחית שיוכלו אולי לסייע לך בנוגע לפנייה שלך. אלו הארגונים: <br />
-      א. [ארגון א']  <br />
-      ב. [ארגון ב']  <br />
-      ג. [ארגון ג'].  <br />
-      האם תרצה שנעביר להם את פרטי המקרה ופרטי ההתקשרות איתך?"
+      this.content.addOptions(`
+        עדכנו את הפונה: <br />
+        "ישנם מספר גורמי חברה אזרחית שיוכלו אולי לסייע לך בנוגע לפנייה שלך. אלו הארגונים: <br />
+        א. [ארגון א']  <br />
+        ב. [ארגון ב']  <br />
+        ג. [ארגון ג'].  <br />
+        האם תרצה שנעביר להם את פרטי המקרה ופרטי ההתקשרות איתך?"
 
-      מה השיב/ה הפונה?
-    `,
-    [
-      {value: true, display: 'כן'},
-      {value: false, display: 'לא'},
-    ]);
+        מה השיב/ה הפונה?
+        `,
+        [
+          {value: true, display: 'כן'},
+          {value: false, display: 'לא'},
+        ]);
 
-    const ngoContacts = await this.content.waitForInput();
-    this.content.addFrom(ngoContacts ? 'כן' : 'לא');
-  this.content.addTo(`סכמו את השיחה והנקודות העקריות מול הפונה: <br />
+      const ngoContacts = await this.content.waitForInput();
+      this.content.addFrom(ngoContacts ? 'כן' : 'לא');
+      this.content.addTo(`סכמו את השיחה והנקודות העקריות מול הפונה: <br />
                       " [פה יופיע סיכום דינמי של השיחה] <br />
                       האם יש לך שאלות אם פרטים נוספים שתרצו להוסיף או לברר? <br />
                       "
                       הזינו את השאלות והמידע הנוסף: <br />
                       `);
 
-  this.content.setTextArea();
+      this.content.setTextArea();
 
-  const newDetails = await this.content.waitForInput();
-  moreDetails.push(newDetails);
+      const newDetails = await this.content.waitForInput();
+      moreDetails.push(newDetails);
 
-  // const contactDetailsStrinify = contacts.map(contact => contact.method + ':' + contact.details + '<br />');
+      // const contactDetailsStrinify = contacts.map(contact => contact.method + ':' + contact.details + '<br />');
 
-  this.content.addTo(`הודו לפונה ועדכנו אותו/אותה לגבי ההמשך:<br/>
+      this.content.addTo(`הודו לפונה ועדכנו אותו/אותה לגבי ההמשך:<br/>
                       "תודה לך שפנית אלינו. אני או מישהו מהצוות שלי יהיו איתך בקשר
                        בתוך שבוע. את/ה מוזמנ/ת ליצור איתנו קשר בכל שאלה או מידע נוסף שיהיו לך"ניצור איתך קשר באחד האמצעים הבאים:`
                       // ${contactDetailsStrinify}
                       );
 
-  this.content.addTo(`משימות להמשך הטיפול: <br />
+      this.content.addTo(`משימות להמשך הטיפול: <br />
                       העבירו את פרטי הארוע לגורם הרלוונטי בארגון שלכם. <br />
                       העבירו את פרטי הארוע לארגונים אליהם ביקש/ה הפונה לפנות. <br />
                       הוסיפו תזכורת למעקב אחר הטיפול במקרה`);
+    break;
+
+  default:
+    console.log('could not find Offender Script');
+    break
+    }
 }}
