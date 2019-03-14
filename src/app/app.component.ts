@@ -138,15 +138,18 @@ const offenderScenarios =
 const shareWithOrganizatoins = [
   {
     code: 0,
-    name:'הועד נגד עינויים',
-    description:'הוועד פועל למען בני אדם באשר הם - ישראלים, פלסטינים, מהגרי עבודה ואזרחים זרים נוספים, השוהים בישראל ובשטחים הכבושים, במטרה להגן עליהם מפני עינויים והתעללויות שנוקטות רשויות האכיפה והחקירה הישראליות, כלומר: משטרת ישראל, שירות הביטחון הכללי, שירות בתי הסוהר וצה"ל.',
-    moreinfo:[{website:'http://stoptorture.org.il/'}],
+    name: 'הועד נגד עינויים',
+    description: 'הוועד פועל למען בני אדם באשר הם -\
+     ישראלים, פלסטינים, מהגרי עבודה ואזרחים\
+      זרים נוספים, השוהים בישראל ובשטחים הכבושים\
+      , במטרה להגן עליהם מפני עינויים והתעללויות שנוקטות רשויות האכיפה והחקירה הישראליות, כלומר: משטרת\
+       ישראל, שירות הביטחון הכללי, שירות בתי הסוהר וצה"ל.',
+    moreinfo: [{website: 'http://stoptorture.org.il/'}],
     contacts: [
-      {email:'',phone:'',website:'http://stoptorture.org.il/'}
+      {email: '', phone: '', website: 'http://stoptorture.org.il/'}
     ]
   }
-
-]
+];
 
 
 @Component({
@@ -188,34 +191,34 @@ export class AppComponent implements OnInit {
 
     let resourceIndex = 0;                                                // wrap event uploaded files/resources and count them
     const filesObject = {};
-    for (let key in userInfo) {
-        if (key.indexOf("file") > -1) {
+    for (const key in userInfo) {
+        if (key.indexOf('file') > -1) {
           filesObject[key] = userInfo[key];
-          if (key.indexOf("description") == -1) {
+          if (key.indexOf('description') === -1) {
             resourceIndex += 1;
           }
         }
       }
 
-    console.log("resourceIndex",resourceIndex);
-    console.log("files",filesObject);
+    console.log('resourceIndex', resourceIndex);
+    console.log('files', filesObject);
 
-    let contact = {'email':'', 'phone':'', 'whatsapp':'', 'facebook':''};  // wrap contact details
+    const contact = {'email': '', 'phone': '', 'whatsapp': '', 'facebook': ''};  // wrap contact details
     Object.keys(contact).forEach((key) => {
                                             if (key in userInfo) {
                                               contact[key] = userInfo[key];
                                             }
                                           }
                                   );
-    const files = {}
+    const files = {};
 
     let currenrtSavedFiles;                                               // stringify list of saved files descriptions
-    for (let fileIndex=0; fileIndex<=5; fileIndex++) {                    // wrap uploaded file info, up to 5 files
-      const filePointer = `file${fileIndex}`
+    for (let fileIndex = 0; fileIndex <= 5; fileIndex++) {                    // wrap uploaded file info, up to 5 files
+      const filePointer = `file${fileIndex}`;
       const fileDescripionString = `file${fileIndex}description`;
       if (filePointer in userInfo && fileDescripionString in userInfo) {
-        files[fileIndex] = {'description': userInfo[fileDescripionString], 'path':userInfo[filePointer]}
-        currenrtSavedFiles+=`${userInfo[fileDescripionString]}<br> `
+        files[fileIndex] = {'description': userInfo[fileDescripionString], 'path': userInfo[filePointer]};
+        currenrtSavedFiles += `${userInfo[fileDescripionString]}<br> `;
       }
     }
 
@@ -227,21 +230,21 @@ export class AppComponent implements OnInit {
                          ${complaintType}, שבוצעה על ידי ${offender}.
                         על מנת שאוכל לסייע לך יש לי עוד מספר שאלות."`);
 
-    const offenderScenario = offenderScenarios[offenderIndex]          // pull the relevant scenario
+    const offenderScenario = offenderScenarios[offenderIndex];          // pull the relevant scenario
 
     switch (offenderIndex) {
       case '0':
 
         if ('moreQuestions' in offenderScenario) {
-          let moreQuestions = offenderScenario['moreQuestions'];
+          const moreQuestions = offenderScenario['moreQuestions'];
           const answers = Array();
 
           this.content.addTo(`השלימו את הפרטים הבאים בבירור עם הפונה:`);
 
-          for (let questionIndex = 1; questionIndex <= moreQuestions.length; questionIndex++) {             // add more details to event_description
-            let questionObject = moreQuestions[questionIndex-1];
-            let question = `${questionIndex}. ${questionObject.question}`;
-            let questionKey = questionObject.questionKey;
+          for (let questionIndex = 1; questionIndex <= moreQuestions.length; questionIndex++) { // add more details to event_description
+            const questionObject = moreQuestions[questionIndex - 1];
+            const question = `${questionIndex}. ${questionObject.question}`;
+            const questionKey = questionObject.questionKey;
 
             if ('answers' in questionObject && questionObject.answers != null) {
               this.content.addOptions(question, questionObject.answers);
@@ -254,18 +257,18 @@ export class AppComponent implements OnInit {
 
           }
 
-          let moreDetails = answers.map(e => (e.key + ': ' + e.detail)).join(', ');
+          const moreDetails = answers.map(e => (e.key + ': ' + e.detail)).join(', ');
           eventDescription += `\nפרטים נוספים:\n ${moreDetails}`;
           hubSpotContact.event_description = eventDescription;
 
           await this.hubspot.updateUser(hubSpotContact);
-          console.log(`updated event details: ${userInfo.event_description}`)
+          console.log(`updated event details: ${userInfo.event_description}`);
 
         }
 
-        console.log(`updated event details: ${userInfo.event_description}`)
+        console.log(`updated event details: ${userInfo.event_description}`);
 
-        if ('askForOffenderDetails' in offenderScenario) {                            // check if we should ask optional offender details quetsion
+        if ('askForOffenderDetails' in offenderScenario) {   // check if we should ask optional offender details quetsion
           let answers;
           const offenderDetails = [];
           const offenderDetailsQuestions = offenderScenario.askForOffenderDetails;
@@ -310,7 +313,8 @@ export class AppComponent implements OnInit {
 
       if (resourceIndex < 5) {                       // uploaded files limit, following the CRM fields settings
         let moreResourcesUpload = true;
-          this.content.addTo(`כרגע שמורים במערכת ${resourceIndex} קבצים: ${currenrtSavedFiles}. ניתן להעלות ${5-resourceIndex} קבצים נוספים.`)
+          this.content.addTo(`כרגע שמורים במערכת ${resourceIndex} קבצים: ${currenrtSavedFiles}.\
+             ניתן להעלות ${5 - resourceIndex} קבצים נוספים.`);
         while (moreResourcesUpload && resourceIndex <= 5) {                       // uploaded files limit, following the CRM fields settings
           this.content.addOptions(
             `אם יש בידי הפונה עוד צילומים, מסמכים או תיעוד של המקרה שיוכלו להעביר לנו כעת? <br>\
@@ -354,7 +358,7 @@ export class AppComponent implements OnInit {
                       ]);
 
         const canBeServed = await this.content.waitForInput();
-        if (requiredService == 'הגשת תלונה') {
+        if (requiredService === 'הגשת תלונה') {
           const wantsTocomplain = true;
         } else {
           const wantsTocomplain = false;
@@ -365,27 +369,30 @@ export class AppComponent implements OnInit {
 
         this.content.addFrom(canBeServed  ? 'כן' : 'לא');
 
-        console.log(`updated can_service value: ${hubSpotContact.can_service}`)
+        console.log(`updated can_service value: ${hubSpotContact.can_service}`);
 
 
         if (canBeServed) {                                                    // if can complain thread and user wants to complain
 
-          const relevantRecipients = offenderScenario.relevantRecipients
-          const relevantRecipientsOptions = relevantRecipients.filter((org) => org.complaintTypes.indexOf(complaintType) > -1 );  // filter complaint recipients by offender + complaintType
+          const relevantRecipients = offenderScenario.relevantRecipients;
+          // filter complaint recipients by offender + complaintType
+          const relevantRecipientsOptions = relevantRecipients.filter((org) => org.complaintTypes.indexOf(complaintType) > -1 );
 
-          if (relevantRecipientsOptions.length == 0) {
-              this.content.addTo('לא נמצא במערכת מידע לגבי הגופים להם ניתן לדווח על המקרה. עדכנו את הפונה שתבררו מה האפשרויות ותעדכנו אותו/אותה בהמשך');
+          if (relevantRecipientsOptions.length === 0) {
+              this.content.addTo('לא נמצא במערכת מידע לגבי\
+               הגופים להם ניתן לדווח על המקרה. עדכנו את הפונה שתבררו מה האפשרויות ותעדכנו אותו/אותה בהמשך');
           } else {
               const approvedReciepents = [];
-              this.content.addTo(`ניתן לשלוח את התלונה ל-${relevantRecipientsOptions.length} גורמים. <br> אני אגיד לך מהם, כדי שתוכל/י להגיד לי למי מהם תרצה/תרצי לפנות:`);
+              this.content.addTo(`ניתן לשלוח את התלונה ל-${relevantRecipientsOptions.length} גורמים.\
+                 <br> אני אגיד לך מהם, כדי שתוכל/י להגיד לי למי מהם תרצה/תרצי לפנות:`);
 
-              for (let relevantRecipientsIndex = 0; relevantRecipientsIndex <= relevantRecipientsOptions.length - 1; relevantRecipientsIndex++) {
-                let recipient = relevantRecipientsOptions[relevantRecipientsIndex];
+        for (let relevantRecipientsIndex = 0; relevantRecipientsIndex <= relevantRecipientsOptions.length - 1; relevantRecipientsIndex++) {
+                const recipient = relevantRecipientsOptions[relevantRecipientsIndex];
                 this.content.addOptions(`ניתן לפנות בנוגע למקרה הזה אל ${recipient.display}. <br>\
                                           האם תרצו שנסייע לכם ב${requiredService} אליהם?`,
                                         [
-                                         { display:'כן', value:true},
-                                         { display:'לא', value:false}
+                                         { display : 'כן', value : true},
+                                         { display : 'לא', value : false}
                                        ]);
                 const sendToRecipient = await this.content.waitForInput();
                 if (sendToRecipient) {
@@ -393,11 +400,11 @@ export class AppComponent implements OnInit {
                 }
               }
 
-              const sendReportTo = approvedReciepents.map((org)=>org.display).join(', ');                       // unify list of compaint recievers
+              const sendReportTo = approvedReciepents.map((org) => org.display).join(', ');  // unify list of compaint recievers
               hubSpotContact.send_complaint_to = sendReportTo;
 
               await this.hubspot.updateUser(hubSpotContact);
-              console.log(`updated send_complaint_to: ${hubSpotContact.send_complaint_to}`)
+              console.log(`updated send_complaint_to: ${hubSpotContact.send_complaint_to}`);
 
 
               if (sendReportTo.length > 0 ) {                           // if user wants help delivering complaint
@@ -434,6 +441,6 @@ export class AppComponent implements OnInit {
 
   default:
     console.log('could not find Offender Script');
-    break
+    break;
     }
 }}
