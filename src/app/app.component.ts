@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ContentService } from 'hatool';
 import { HubspotService } from './hubspot.service';
+import { FileUploader } from 'hatool';
 
 const offenderScenarios =
 [
@@ -147,6 +148,7 @@ const shareWithOrganizatoins = [
 
 ]
 
+
 @Component({
   selector: 'app-root',
   template: '<htl-hatool></htl-hatool>',
@@ -184,6 +186,20 @@ export class AppComponent implements OnInit {
     const startDate = new Date(parseInt(userInfo.createdate, 10)).toISOString().slice(0, 10);
     const modifiedDate = new Date(parseInt(userInfo.lastmodifieddate, 10)).toISOString().slice(0, 10);
 
+    let resourceIndex = 0;                                                // wrap event uploaded files/resources and count them
+    const filesObject = {};
+    for (let key in userInfo) {
+        if (key.indexOf("file") > -1) {
+          filesObject[key] = userInfo[key];
+          if (key.indexOf("description") == -1) {
+            resourceIndex += 1;
+          }
+        }
+      }
+
+    console.log("resourceIndex",resourceIndex);
+    console.log("files",filesObject);
+
     let contact = {'email':'', 'phone':'', 'whatsapp':'', 'facebook':''};  // wrap contact details
     Object.keys(contact).forEach((key) => {
                                             if (key in userInfo) {
@@ -192,13 +208,17 @@ export class AppComponent implements OnInit {
                                           }
                                   );
     const files = {}
+
+    let currenrtSavedFiles;                                               // stringify list of saved files descriptions
     for (let fileIndex=0; fileIndex<=5; fileIndex++) {                    // wrap uploaded file info, up to 5 files
       const filePointer = `file${fileIndex}`
       const fileDescripionString = `file${fileIndex}description`;
       if (filePointer in userInfo && fileDescripionString in userInfo) {
         files[fileIndex] = {'description': userInfo[fileDescripionString], 'path':userInfo[filePointer]}
+        currenrtSavedFiles+=`${userInfo[fileDescripionString]}<br> `
       }
     }
+
 
     this.content.addTo('[מעבר למוקדנ/ית - המידע מכאן והלאה יוצג במערכת ההנחיה למוקד/נית שיתקשר אותו מול הפונה במדיום שבחרו]');
 
@@ -286,6 +306,46 @@ export class AppComponent implements OnInit {
         console.log(`update offender_person_details: ${hubSpotContact.offender_person_details}`);
 
       }
+
+
+      if (resourceIndex < 5) {                       // uploaded files limit, following the CRM fields settings
+        let moreResourcesUpload = true;
+          this.content.addTo(`כרגע שמורים במערכת ${resourceIndex} קבצים: ${currenrtSavedFiles}. ניתן להעלות ${5-resourceIndex} קבצים נוספים.`)
+        while (moreResourcesUpload && resourceIndex <= 5) {                       // uploaded files limit, following the CRM fields settings
+          this.content.addOptions(
+            `אם יש בידי הפונה עוד צילומים, מסמכים או תיעוד של המקרה שיוכלו להעביר לנו כעת? <br>\
+              אם כן, תתבקשו לקבל מהם את הקובץ ולהעלות אותם.`,
+              [
+                {value: true, display: 'כן'},
+                {value: false, display: 'לא'}
+              ]);
+
+          moreResourcesUpload = await this.content.waitForInput();
+
+          if (moreResourcesUpload) {
+            this.content.addUploader('אנא בחר/י את הקובץ הרלוונטי');
+            const file: FileUploader = await this.content.waitForInput();
+            file.active = true;
+            const uploaded = await this.hubspot.uploadFile(
+              file.selectedFile, this.hubspot.vid + '/file-' + resourceIndex,
+              (progress) => { file.progress = progress; },
+              (success) => { file.success = success; }
+              );
+            console.log('UPLOADED', uploaded);
+            hubSpotContact['file' + resourceIndex] = uploaded;
+            files['file' + resourceIndex] = uploaded;
+
+            this.content.addTo('מה יש בקובץ ששלחתם?');
+
+            const resouceDescription = await this.content.waitForInput();
+            hubSpotContact['file' + resourceIndex + 'description'] = resouceDescription;
+            files['file' + resourceIndex + 'description'] = resouceDescription;
+            this.hubspot.updateUser(hubSpotContact);
+
+            resourceIndex += 1;
+            }
+          }
+        }
 
         this.content.addOptions(                                   // check if details enable complaint
                       `האם המידע הקיים מאפשר ${requiredService} בעקבות הארוע?`,
