@@ -8,17 +8,6 @@ const offenderScenarios =
       {value: 0,
       display: 'משטרה',
       displayValue: 'משטרה',
-      relevantRecipients: [ {
-                             value: 'מח"ש',
-                             display: 'מחלקת חקירות שוטרים (מח"ש)',
-                             complaintTypes: ['התנהגות או התבטאות גזענית מצד שוטר/ת']
-                             },
-
-                             {value: 'מחלקת פניות ציבור',
-                              display: 'מחלקת פניות ציבור במשטרה',
-                              complaintTypes: ['התנהגות או התבטאות גזענית מצד שוטר/ת']
-                             },
-                  ],
       moreQuestions: [
         {question: 'האם בוצע מעצר במסגרת המקרה?',
          questionKey: 'מעצר',
@@ -82,8 +71,21 @@ const offenderScenarios =
          },
         ]
       }
-    ]
-},
+    ],
+    relevantRecipients: [ {
+                             value: 'מח"ש',
+                             display: 'מחלקת חקירות שוטרים (מח"ש)',
+                             complaintTypes: ['התנהגות או התבטאות גזענית מצד שוטר/ת']
+                           },
+
+                         {
+                           value: 'מחלקת פניות ציבור',
+                           display: 'מחלקת פניות ציבור במשטרה',
+                           complaintTypes: ['התנהגות או התבטאות גזענית מצד שוטר/ת']
+                         },
+                       ],
+        supportingNGOs : [0, 1, 2]
+      },
 
       {value: 1,
        display: 'מאבטח/ת',
@@ -135,19 +137,43 @@ const offenderScenarios =
 ];
 
 
-const shareWithOrganizatoins = [
+const ngos = [
   {
     code: 0,
+    name: 'המרכז לנפגעי גזענות (התנועה הרפורמית): מוקד מידע, סיוע וליווי משפטי',
+    description: `המרכז לנפגעי גזענות", מוקד\
+        מידע, סיוע ותיעוד שיילחם בגזענות בישראל באמצעות העצמת נפגעי גזענות, ויציע ליווי מול הרשויות,\
+        סיוע משפטי וסיוע נפשי כדי להקל על הגישה לאוכלוסיות הנפגעות. <br><br>\
+        שעות‭ ‬פעילות‭ ‬הקו‭:‬ <br>
+        שני‭ ‬13\:00-17:00‭ ‬<br>
+        שישי‭ ‬9\:00-13:00‭ ‬<br>
+        בשאר‭ ‬הזמן‭ ‬ניתן‭ ‬להשאיר‭ ‬הודעה `,
+    moreinfo: {website: 'https://www.ircc.org.il/'},
+    contacts:
+      {email: 'stop.racism@ircc.org.il', phone: '1-700-704-408', website: 'https://www.ircc.org.il/'}
+
+  },
+  {
+    code: 1,
     name: 'הועד נגד עינויים',
     description: 'הוועד פועל למען בני אדם באשר הם -\
      ישראלים, פלסטינים, מהגרי עבודה ואזרחים\
       זרים נוספים, השוהים בישראל ובשטחים הכבושים\
       , במטרה להגן עליהם מפני עינויים והתעללויות שנוקטות רשויות האכיפה והחקירה הישראליות, כלומר: משטרת\
        ישראל, שירות הביטחון הכללי, שירות בתי הסוהר וצה"ל.',
-    moreinfo: [{website: 'http://stoptorture.org.il/'}],
-    contacts: [
-      {email: '', phone: '', website: 'http://stoptorture.org.il/'}
-    ]
+    moreinfo: {website: 'http://stoptorture.org.il/'},
+    contacts:
+      {email: null, phone: null, website: 'http://stoptorture.org.il/'}
+
+  },
+  {
+    code: 2,
+    name: 'עדאלה',
+    description: null,
+    moreinfo: {website: 'https://www.adalah.org/he'},
+    contacts:
+      {email: null, phone: null, website: 'https://www.adalah.org/he'}
+
   }
 ];
 
@@ -413,24 +439,50 @@ export class AppComponent implements OnInit {
                               `);
                             }
 
-            }                                            // check if help is needed writing a complain
+            }
+
+          }                             // end of "Can be served" part
+                                        // * should consider what/how to handle call that can not be served
+
 
                                                 // check if user want to share detais with other NGOs
-      this.content.addOptions(`
-        עדכנו את הפונה: <br />
-        "ישנם מספר גורמי חברה אזרחית שיוכלו אולי לסייע לך בנוגע לפנייה שלך. אלו הארגונים: <br />
-        א. [ארגון א']  <br />
-        ב. [ארגון ב']  <br />
-        ג. [ארגון ג'].  <br />
-        האם תרצה שנעביר להם את פרטי המקרה ופרטי ההתקשרות איתך?"
+            const supportingNGOs = offenderScenario.supportingNGOs.map((code) => ngos[code]);
+            if (supportingNGOs.length > 0) {             // if there are relevant NGOs to share data with
 
-        מה השיב/ה הפונה?
-        `,
-        [
-          {value: true, display: 'כן'},
-          {value: false, display: 'לא'},
-        ]);
-      }
+              this.content.addTo(`
+                עדכנו את הפונה: <br />
+                ישנם ארגוני חברה אזרחית שיוכלו אולי לסייע לך במקביל לפניה לגופים הממשלתיים. <br>\n
+                אלה אינם גורמים מטעם המדינה, אלא ארגונים עצמאים. אני אציג בפניך כמה אפשרויות, כדי שתוכל/י\n
+                להכיר אותם ולחשוב אם תרצה/תרצי לנסות להיעזר בהם:<br><br>`);
+
+              for (let orgIndex = 0; orgIndex <= supportingNGOs.length - 1 ; orgIndex++) {
+                const org = supportingNGOs[orgIndex];
+                this.content.addOptions(`הארגון ${org.name} ${org.description ? ': ' + org.description : ''}<br><br>
+                                    ${org.moreinfo.website ? '<a href="' + org.moreinfo.website + '" \
+                                            target="_blank">מידע נוסף על הארגון</a><br>' : ''}
+                                     פרטי התקשרות: ${org.contacts.phone ? 'טלפון: ' + org.contacts.phone + '<br>' : ''}
+                                                   ${org.contacts.website ? 'אתר מידע: <a href="' +
+                                                      org.contacts.website + '" target="_blank"<br>' : '' }
+                                                   ${org.contacts.email ? 'אימייל: ' + org.contacts.email + '<br>' : ''}<br><br>`,
+                                    [
+                                      {
+                                        value: 'העברת המידע לארגון',
+                                        display: 'הפונה מאשר/ת לשתף את המידע לגבי התלונה עם הארגון'
+                                      },
+                                      {
+                                        value: 'פונה מעוניינ/ת לקבל פרטי התקשרות עם הארגון',
+                                        display: 'הפונה מעוניינ/ת לקבל מידע ופרטי הקשרות עם הארגון ויצור עמם קשר עצמאית'},
+                                      {
+                                        value: false,
+                                        display: 'הפונה אינו/אינה מעוניינת בקשר עם הארגון'
+                                      }
+                                    ]
+                                  );
+
+                  const answer = await this.content.waitForInput();
+              }
+
+            }
 
 
       this.content.addTo(`משימות להמשך הטיפול: <br />
