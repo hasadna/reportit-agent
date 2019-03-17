@@ -66,7 +66,7 @@ const offenderScenarios =
            }]
          },
          {
-         value: 'אין',
+         value: 'אין פרטים על השוטרים המעורבים.',
          display: 'לא'
          },
         ]
@@ -205,6 +205,7 @@ export class AppComponent implements OnInit {
 
     const hubSpotContact: any = {};
     this.hubspot.vid = vid;
+    let summary = '';
     const name = userInfo.full_name;
     const complaintType = userInfo.complaint_type;
     let eventDescription = userInfo.event_description;        // we will update the event Description during the process
@@ -285,14 +286,13 @@ export class AppComponent implements OnInit {
 
           const moreDetails = answers.map(e => (e.key + ': ' + e.detail)).join(', ');
           eventDescription += `\nפרטים נוספים:\n ${moreDetails}`;
+          summary += `פרטים נוספים לתיאור המקרה: <br>${moreDetails}<br>`;
           hubSpotContact.event_description = eventDescription;
 
           await this.hubspot.updateUser(hubSpotContact);
           console.log(`updated event details: ${userInfo.event_description}`);
 
         }
-
-        console.log(`updated event details: ${userInfo.event_description}`);
 
         if ('askForOffenderDetails' in offenderScenario) {   // check if we should ask optional offender details quetsion
           let answers;
@@ -329,7 +329,7 @@ export class AppComponent implements OnInit {
               answers = answer;
             }
           }
-
+        summary += `<br> ${answers} <br>`;
         hubSpotContact.offender_person_details = answers;
         await this.hubspot.updateUser(hubSpotContact);
         console.log(`update offender_person_details: ${hubSpotContact.offender_person_details}`);
@@ -343,7 +343,7 @@ export class AppComponent implements OnInit {
              ניתן להעלות ${5 - resourceIndex} קבצים נוספים.`);
         while (moreResourcesUpload && resourceIndex <= 5) {                       // uploaded files limit, following the CRM fields settings
           this.content.addOptions(
-            `אם יש בידי הפונה עוד צילומים, מסמכים או תיעוד של המקרה שיוכלו להעביר לנו כעת? <br>\
+            `האם יש בידי הפונה עוד צילומים, מסמכים או תיעוד של המקרה שיוכלו להעביר לנו כעת? <br>\
               אם כן, תתבקשו לקבל מהם את הקובץ ולהעלות אותם.`,
               [
                 {value: true, display: 'כן'},
@@ -370,6 +370,8 @@ export class AppComponent implements OnInit {
             const resouceDescription = await this.content.waitForInput();
             hubSpotContact['file' + resourceIndex + 'description'] = resouceDescription;
             files['file' + resourceIndex + 'description'] = resouceDescription;
+
+            summary += `<br> הועלה קובץ חדש: ${resouceDescription}.`;
             this.hubspot.updateUser(hubSpotContact);
 
             resourceIndex += 1;
@@ -399,7 +401,7 @@ export class AppComponent implements OnInit {
 
 
         if (canBeServed) {                                                    // if can complain thread and user wants to complain
-
+          summary += `<br>המקרה מאפשר ${requiredService}<br>`;
           const relevantRecipients = offenderScenario.relevantRecipients;
           // filter complaint recipients by offender + complaintType
           const relevantRecipientsOptions = relevantRecipients.filter((org) => org.complaintTypes.indexOf(complaintType) > -1 );
@@ -427,6 +429,7 @@ export class AppComponent implements OnInit {
               }
 
               const sendReportTo = approvedReciepents.map((org) => org.display).join(', ');  // unify list of compaint recievers
+              summary += `<br>הפונה מעוניינ/ת לפנות ל-${sendReportTo}.<br>`;
               hubSpotContact.send_complaint_to = sendReportTo;
 
               await this.hubspot.updateUser(hubSpotContact);
@@ -441,11 +444,16 @@ export class AppComponent implements OnInit {
 
             }
 
-          }                             // end of "Can be served" part
+          } else {
+              summary += `<br>התברר שהמקרה אינו מאפשר ${requiredService}<br>`;
+          }                            // end of "Can be served" part
                                         // * should consider what/how to handle call that can not be served
 
 
                                                 // check if user want to share detais with other NGOs
+            let ngosToShareWith = '';
+            let ngosSendContactsToUser = '';
+
             const supportingNGOs = offenderScenario.supportingNGOs.map((code) => ngos[code]);
             if (supportingNGOs.length > 0) {             // if there are relevant NGOs to share data with
 
@@ -460,17 +468,14 @@ export class AppComponent implements OnInit {
                 this.content.addOptions(`הארגון ${org.name} ${org.description ? ': ' + org.description : ''}<br><br>
                                     ${org.moreinfo.website ? '<a href="' + org.moreinfo.website + '" \
                                             target="_blank">מידע נוסף על הארגון</a><br>' : ''}
-                                     פרטי התקשרות: ${org.contacts.phone ? 'טלפון: ' + org.contacts.phone + '<br>' : ''}
-                                                   ${org.contacts.website ? 'אתר מידע: <a href="' +
-                                                      org.contacts.website + '" target="_blank"<br>' : '' }
-                                                   ${org.contacts.email ? 'אימייל: ' + org.contacts.email + '<br>' : ''}<br><br>`,
+                                            `,
                                     [
                                       {
-                                        value: 'העברת המידע לארגון',
+                                        value: 'share with ngo',
                                         display: 'הפונה מאשר/ת לשתף את המידע לגבי התלונה עם הארגון'
                                       },
                                       {
-                                        value: 'פונה מעוניינ/ת לקבל פרטי התקשרות עם הארגון',
+                                        value: 'asked for contacts',
                                         display: 'הפונה מעוניינ/ת לקבל מידע ופרטי הקשרות עם הארגון ויצור עמם קשר עצמאית'},
                                       {
                                         value: false,
@@ -480,15 +485,47 @@ export class AppComponent implements OnInit {
                                   );
 
                   const answer = await this.content.waitForInput();
+                  if (answer === 'share with ngo') {
+                    ngosToShareWith = `${org.name}: ${org.contacts.phone ? 'טלפון: ' + org.contacts.phone + '\n' : ''}
+                                  ${org.contacts.website ? 'אתר מידע: <a href="' +
+                                     org.contacts.website + '" target="_blank">' + org.contacts.website + '</a>' : '' }
+                                  ${org.contacts.email ? 'אימייל: ' + org.contacts.email + '\n' : ''}
+                                  `;
+                    summary += `<br>הפונה ביקש/ה לשתף את המידע לגבי הפניה עם הארגון ${org.name} <br>
+                    פרטי התקשרות: ${org.contacts.phone ? 'טלפון: ' + org.contacts.phone + '<br>' : ''}
+                    ${org.contacts.website ? 'אתר מידע: <a href="' +
+                    org.contacts.website + '" target="_blank">' + org.contacts.website + '</a><br>' : '' }
+                    ${org.contacts.email ? 'אימייל: ' + org.contacts.email + '</a><br>' : ''}
+                    .<br>`;
+                  } else if (answer === 'asked for contacts') {
+                    ngosSendContactsToUser = `${org.name}: ${org.contacts.phone ? 'טלפון: ' + org.contacts.phone + '\n' : ''}
+                    ${org.contacts.website ? 'אתר מידע: <a href="' +
+                    org.contacts.website + '" target="_blank">' + org.contacts.website + '</a>' : '' }
+                    ${org.contacts.email ? 'אימייל: ' + org.contacts.email + '\n' : ''}`;
+
+                    summary += `הפונה ביקש/ה לקבל את פרטי הקשר עם הארגון ${org.name} <br>
+                    פרטי התקשרות: ${org.contacts.phone ? 'טלפון: ' + org.contacts.phone + '<br>' : ''}
+                    ${org.contacts.website ? 'אתר מידע: <a href="' +
+                    org.contacts.website + '" target="_blank">' + org.contacts.website + '</a><br>' : '' }
+                    ${org.contacts.email ? 'אימייל: ' + org.contacts.email + '</a><br>' : ''}
+                    .<br><br>
+                    `;
+                  }
               }
 
+              hubSpotContact.share_data_with_orgs = ngosToShareWith;
+              hubSpotContact.ngo_contacts_to_user = ngosSendContactsToUser;
+              await this.hubspot.updateUser(hubSpotContact);
+              console.log(`updated ngos shares and contacts requests`);
+
             }
-
-
-      this.content.addTo(`משימות להמשך הטיפול: <br />
-                      העבירו את פרטי הארוע לגורם הרלוונטי בארגון שלכם. <br />
-                      העבירו את פרטי הארוע לארגונים אליהם ביקש/ה הפונה לפנות. <br />
-                      הוסיפו תזכורת למעקב אחר הטיפול במקרה`);
+      this.content.addTo(`סיכום השיחה: <br />
+                          ${summary}
+                        `);
+      summary = summary.replace(/(<br>|<\/br>|<br \/>)/mgi, '\n');
+      hubSpotContact.status_summary = summary;
+      await this.hubspot.updateUser(hubSpotContact);
+      console.log(`updated summary on db: ${summary}`);
     break;
 
   default:
