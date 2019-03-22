@@ -239,13 +239,15 @@ export class AppComponent implements OnInit {
                                   );
     const files = {};
 
-    let currenrtSavedFiles;                                               // stringify list of saved files descriptions
-    for (let fileIndex = 0; fileIndex <= 5; fileIndex++) {                    // wrap uploaded file info, up to 5 files
+    let currentSavedFiles = '';                                               // stringify list of saved files descriptions
+    for (let fileIndex = 1; fileIndex <= 5; fileIndex++) {                    // wrap uploaded file info, up to 5 files
       const filePointer = `file${fileIndex}`;
       const fileDescripionString = `file${fileIndex}description`;
-      if (filePointer in userInfo && fileDescripionString in userInfo) {
+
+      if (userInfo[filePointer] !== undefined && userInfo[fileDescripionString] !== undefined) {
+        console.log('bang');
         files[fileIndex] = {'description': userInfo[fileDescripionString], 'path': userInfo[filePointer]};
-        currenrtSavedFiles += `${userInfo[fileDescripionString]}<br> `;
+        currentSavedFiles += `${fileIndex}. ${userInfo[fileDescripionString]} <br>`;
       }
     }
 
@@ -339,7 +341,9 @@ export class AppComponent implements OnInit {
 
       if (resourceIndex < 5) {                       // uploaded files limit, following the CRM fields settings
         let moreResourcesUpload = true;
-          this.content.addTo(`כרגע שמורים במערכת ${resourceIndex} קבצים: ${currenrtSavedFiles}.\
+
+          this.content.addTo(`כרגע שמורים במערכת ${resourceIndex} קבצים: <br>
+            ${currentSavedFiles}. <br>
              ניתן להעלות ${5 - resourceIndex} קבצים נוספים.`);
         while (moreResourcesUpload && resourceIndex <= 5) {                       // uploaded files limit, following the CRM fields settings
           this.content.addOptions(
