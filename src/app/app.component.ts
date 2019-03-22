@@ -169,7 +169,7 @@ const ngos = [
   {
     code: 2,
     name: 'עדאלה',
-    description: null,
+    description: '',
     moreinfo: {website: 'https://www.adalah.org/he'},
     contacts:
       {email: null, phone: null, website: 'https://www.adalah.org/he'}
@@ -343,7 +343,7 @@ export class AppComponent implements OnInit {
         let moreResourcesUpload = true;
 
           this.content.addTo(`כרגע שמורים במערכת ${resourceIndex} קבצים: <br>
-            ${currentSavedFiles}. <br>
+            ${currentSavedFiles} <br>
              ניתן להעלות ${5 - resourceIndex} קבצים נוספים.`);
         while (moreResourcesUpload && resourceIndex <= 5) {                       // uploaded files limit, following the CRM fields settings
           this.content.addOptions(
@@ -453,7 +453,6 @@ export class AppComponent implements OnInit {
           }                            // end of "Can be served" part
                                         // * should consider what/how to handle call that can not be served
 
-
                                                 // check if user want to share detais with other NGOs
             let ngosToShareWith = '';
             let ngosSendContactsToUser = '';
@@ -516,6 +515,32 @@ export class AppComponent implements OnInit {
                     `;
                   }
               }
+
+
+              this.content.addOptions(`היחידה הממשלתית לתיאום המאבק בגזענות אוספת מידע ונתונים בנוגע למקרים של גזענות'
+                ' ממסדית בניסיון להלחם בתופעה. האם תסכימו שנעביר להם את פרטי המקרה?`,
+                [
+                  {
+                    value: 'sendWithPersonalDetails',
+                    display: 'כן, הפונה מאשר/ת להעביר את כל הפרטים ליחידה לתיאום המאבק בגזענות'
+                  },
+                  {
+                    value: 'sendWithoutPersonalDetails',
+                    display: 'הפונה מאשר/ת להעביר את פרטי המקרה ליחידה לתיאום המאבק בגזענות, ללא פרטים מזהים',
+                  },
+                  {
+                    value: false,
+                    display: 'הפונה אינו מאשרת להעביר את פרטי המקרה ליחידה לתיאום המאבק בגזענות'
+                  }
+                ]
+              );
+
+              const sendToJusticeMinistry = await this.content.waitForInput();
+              console.log(sendToJusticeMinistry);
+              hubSpotContact.justice_ministry_send = sendToJusticeMinistry;
+              await this.hubspot.updateUser(hubSpotContact);
+              summary += `העברת המידע ליחידה הממשלתית לתיאום המאבק בגזענות: ${sendToJusticeMinistry}`;
+              console.log(`Updated justice_ministry_send: ${sendToJusticeMinistry}`);
 
               hubSpotContact.share_data_with_orgs = ngosToShareWith;
               hubSpotContact.ngo_contacts_to_user = ngosSendContactsToUser;
