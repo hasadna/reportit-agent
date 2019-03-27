@@ -207,6 +207,12 @@ export class AppComponent implements OnInit {
     this.hubspot.vid = vid;
     let summary = '';
     const name = userInfo.full_name;
+
+    const userEmail = userInfo.email;
+    const userWhatsapp = userInfo.whatsapp;
+    const userPhone = userInfo.phone;
+    const userFacebook = userInfo.facebook;
+
     const complaintType = userInfo.complaint_type;
     let eventDescription = userInfo.event_description;        // we will update the event Description during the process
     const requiredService = userInfo.required_service;
@@ -253,6 +259,40 @@ export class AppComponent implements OnInit {
 
 
     this.content.addTo('[מעבר למוקדנ/ית - המידע מכאן והלאה יוצג במערכת ההנחיה למוקד/נית שיתקשר אותו מול הפונה במדיום שבחרו]');
+    this.content.addTo(`עברו על פרטי המקרה <br><br>
+                        שם הפונה: ${name} <br><br>
+                        אמצעי יצירת קשר: <br>
+                        ---------------- <br>
+                          ${userPhone ? 'מספר טלפון: ' + userPhone + ',<br>' : ''}
+                          ${userWhatsapp ? 'וואטסאפ: ' + userWhatsapp + ',<br>' : ''}
+                          ${userFacebook ? 'פייסבוק: ' + userFacebook + ',<br>' : ''}
+                          ${userEmail ? 'אימייל: ' + userEmail + ',<br>' : ''}
+                        <br><br>
+                        סוג התלונה: ${complaintType} <br>
+                        הגורם הפוגע: ${offender} <br><br>
+                        תיאור המקרה: <br>
+                        ------------ <br>
+                          ${eventDescription.replace('\\n', '<br>')} <br><br>
+                        השירות שביקש/ה: ${requiredService} <br><br>
+                        תאריך הפניה הראשונה: ${startDate}<br>
+                        תאריך עדכון אחרון: ${modifiedDate}
+                      `);
+
+
+    let filesString = '';
+
+    for (let fileIndex = 1; fileIndex <= resourceIndex; fileIndex++) {
+      const fileIndexString = fileIndex.toString();
+      const fileDescriptionKey = `file${fileIndexString}description`;
+      const fileKey = `file${fileIndexString}`;
+      filesString += `<a href="${filesObject[fileKey]}" target="_blank">${filesObject[fileDescriptionKey]}</a><br>`;
+    }
+
+    if (resourceIndex > 0) {
+      this.content.addTo(` הפונה צירפ/ה ${resourceIndex} קבצים לפניה: <br>
+        ${filesString}
+        `);
+    }
 
     this.content.addTo(`חזרו אל הפונה באמצעי הקשר שבחרו:
                         "שלום ${name}, אני חוזר/ת אליך בהמשך לפניה שלך מ-${startDate}, בנוגע ל${requiredService} על ארוע של
@@ -462,8 +502,8 @@ export class AppComponent implements OnInit {
 
               this.content.addTo(`
                 עדכנו את הפונה: <br />
-                ישנם ארגוני חברה אזרחית שיוכלו אולי לסייע לך במקביל לפניה לגופים הממשלתיים. <br>\n
-                אלה אינם גורמים מטעם המדינה, אלא ארגונים עצמאים. אני אציג בפניך כמה אפשרויות, כדי שתוכל/י\n
+                ישנם ארגוני חברה אזרחית שיוכלו אולי לסייע לך במקביל לפניה לגופים הממשלתיים. <br>
+                אלה אינם גורמים מטעם המדינה, אלא ארגונים עצמאים. אני אציג בפניך כמה אפשרויות, כדי שתוכל/י
                 להכיר אותם ולחשוב אם תרצה/תרצי לנסות להיעזר בהם:<br><br>`);
 
               for (let orgIndex = 0; orgIndex <= supportingNGOs.length - 1 ; orgIndex++) {
