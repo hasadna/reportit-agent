@@ -1,3 +1,4 @@
+export {};
 import { Component, OnInit } from '@angular/core';
 import { ContentService } from 'hatool';
 import { HubspotService } from './hubspot.service';
@@ -475,7 +476,7 @@ export class AppComponent implements OnInit {
                        { value: false, display: 'לא' },
                       ]);
 
-        const canBeServed = await this.content.waitForInput();
+        let canBeServed = await this.content.waitForInput();
         if (requiredService === 'הגשת תלונה') {
           const wantsTocomplain = true;
         } else {
@@ -848,11 +849,12 @@ export class AppComponent implements OnInit {
               וכו' – במיוחד כאשר המקרה ארע בפומבי וכשקיימת עדות ברורה לקיומה של גזענות. <br>
             <br><br>`,
             [
-              {value: 'לבדוק אפשרות לתביעה על פי חוק אפליה בשירותים ובמוצרים ללא הוכחת נזק',
+              {value: 'לבדוק אפשרות לתביעה על פי חוק אפליה בשירותים ובמוצרים ללא הוכחת נזק עם עו"ד נזיקי או מרכז תמורה, טלפון: 03-9634194.',
                display: '1. תביעה נזיקית ללא הוכחת נזק'
              },
             {
-              value: 'לבדוק אפשרות לתביעה נזיקית במקרים בעלי רקע פומבי, בהם קיימת עדות ברורה למניעים של גזענות ו/או השפלה',
+              value: 'לבדוק אפשרות לתביעה נזיקית במקרים בעלי רקע פומבי, בהם קיימת עדות ברורה \
+                    למניעים של גזענות ו/או השפלה עם עו"ד נזיקי או עם מרכז "תמורה", טלפון: 03-9634194.',
               display: '2. תביעה נזיקית אחרת'
             },
             {
