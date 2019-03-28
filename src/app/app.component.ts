@@ -979,10 +979,10 @@ export class AppComponent implements OnInit {
   }
   break;
 
-
-
   default:
+  {
     console.log('could not find Offender Script');
+  }
     break;
     }
 }}
