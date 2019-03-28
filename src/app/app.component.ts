@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ContentService } from 'hatool';
 import { HubspotService } from './hubspot.service';
@@ -350,7 +349,7 @@ export class AppComponent implements OnInit {
 
     switch (offenderIndex) {
       case '0':
-
+      {
         if ('moreQuestions' in offenderScenario) {
           const moreQuestions = offenderScenario['moreQuestions'];
           const answers = Array();
@@ -644,10 +643,11 @@ export class AppComponent implements OnInit {
       hubSpotContact.status_summary = summary;
       await this.hubspot.updateUser(hubSpotContact);
       console.log(`updated summary on db: ${summary}`);
+    }
     break;
 
     case '1':
-
+    {
       if ('moreQuestions' in offenderScenario) {
         const moreQuestions = offenderScenario['moreQuestions'];
         const answers = Array();
@@ -976,6 +976,7 @@ export class AppComponent implements OnInit {
     hubSpotContact.status_summary = summary;
     await this.hubspot.updateUser(hubSpotContact);
     console.log(`updated summary on db: ${summary}`);
+  }
   break;
 
 
