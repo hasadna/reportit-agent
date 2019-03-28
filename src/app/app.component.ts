@@ -1,4 +1,4 @@
-export {};
+
 import { Component, OnInit } from '@angular/core';
 import { ContentService } from 'hatool';
 import { HubspotService } from './hubspot.service';
