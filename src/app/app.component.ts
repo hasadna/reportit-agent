@@ -475,7 +475,7 @@ export class AppComponent implements OnInit {
                        { value: false, display: 'לא' },
                       ]);
 
-        let canBeServed = await this.content.waitForInput();
+        const canBeServed = await this.content.waitForInput();
         if (requiredService === 'הגשת תלונה') {
           const wantsTocomplain = true;
         } else {
@@ -491,11 +491,12 @@ export class AppComponent implements OnInit {
 
               if (canBeServed) {                                                    // if can complain thread and user wants to complain
                 summary += `<br>המקרה מאפשר ${requiredService}<br>`;
-                let relevantRecipientsOptions = relevantRecipientsList.filter((org) => org.locations.indexOf(eventLocation) > -1);
-                relevantRecipientsOptions = relevantRecipientsOptions.concat(relevantRecipientsList.filter((org) =>
-                  org.complaintTypes.indexOf(complaintType) > -1 ));
-                relevantRecipientsOptions = relevantRecipientsOptions.concat(relevantRecipientsList.filter((org) =>
-                    org.offenders.indexOf(offender) > -1 ));
+                let relevantRecipientsOptions = relevantRecipientsList.filter(
+                  (org) => (<any[]>(org.locations)).indexOf(eventLocation) > -1);
+                relevantRecipientsOptions = relevantRecipientsOptions.concat(relevantRecipientsList.filter(
+                  (org) => (<any[]>(org.complaintTypes)).indexOf(complaintType) > -1 ));
+                relevantRecipientsOptions = relevantRecipientsOptions.concat(relevantRecipientsList.filter(
+                  (org) => (<any[]>(org.offenders)).indexOf(offender) > -1 ));
 
                 if (relevantRecipientsOptions.length === 0) {
                     this.content.addTo('לא נמצא במערכת מידע לגבי\
@@ -790,11 +791,12 @@ export class AppComponent implements OnInit {
 
       if (canBeServed) {                                                    // if can complain thread and user wants to complain
         summary += `<br>המקרה מאפשר ${requiredService}<br>`;
-        let relevantRecipientsOptions = relevantRecipientsList.filter((org) => org.locations.indexOf(eventLocation) > -1);
+        let relevantRecipientsOptions = relevantRecipientsList.filter(
+          (org) => (<any[]>org.locations).indexOf(eventLocation) > -1);
         relevantRecipientsOptions = relevantRecipientsOptions.concat(relevantRecipientsList.filter((org) =>
-          org.complaintTypes.indexOf(complaintType) > -1 ));
+          (<any[]>org.complaintTypes).indexOf(complaintType) > -1 ));
         relevantRecipientsOptions = relevantRecipientsOptions.concat(relevantRecipientsList.filter((org) =>
-            org.offenders.indexOf(offender) > -1 ));
+            (<any[]>org.offenders).indexOf(offender) > -1 ));
 
         if (relevantRecipientsOptions.length === 0) {
             this.content.addTo('לא נמצא במערכת מידע לגבי\
@@ -819,7 +821,7 @@ export class AppComponent implements OnInit {
               }
             }
 
-            let sendReportTo = approvedReciepents.map((org) => org.display).join(', ');  // unify list of compaint recievers
+            const sendReportTo = approvedReciepents.map((org) => org.display).join(', ');  // unify list of compaint recievers
             summary += `<br>הפונה מעוניינ/ת לפנות ל${sendReportTo}.<br>`;
             hubSpotContact.send_complaint_to = sendReportTo;
 
@@ -866,7 +868,7 @@ export class AppComponent implements OnInit {
 
         const tortClaim = await this.content.waitForInput();
         if (tortClaim) {
-          sendReportTo += `, ${tortClaim}`;
+          const sendReportTo = hubSpotContact.send_complaint_to + `, ${tortClaim}`;
           hubSpotContact.send_complaint_to = sendReportTo;
 
           await this.hubspot.updateUser(hubSpotContact);
