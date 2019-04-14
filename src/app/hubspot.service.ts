@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +12,7 @@ export class HubspotService {
   CONTACT_URL = 'https://reportit.obudget.org/hubspot/contacts/v1/contact/';
   CONTACT_UPDATE_URL = 'https://reportit.obudget.org/hubspot/contacts/v1/contact/vid/:vid/profile';
   CONTACT_GET_URL = 'https://reportit.obudget.org/hubspot/contacts/v1/contact/vid/:vid/profile';
+  FILE_UPLOAD = 'https://reportit.obudget.org/hubspot/filemanager/api/v2/files';
 
   vid: any = null;
 
@@ -47,17 +51,52 @@ export class HubspotService {
     });
   }
 
-  getUser(vid: any) {
+  getUser(vid: any): Observable<any> {
+    return this.http
+        .get(this.CONTACT_GET_URL.replace(':vid', vid))
+        .pipe(
+          map((response: any) => {
+                const properties = response.properties;
+                const ret = {};
+                for (const key of Object.keys(properties)) {
+                  ret[key] = properties[key].value;
+                }
+                return ret;
+              })
+        );
+  }
+
+  uploadFile(file: File, path, progress, success) {
     return new Promise((resolve, _) => {
-      this.http.get(this.CONTACT_GET_URL.replace(':vid', vid))
-          .subscribe((response: any) => {
-            const properties = response.properties;
-            const ret = {};
-            for (const key of Object.keys(properties)) {
-              ret[key] = properties[key].value;
-            }
-            resolve(ret);
-          });
+      const formData: FormData = new FormData();
+      formData.append('files', file, file.name);
+      formData.append('folder_paths', path);
+
+      // create a http-post request and pass the form
+      // tell it to report the upload progress
+      const req = new HttpRequest('POST', this.FILE_UPLOAD, formData, {
+        reportProgress: true
+      });
+
+
+      // send the http-request and subscribe for progress-updates
+      this.http.request(req).subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress) {
+
+          // calculate the progress percentage
+          const percentDone = Math.round(100 * event.loaded / event.total);
+
+          // pass the percentage into the progress-stream
+          progress(percentDone);
+        } else if (event instanceof HttpResponse) {
+
+          // Close the progress-stream if we get an answer form the API
+          // The upload is complete
+          success(true);
+          console.log(event.body);
+          resolve(event.body['objects'][0]['url']);
+        }
+      });
     });
   }
 }
