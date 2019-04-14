@@ -1277,7 +1277,7 @@
                     },
                     {
                         "text": [
-                            "חזר/י אל הפונה באמצעי שבחר/ה:\n\n\"שלום {{userInfo.fullname}}. אני ______ מהמוקד למאבק בגזענות ממסדית.\n<br><br>\n\nאני חוזר/ת אליך בהמשך לפניה שלך מ-{{userInfo.startDate}} בנוגע ל{{userInfo.service}} על ארוע של {{userInfo.complaintType}} על ידי {{userInfo.offender}}.<br><br>\n\nעל מנת שאוכל לסייע לך יש לי עוד מספר שאלות.\""
+                            "חזר/י אל הפונה באמצעי שבחר/ה:\n\n\"שלום {{full_name}}. אני ______ מהמוקד למאבק בגזענות ממסדית.\n<br><br>\n\nאני חוזר/ת אליך בהמשך לפניה שלך מ-{{userInfo.startDate}} בנוגע ל{{userInfo.service}} על ארוע של {{userInfo.complaintType}} על ידי {{userInfo.offender}}.<br><br>\n\nעל מנת שאוכל לסייע לך יש לי עוד מספר שאלות.\""
                         ]
                     },
                     {
