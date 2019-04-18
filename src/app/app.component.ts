@@ -46,13 +46,25 @@ export class AppComponent implements OnInit {
                   return record.offender;
                 },
                 combinedPoliceEventDescription: async (record) => {
-                  record.event_description = `${record.event_description} \n \n \
-                                ${record._police_arrest}, \
-                                ${record._police_court}, \
-                                ${record._police_has_lawyer}, \
+                  return `${record.event_description} \n \n \
+                                פרטים נוספים, בשיחה עם המוקדנ/ית: ${record._police_more_details}, \n
+                                ${record._police_arrest}, \n
+                                ${record._police_court}, \n
+                                ${record._police_has_lawyer}, \n
                                 עדי ראייה: ${record._police_witness_details},
                                 `;
-                  console.log('new description: ', record.event_description);
+                },
+                countFiles: async (record) => {
+                  let counter = 0;
+                  for (let index = 1; index <= 5; index++) {
+                    const fileName = 'file' + (index.toString());
+
+                    if (fileName in record) {
+                      counter += 1;
+                    }
+                  }
+                  console.log('File Counter: ' + counter.toString());
+                  return counter.toString();
                 },
                 saveUser: async (record) => {
                   const recordToSave = recordKeysToSave(record);
