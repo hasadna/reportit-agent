@@ -59,7 +59,7 @@ export class HubspotService {
                 const properties = response.properties;
                 const ret = {};
                 for (const key of Object.keys(properties)) {
-                  if (key.startsWith('hs_')) {
+                  if (key.startsWith('hs_') || key === 'createdate') {
                     continue;
                   }
                   const value = properties[key];
