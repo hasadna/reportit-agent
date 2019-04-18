@@ -15,7 +15,6 @@ export class AppComponent implements OnInit {
   constructor(private runner: ScriptRunnerService,
               private content: ContentService,
               private hubspot: HubspotService) {}
-
   ngOnInit() {
     this.content.sendButtonText = '';
     this.content.uploadFileText = 'לחצ/י לבחירת קובץ';
@@ -87,3 +86,4 @@ export class AppComponent implements OnInit {
         ).subscribe(() => { console.log('done!'); });
   }
 }
+
