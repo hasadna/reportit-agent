@@ -1,7 +1,14 @@
-:host {
-    display: block;    
-    max-width:500px;
-    max-height:900px;
+.container {
+    display: flex;
+    flex-flow: column;   
+    align-items: center; 
     width: 100vw;
-    height: 80vh;
+    height: 100vh;
+
+    .chat {
+        flex: 1 1 auto;
+        width: 100%;
+        max-width: 600px;
+        height: 100vh;
+    }
 }
