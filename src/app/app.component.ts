@@ -47,10 +47,10 @@ export class AppComponent implements OnInit {
                 },
                 combinedPoliceEventDescription: async (record) => {
                   record.event_description = `${record.event_description} \n \n \
-                                ${_police_arrest}, \
-                                ${_police_court}, \
-                                ${_police_has_lawyer}, \
-                                עדי ראייה: ${_police_witness_details},
+                                ${record._police_arrest}, \
+                                ${record._police_court}, \
+                                ${record._police_has_lawyer}, \
+                                עדי ראייה: ${record._police_witness_details},
                                 `;
                   console.log('new description: ', record.event_description);
                 },
