@@ -3417,9 +3417,63 @@
                 "topic": "default",
                 "script": [
                     {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "on_timeout",
+                "script": [
+                    {
+                        "text": [
+                            "Looks like you got distracted. We can continue later."
+                        ]
+                    },
+                    {
+                        "action": "timeout"
+                    }
+                ]
+            },
+            {
+                "topic": "סיום",
+                "script": [
+                    {
+                        "text": [
+                            "This is סיום"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "המרכז לנפגעי גזענות (התנועה הרפורמית)",
+                "script": [
+                    {
                         "text": [
                             "cmd.checkNgoRelevancy(record)"
-                        ]
+                        ],
+                        "collect": {
+                            "key": "_share_ngo_reform_movement",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "repeat"
+                                },
+                                {
+                                    "pattern": "true",
+                                    "type": "string",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "false",
+                                    "type": "string",
+                                    "action": "סיום"
+                                }
+                            ]
+                        }
                     },
                     {
                         "text": [
@@ -3460,33 +3514,7 @@
                         ]
                     },
                     {
-                        "action": "complete"
-                    }
-                ]
-            },
-            {
-                "topic": "on_timeout",
-                "script": [
-                    {
-                        "text": [
-                            "Looks like you got distracted. We can continue later."
-                        ]
-                    },
-                    {
-                        "action": "timeout"
-                    }
-                ]
-            },
-            {
-                "topic": "המרכז לנפגעי גזענות (התנועה הרפורמית)",
-                "script": [
-                    {
-                        "text": [
-                            "This is המרכז לנפגעי גזענות (התנועה הרפורמית)"
-                        ]
-                    },
-                    {
-                        "action": "complete"
+                        "action": "default"
                     }
                 ]
             }
