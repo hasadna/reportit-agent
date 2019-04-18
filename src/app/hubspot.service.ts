@@ -59,8 +59,18 @@ export class HubspotService {
                 const properties = response.properties;
                 const ret = {};
                 for (const key of Object.keys(properties)) {
-                  ret[key] = properties[key].value;
+                  if (key.startsWith('hs_')) {
+                    continue;
+                  }
+                  const value = properties[key];
+                  if (value.versions &&
+                      value.versions.length &&
+                      value.versions[0]['source-type'] !== 'API') {
+                    continue;
+                  }
+                  ret[key] = value.value;
                 }
+                this.vid = vid;
                 return ret;
               })
         );
