@@ -42,7 +42,18 @@ export class AppComponent implements OnInit {
               'assets/script.json',
               1,
               {
-                getRecordSummary: (record) => ('RECORD is ' + JSON.stringify(record)),
+                getOffender: async (record) => {
+                  return record.offender;
+                },
+                combinedPoliceEventDescription: async (record) => {
+                  record.event_description = `${record.event_description} \n \n \
+                                ${_police_arrest}, \
+                                ${_police_court}, \
+                                ${_police_has_lawyer}, \
+                                עדי ראייה: ${_police_witness_details},
+                                `;
+                  console.log('new description: ', record.event_description);
+                },
                 saveUser: async (record) => {
                   const recordToSave = recordKeysToSave(record);
                   await this.hubspot.updateUser(recordToSave);
