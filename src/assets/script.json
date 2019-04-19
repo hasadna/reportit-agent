@@ -3352,25 +3352,7 @@
                 "topic": "default",
                 "script": [
                     {
-                        "text": [
-                            "This is the כרטיסיות מידע script. Customize me!"
-                        ]
-                    },
-                    {
                         "action": "complete"
-                    }
-                ]
-            },
-            {
-                "topic": "on_timeout",
-                "script": [
-                    {
-                        "text": [
-                            "Looks like you got distracted. We can continue later."
-                        ]
-                    },
-                    {
-                        "action": "timeout"
                     }
                 ]
             },
