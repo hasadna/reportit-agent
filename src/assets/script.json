@@ -2152,6 +2152,21 @@
                 "script": [
                     {
                         "text": [
+                            "cmd.checkngos(record)"
+                        ],
+                        "collect": {
+                            "key": "_ngos",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
                             "עברו על פרטי המקרה המוצגים בצד המסך."
                         ],
                         "quick_replies": [
@@ -3191,6 +3206,16 @@
         ],
         "variables": [
             {
+                "name": "_ngos",
+                "type": "string",
+                "id": 117
+            },
+            {
+                "name": "script",
+                "type": "string",
+                "id": 107
+            },
+            {
                 "name": "file5description",
                 "type": "string",
                 "id": 98
@@ -3399,45 +3424,11 @@
                 "topic": "default",
                 "script": [
                     {
-                        "action": "complete"
-                    }
-                ]
-            },
-            {
-                "topic": "on_timeout",
-                "script": [
-                    {
-                        "text": [
-                            "Looks like you got distracted. We can continue later."
-                        ]
-                    },
-                    {
-                        "action": "timeout"
-                    }
-                ]
-            },
-            {
-                "topic": "סיום",
-                "script": [
-                    {
-                        "text": [
-                            "This is סיום"
-                        ]
-                    },
-                    {
-                        "action": "complete"
-                    }
-                ]
-            },
-            {
-                "topic": "המרכז לנפגעי גזענות (התנועה הרפורמית)",
-                "script": [
-                    {
                         "text": [
                             "cmd.checkNgoRelevancy(record)"
                         ],
                         "collect": {
-                            "key": "_share_ngo_reform_movement",
+                            "key": "_relevant_ngo",
                             "options": [
                                 {
                                     "default": true,
@@ -3452,23 +3443,22 @@
                                 {
                                     "pattern": "false",
                                     "type": "string",
-                                    "action": "סיום"
+                                    "action": "complete"
                                 }
                             ]
                         }
                     },
                     {
                         "text": [
-                            "<b>המרכז לנפגעי גזענות (התנועה הרפורמית): מוקד מידע, סיוע וליווי משפטי</b>\n<br><br>\nהמרכז לנפגעי גזענות\", מוקד\\\n        מידע, סיוע ותיעוד שיילחם בגזענות בישראל באמצעות העצמת נפגעי גזענות, ויציע ליווי מול הרשויות,\\\n        סיוע משפטי וסיוע נפשי כדי להקל על הגישה לאוכלוסיות הנפגעות. <br><br>\n\n<br><br>\n<b> מספר טלפון:</b> 1-700-704-408<br>\n<b> דוא\"ל:</b> <a href=\"mailto:stop.racism@ircc.org.il\">stop.racism@ircc.org.il</a>\n<br>\n<b>שעות‭ ‬פעילות‭ ‬הקו‭:‬</b><br>\nשני, 13:00-17:00<br>\nשישי, 09:00-13:00 <br>\nבשאר‭ ‬הזמן‭ ‬ניתן‭ ‬להשאיר‭ ‬הודעה \n<br><br>\n\n<b>למידע נוסף:</b><br>\n<a href=\"https://www.ircc.org.il/\" target=\"_blank\">https://www.ircc.org.il/</a>"
-                        ],
-                        "meta": []
+                            "cmd.showOrganizationDetails(record)"
+                        ]
                     },
                     {
                         "text": [
-                            "האם הפונה מעוניינים להעביר את פרטי המקרה לארגון?"
+                            "האם הפונה מעוניינ/ת להעביר את פרטי המקרה לארגון?"
                         ],
                         "collect": {
-                            "key": "_share_ngo_reform_movement",
+                            "key": "share_with_ngo",
                             "options": [
                                 {
                                     "default": true,
@@ -3485,18 +3475,60 @@
                             },
                             {
                                 "title": "הפונה ביקש/ה לקבל את פרטי הקשר עם הארגון",
-                                "payload": "false",
+                                "payload": "ביקש/ה לקבל פרטי התקשרות עם הארגון",
                                 "content_type": "text"
                             },
                             {
                                 "title": "לא, הפונה אינו מעוניין/נת ליצור קשר עם הארגון",
-                                "payload": "hello",
+                                "payload": "false",
                                 "content_type": "text"
                             }
                         ]
                     },
                     {
-                        "action": "default"
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "המרכז לנפגעי גזענות (התנועה הרפורמית)",
+                "script": [
+                    {
+                        "text": [
+                            "<b>המרכז לנפגעי גזענות (התנועה הרפורמית): מוקד מידע, סיוע וליווי משפטי</b>\n<br><br>\nהמרכז לנפגעי גזענות\", מוקד\\\n        מידע, סיוע ותיעוד שיילחם בגזענות בישראל באמצעות העצמת נפגעי גזענות, ויציע ליווי מול הרשויות,\\\n        סיוע משפטי וסיוע נפשי כדי להקל על הגישה לאוכלוסיות הנפגעות. <br><br>\n\n<br><br>\n<b> מספר טלפון:</b> 1-700-704-408<br>\n<b> דוא\"ל:</b> <a href=\"mailto:stop.racism@ircc.org.il\">stop.racism@ircc.org.il</a>\n<br>\n<b>שעות‭ ‬פעילות‭ ‬הקו‭:‬</b><br>\nשני, 13:00-17:00<br>\nשישי, 09:00-13:00 <br>\nבשאר‭ ‬הזמן‭ ‬ניתן‭ ‬להשאיר‭ ‬הודעה \n<br><br>\n\n<b>למידע נוסף:</b><br>\n<a href=\"https://www.ircc.org.il/\" target=\"_blank\">https://www.ircc.org.il/</a>"
+                        ],
+                        "meta": [
+                            {
+                                "key": "offender",
+                                "value": "משטרה"
+                            },
+                            {
+                                "key": "complaintType",
+                                "value": "הפליה בהשכרת דירה מאדם פרטי"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "עוד תנועה",
+                "script": [
+                    {
+                        "text": [
+                            "<b>עוד תנועה</b>\n<br><br>\nהמרכז לנפגעי גזענות\", מוקד\\\n        מידע, סיוע ותיעוד שיילחם בגזענות בישראל באמצעות העצמת נפגעי גזענות, ויציע ליווי מול הרשויות,\\\n        סיוע משפטי וסיוע נפשי כדי להקל על הגישה לאוכלוסיות הנפגעות. <br><br>\n\n<br><br>\n<b> מספר טלפון:</b> 1-700-704-408<br>\n<b> דוא\"ל:</b> <a href=\"mailto:stop.racism@ircc.org.il\">stop.racism@ircc.org.il</a>\n<br>\n<b>שעות‭ ‬פעילות‭ ‬הקו‭:‬</b><br>\nשני, 13:00-17:00<br>\nשישי, 09:00-13:00 <br>\nבשאר‭ ‬הזמן‭ ‬ניתן‭ ‬להשאיר‭ ‬הודעה \n<br><br>\n\n<b>למידע נוסף:</b><br>\n<a href=\"https://www.ircc.org.il/\" target=\"_blank\">https://www.ircc.org.il/</a>"
+                        ],
+                        "meta": [
+                            {
+                                "key": "offender",
+                                "value": "משטרה"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "complete"
                     }
                 ]
             }
@@ -3508,6 +3540,21 @@
             }
         ],
         "variables": [
+            {
+                "name": "_relevant_ngo",
+                "type": "string",
+                "id": 403
+            },
+            {
+                "name": "share_with_ngo",
+                "type": "string",
+                "id": 135
+            },
+            {
+                "name": "_share_with_ngo",
+                "type": "string",
+                "id": 490
+            },
             {
                 "name": "_share_ngo_reform_movement",
                 "type": "string",
