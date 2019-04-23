@@ -47,25 +47,61 @@ export class AppComponent implements OnInit {
                 getOffender: async (record) => {
                   return record.offender;
                 },
-                checkngos: async (record) => {
-                  const ngos = Script['3'].script.slice(1); // read the script with the list of NGOs, exclude the `default` thread
-                  const relevantngos = ngos.filter( (ngo) => {
-                      const ngoMetaData = ngo.script[0].meta; // get the ngo metadata
-                                        // run over the ngo relevancy conditions
-                      for (let condition = 0; condition <= ngoMetaData.length - 1; condition++) {
-                          const [conditionKey, conditionValue] = [ngoMetaData[condition].key, ngoMetaData[condition].value];
+                chooseNGOsToShareWith: async (record) => {
+                  // retrieve the repeating question + options to check per organization
+                  const [question, options] = [Script['3'].script[0]['script'][0].text,
+                                               Script['3'].script[0]['script'][0].quick_replies.map(
+                                                      (x) => { return {
+                                                             'display' : x['title'],
+                                                             'value' :  x['payload']
+                                                          };
+                                                        })
+                                              ];
+                  console.log(`Relevant Ngos:`, record._relevantorgs);
 
-                          if (            // here is the logic to decide which NGO is relevant. We can add any kind of logic.
-                              (conditionKey === 'offender' && conditionValue === record.offender) ||
-                              (conditionKey === 'complaintType' && conditionValue === record.complaint_type)
-                            )  {
-                            return 1;
+                  this.content.addTo(`נמצאו ${record._relevantorgs.length} ארגונים:`);
+                  const org_to_share_with = [];
+                  const getData = async () => {
+                    for (const organization of record._relevantorgs) {
+                        try {
+                          const orgName = organization.topic;
+                          const orgDescription = organization.script[0].text;
+                          // show the organziation details
+                          this.content.addTo(`${orgName}: <br> ${orgDescription}`);
+
+                          this.content.addOptions(question, options);
+                          const share_with_org =  await this.content.waitForInput();
+
+                          if (share_with_org === true) {                // if user approves, add org to the record field
+                            org_to_share_with.push(orgName);
+                          }
+                        } catch (error) {
+                          console.log('error ' + error);
                         }
-                      }
-                    return 0;
-                    });
-                  console.log(`Relevant Ngos:`, relevantngos);
-                  return relevantngos;
+                        console.log('share_with_org: ', record.share_data_with_orgs);
+                  }
+                      return await share_with_org; } ;
+                  return getData();
+                },
+                checkRelevantNGOs: async (record) => {
+                  // retrieve the the list of NGOs, exclude the `default` thread
+                  const allOrgs = Script['3'].script.slice(1);
+                  console.log('all orgs:', allOrgs);
+                  const relevantorgs = allOrgs.filter( (org) => {
+                        const orgMetaData = org.script[0].meta; // get the ngo metadata
+
+                        // run over the organziation relevancy parameters
+                        for (let condition = 0; condition <= orgMetaData.length - 1; condition++) {
+                          const [conditionKey, conditionValue] = [orgMetaData[condition].key, orgMetaData[condition].value];
+
+                            if (            // here is the logic to decide which NGO is relevant. We can add any kind of logic.
+                                (conditionKey === 'offender' && conditionValue === record.offender) ||
+                                (conditionKey === 'complaintType' && conditionValue === record.complaint_type)
+                                ) { return 1; }
+                              }
+                            return 0;
+                          });
+                  return relevantorgs;
                 },
                 combinedPoliceEventDescription: async (record) => {
                   return `${record.event_description} \n \n \
