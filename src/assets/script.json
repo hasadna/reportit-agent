@@ -2257,26 +2257,6 @@
                 "script": [
                     {
                         "text": [
-                            "cmd.checkRelevantNGOs(record)"
-                        ],
-                        "collect": {
-                            "key": "_relevantorgs",
-                            "options": [
-                                {
-                                    "default": true,
-                                    "pattern": "default",
-                                    "action": "next"
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "text": [
-                            "cmd.chooseNGOsToShareWith(record)"
-                        ]
-                    },
-                    {
-                        "text": [
                             "עברו על פרטי המקרה המוצגים בצד המסך."
                         ],
                         "quick_replies": [
@@ -2406,19 +2386,24 @@
                         "quick_replies": [
                             {
                                 "title": "כן, מאשר/ת להעביר להם את פרטי המקרה, כולל שמי ופרטי הקשר",
-                                "payload": "send full details",
+                                "payload": "הפונה אישר/ה להעביר את פרטי המקרה במלואם",
                                 "content_type": "text"
                             },
                             {
                                 "title": "מאשר/ת להעביר את תיאור המקרה, ללא פרטים מזהים",
-                                "payload": "send anonymously",
+                                "payload": "הפונה אישר/ה להעביר את תיאור המקרה ללא פרטים מזוהים",
                                 "content_type": "text"
                             },
                             {
                                 "title": "לא",
-                                "payload": "false",
+                                "payload": "לא ניתן אישור הפונה להעברת פרטי המקרה",
                                 "content_type": "text"
                             }
+                        ]
+                    },
+                    {
+                        "text": [
+                            "cmd.saveUser(record)"
                         ]
                     },
                     {
@@ -3291,7 +3276,37 @@
                 "script": [
                     {
                         "text": [
-                            "This is תלונה: שיתוף עם ארגוני חברה אזרחית"
+                            "cmd.checkRelevantNGOs(record)"
+                        ],
+                        "collect": {
+                            "key": "_relevantorgs",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "cmd.chooseNGOsToShareWith(record)"
+                        ],
+                        "collect": {
+                            "key": "share_data_with_orgs",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "cmd.saveUser(record)"
                         ]
                     },
                     {
@@ -3302,6 +3317,46 @@
             {
                 "topic": "תלונה: פניה לגורמים ממשלתיים",
                 "script": [
+                    {
+                        "text": [
+                            "הצג/הציגי לפונה את הגורמים אליהם הממשלתיים אליהם ניתן לפנות בנושא הפניה:"
+                        ]
+                    },
+                    {
+                        "text": [
+                            "cmd.checkRelevantGovernmentDepartments(record)"
+                        ],
+                        "collect": {
+                            "key": "_relevantorgs",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "cmd.chooseGovernmentDeptToShareWith(record)"
+                        ],
+                        "collect": {
+                            "key": "send_complaint_to",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "cmd.saveUser(record)"
+                        ]
+                    },
                     {
                         "action": "תלונה: בירור אפשרות להעביר פרטים למשרד המשפטים"
                     }
@@ -3315,6 +3370,16 @@
             }
         ],
         "variables": [
+            {
+                "name": "send_complaint_to",
+                "type": "string",
+                "id": 251
+            },
+            {
+                "name": "share_data_with_orgs",
+                "type": "string",
+                "id": 472
+            },
             {
                 "name": "_relevantorgs",
                 "type": "string",
@@ -3551,7 +3616,7 @@
                             },
                             {
                                 "title": "הפונה ביקש/ה לקבל את פרטי הקשר עם הארגון",
-                                "payload": "ביקש/ה לקבל פרטי התקשרות עם הארגון",
+                                "payload": "askedForContactDetails",
                                 "content_type": "text"
                             },
                             {
@@ -3636,6 +3701,100 @@
                 "type": "string",
                 "id": 167
             },
+            {
+                "name": "question_1",
+                "type": "string"
+            },
+            {
+                "name": "question_2",
+                "type": "string"
+            },
+            {
+                "name": "question_3",
+                "type": "string"
+            }
+        ]
+    },
+    {
+        "command": "גופי ממשלה",
+        "description": "יחידות ממשלתיות וגופים רשמיים אליהם ניתן לפנות",
+        "script": [
+            {
+                "topic": "default",
+                "script": [
+                    {
+                        "text": [
+                            "האם הפונה מעוניינ/ת לפנות עם פרטי המקרה לגוף או לגורם הזה?"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן, הפונה מעוניינ/ת בעזרה בפניה לגורם",
+                                "payload": "true",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "הפונה מבקש/ת לקבל את פרטי ההתקשרות עם הגורם",
+                                "payload": "askedForContactDetails",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "false",
+                                "content_type": "text"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "המחלקה לחקירות שוטרים (מח\"ש)",
+                "script": [
+                    {
+                        "text": [
+                            "<b>המחלקה לחקירות שוטרים</b>\n<br><br>\n[יש להוסיף כאן פרטים נוספים]"
+                        ],
+                        "meta": [
+                            {
+                                "key": "offender",
+                                "value": "משטרה"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "מחלקת פניות ציבור במשטרה",
+                "script": [
+                    {
+                        "text": [
+                            "<b>מחלקת פניות ציבור במשטרה\n</b>\n<br><br>\n[יש להוסיף כאן פרטים נוספים]"
+                        ],
+                        "meta": [
+                            {
+                                "key": "offender",
+                                "value": "משטרה"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            }
+        ],
+        "triggers": [
+            {
+                "type": "string",
+                "pattern": "גופי ממשלה"
+            }
+        ],
+        "variables": [
             {
                 "name": "question_1",
                 "type": "string"
