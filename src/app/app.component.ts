@@ -78,7 +78,9 @@ export class AppComponent implements OnInit {
                                                       ];
           console.log(`Relevant Orgs:`, organizationsList);
 
-          this.content.addTo(`נמצאו ${organizationsList.length} אפשרויות רלוונטיות לנושא הפניה:`);
+          if (organizationsList.length > 0) {
+            this.content.addTo(`נמצאו ${organizationsList.length} אפשרויות רלוונטיות לנושא הפניה:`);
+          }
 
       // ask the returning questio for eaach relevant organization
         for (const organization of organizationsList) {
@@ -122,14 +124,39 @@ export class AppComponent implements OnInit {
                 chooseGovernmentDeptToShareWith: async (record) =>  selectOrgsToShareDataWith(record, '4'),
 
                 combinedPoliceEventDescription: async (record) => {
-                  return `${record.event_description} \n \n \
+                  let result = ' ';
+                  if (record.event_description) {
+                     result = record.event_description;
+                   }
+                  result += ` \n
                                 פרטים נוספים, בשיחה עם המוקדנ/ית: ${record._police_more_details}, \n
                                 ${record._police_arrest}, \n
                                 ${record._police_court}, \n
-                                ${record._police_has_lawyer}, \n
-                                עדי ראייה: ${record._police_witness_details},
+                                ${record._police_has_lawyer},
                                 `;
+                 if (record._police_witness_details) {
+                   result +=   `\n עדי ראייה: ${record._police_witness_details}`;
+                 }
+                 return result;
                 },
+
+                combinedEventDescription: async (record) =>  {
+                  let result = '';
+                  if (record.event_description) {
+                     result = record.event_description;
+                   }
+                     if (record._details_to_add_to_description || record._witness_details) {
+                            result +=  `\n פרטים נוספים, בשיחה עם המוקדנ/ית:\n`;
+                        if (record._details_to_add_to_description) {
+                            result += `\n${ record._details_to_add_to_description }`;
+                        }
+                        if (record._witness_details) {
+                          result += `\nעדי ראייה:${record._witness_details}`;
+                        }
+                      }
+                      return result;
+                  },
+
                 countFiles: async (record) => {
                   let counter = 0;
                   for (let index = 1; index <= 5; index++) {
