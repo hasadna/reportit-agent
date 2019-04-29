@@ -355,13 +355,18 @@
                                 "content_type": "text"
                             },
                             {
-                                "title": "אפליה ברכישת דירה מאדם פרטי",
-                                "payload": "אפליה ברכישת דירה מאדם פרטי",
+                                "title": "אפליה במכירת דירה על ידי חברת בניה/יזם/קבלן",
+                                "payload": "אפליה במכירת דירה על ידי חברת בניה/יזם/קבלן",
                                 "content_type": "text"
                             },
                             {
-                                "title": "אפליה ברכישת דירה מחברה, קבלן או יזם",
-                                "payload": "אפליה ברכישת דירה מחברה",
+                                "title": "אפליה במכירת דירת יד 2 מידי אדם פרטי",
+                                "payload": "אפליה במכירת דירת יד 2 מידי אדם פרטי",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "אפליה בהשכרת דירה מחברה",
+                                "payload": "אפליה בהשכרת דירה מחברה",
                                 "content_type": "text"
                             },
                             {
@@ -370,8 +375,8 @@
                                 "content_type": "text"
                             },
                             {
-                                "title": "אפליה בהשכרת דירה מחברה, קבלן או יזם",
-                                "payload": "אפליה בהשכרת דירה מחברה, קבלן או יזם",
+                                "title": "אפליה של חברת תיווך",
+                                "payload": "אפליה של חברת תיווך",
                                 "content_type": "text"
                             },
                             {
@@ -392,6 +397,11 @@
                                     "pattern": "אפליה בקבלה לישוב",
                                     "type": "string",
                                     "action": "דיור: בירור סוג הישוב"
+                                },
+                                {
+                                    "pattern": "אפליה של חברת תיווך",
+                                    "type": "string",
+                                    "action": "דיור: בירור פרטי חברת תיווך ועובדים"
                                 }
                             ],
                             "multiple": true
@@ -1052,6 +1062,11 @@
                                 "content_type": "text"
                             },
                             {
+                                "title": "תחום הבריאות",
+                                "payload": "בריאות",
+                                "content_type": "text"
+                            },
+                            {
                                 "title": "אחר",
                                 "payload": "אחר",
                                 "content_type": "text"
@@ -1089,6 +1104,11 @@
                                     "pattern": "אחר",
                                     "type": "string",
                                     "action": "אחר: בירור פרטי הגורם הפוגע"
+                                },
+                                {
+                                    "pattern": "בריאות",
+                                    "type": "string",
+                                    "action": "בריאות: בחירת סוג התלונה"
                                 }
                             ]
                         }
@@ -1113,7 +1133,7 @@
                     },
                     {
                         "text": [
-                            "הנה הקישור: {{agent_link}}"
+                            "<a href='{{agent_link}}' target='_blank'>קישור לבדיקות צד מוקדנ/ית</a>"
                         ]
                     },
                     {
@@ -1603,22 +1623,22 @@
                         "quick_replies": [
                             {
                                 "title": "ישוב קהילתי",
-                                "payload": "הפליה בקבלה לישוב קהילתי",
+                                "payload": "אפליה בקבלה לישוב קהילתי",
                                 "content_type": "text"
                             },
                             {
                                 "title": "שכונת הרחבה במושב או בקיבוץ",
-                                "payload": "הפליה בקבלה לשכונת הרחבה במושב או בקיבוץ",
+                                "payload": "אפליה בקבלה לשכונת הרחבה במושב או בקיבוץ",
                                 "content_type": "text"
                             },
                             {
                                 "title": "נחלה בקיבוץ או במושב",
-                                "payload": "הפליה בקבלה לנחלה בקיבוץ או במושב",
+                                "payload": "אפליה בקבלה לנחלה בקיבוץ או במושב",
                                 "content_type": "text"
                             },
                             {
                                 "title": "אחר",
-                                "payload": "הפליה בקבלה לישוב מסוג לא מוגדר",
+                                "payload": "אפליה בקבלה לישוב מסוג לא מוגדר",
                                 "content_type": "text"
                             }
                         ]
@@ -2020,6 +2040,456 @@
                         "action": "פרטי התקשרות: בחירת אמצעי יצירת קשר"
                     }
                 ]
+            },
+            {
+                "topic": "דיור: בירור פרטי חברת תיווך ועובדים",
+                "script": [
+                    {
+                        "text": [
+                            "cmd.offenderIsRealEstateCompany(record)"
+                        ]
+                    },
+                    {
+                        "action": "דיור: בירור מיקום האירוע"
+                    },
+                    {
+                        "text": [
+                            "האם ידוע לך מה השם של חברת התיווך או פרטים אחרים לגביה?"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "true",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "false",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "_add_real_estate_company_name",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "repeat"
+                                },
+                                {
+                                    "pattern": "true",
+                                    "type": "string",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "false",
+                                    "type": "string",
+                                    "action": "דיור: בירור מיקום האירוע"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "מהו שם חברת התיווך? אנא שלח/י לנו את כל הפרטים הרלוונטים שיש לך, כמו כתובת או טלפון"
+                        ],
+                        "collect": {
+                            "key": "offender_organization_details",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "cmd.saveUser(record)"
+                        ]
+                    },
+                    {
+                        "text": [
+                            "האם ידועים לך פרטים של עובד/ת או עובדים שהיו מעורבים בארוע?"
+                        ],
+                        "collect": {
+                            "key": "_add_offender_details",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "repeat"
+                                },
+                                {
+                                    "pattern": "true",
+                                    "type": "string",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "false",
+                                    "type": "string",
+                                    "action": "דיור: בירור מיקום האירוע"
+                                }
+                            ],
+                            "multiple": false
+                        },
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "true",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "false",
+                                "content_type": "text"
+                            }
+                        ]
+                    },
+                    {
+                        "text": [
+                            "מהו השם של העובד/ת או העובדים שהיו מעורבים בארוע?"
+                        ],
+                        "collect": {
+                            "key": "offender_person_details",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ],
+                            "multiple": true
+                        }
+                    }
+                ]
+            },
+            {
+                "topic": "בריאות: בחירת הגורם הפוגע",
+                "script": [
+                    {
+                        "text": [
+                            "מי נקט/ה כלפיך בגזענות או באופן מפלה?"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "רופא/ה",
+                                "payload": "רופא/ה",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "אח/אחות",
+                                "payload": "אח/אחות",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "עובד/ת אחר/ת בתחום הבריאות",
+                                "payload": "עובד/ת אחר/ת בתחום הבריאות",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "מטופל/ת",
+                                "payload": "מטופל/ת",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "ארגון או מוסד רפואי",
+                                "payload": "ארגון או מוסד רפואי",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "offender_organization_category",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "בריאות: בירור פרטי האדם הפוגע"
+                                },
+                                {
+                                    "pattern": "ארגון או מוסד רפואי",
+                                    "type": "string",
+                                    "action": "בריאות: בירור פרטי ארגון/מוסד/מרכז רפואי"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "בריאות: בחירת סוג התלונה",
+                "script": [
+                    {
+                        "text": [
+                            "מה סוג האירוע עליו תרצה/תרצי לדווח?"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "סירוב להעניק טיפול על רקע גזעני או מפלה (לאום, דת, עדה, נטיה מינית, מין או מגדר, מוגבלות, גיל וכדומה)",
+                                "payload": "סירוב להעניק טיפול על רקע גזעני או מפלה",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "הערות גזעניות או מעליבות",
+                                "payload": "הערות גזעניות או מעליבות",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "אפליה בטיפול רפואי או היעדר נגישות לטיפול על רקע מקום המגורים",
+                                "payload": "אפליה בטיפול רפואי או היעדר נגישות לטיפול על רקע מקום המגורים",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "מניעת טיפול על רקע מעמד בישראל",
+                                "payload": "מניעת טיפול על רקע מעמד בישראל",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "העדר מענה בשפה המוכרת למטופל/ת",
+                                "payload": "העדר מענה בשפה המוכרת למטופל/ת",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "המרפאה/מרכז רפואי לא היו נגישים",
+                                "payload": "המרפאה/מרכז רפואי לא היו נגישים",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "אחר",
+                                "payload": "אחר",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "complaint_type",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "cmd.saveUser(record)"
+                        ]
+                    },
+                    {
+                        "action": "בריאות: בחירת הגורם הפוגע"
+                    }
+                ]
+            },
+            {
+                "topic": "בריאות: בירור פרטי ארגון/מוסד/מרכז רפואי",
+                "script": [
+                    {
+                        "text": [
+                            "האם ידוע לך מה שמו של הארגון או המרכז הרפואי?"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "true",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "false",
+                                "content_type": "text"
+                            }
+                        ],
+                        "meta": [],
+                        "collect": {
+                            "key": "_add_offender_details",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "true",
+                                    "type": "string",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "false",
+                                    "type": "string",
+                                    "action": "בריאות: בירור אם ישנה קופת חולים רלוונטית"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "מה שמו של הארגון או המרכז הרפואי?"
+                        ],
+                        "collect": {
+                            "key": "offender_organization_details",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "cmd.saveUser(record)"
+                        ]
+                    },
+                    {
+                        "action": "בריאות: בירור אם ישנה קופת חולים רלוונטית"
+                    }
+                ]
+            },
+            {
+                "topic": "בריאות: בירור פרטי האדם הפוגע",
+                "script": [
+                    {
+                        "text": [
+                            "האם ידוע לך השם של האדם או של האנשים שפגעו בך?"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "true",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "false",
+                                "content_type": "text"
+                            }
+                        ],
+                        "meta": [],
+                        "collect": {
+                            "key": "_add_offender_details",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "false",
+                                    "type": "string",
+                                    "action": "בריאות: בירור אם ישנה קופת חולים רלוונטית"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "מה השם של האדם או האנשים שפגעו בכם? אם ידוע לכם מה התפקיד של אותם אנשי, אנא כתבו גם כן."
+                        ],
+                        "collect": {
+                            "key": "offender_person_details",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "בריאות: בירור אם ישנה קופת חולים רלוונטית"
+                    }
+                ]
+            },
+            {
+                "topic": "בריאות: בקשה לתיאור המקרה",
+                "script": [
+                    {
+                        "text": [
+                            "אנא תאר/י את המקרה, עם כמה שיותר פרטים (תאריכים, מקומות, שעות וכל מה שהתרחש)"
+                        ],
+                        "collect": {
+                            "key": "event_description",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ],
+                            "multiple": true
+                        }
+                    },
+                    {
+                        "text": [
+                            "cmd.saveUser(record)"
+                        ]
+                    },
+                    {
+                        "action": "העלאת קבצים: האם להעלות קבצים?"
+                    }
+                ]
+            },
+            {
+                "topic": "בריאות: בירור אם ישנה קופת חולים רלוונטית",
+                "script": [
+                    {
+                        "text": [
+                            "האם הארוע או הגורם הפוגע קשורים באחת מקופות החולים?\n\nאם כן, אנא בחרו בקופה הרלוונטית"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "לא יודע/ת, או שלא קשור לקופת חולים כלשהי",
+                                "payload": "''",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "שירותי בריאות כללית",
+                                "payload": "שירותי בריאות כללית",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "מכבי שירותי בריאות",
+                                "payload": "מכבי שירותי בריאות",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "קופת חולים מאוחדת",
+                                "payload": "קופת חולים מאוחדת",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "קופת חולים לאומית",
+                                "payload": "קופת חולים לאומית",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "offender_organization_category",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "cmd.saveUser(record)"
+                        ]
+                    },
+                    {
+                        "action": "בריאות: בקשה לתיאור המקרה"
+                    }
+                ]
             }
         ],
         "triggers": [
@@ -2029,6 +2499,11 @@
             }
         ],
         "variables": [
+            {
+                "name": "_add_real_estate_company_name",
+                "type": "string",
+                "id": 411
+            },
             {
                 "name": "offender_organization_category",
                 "type": "string",
@@ -2634,7 +3109,7 @@
                                 {
                                     "default": true,
                                     "pattern": "default",
-                                    "action": "תלונה: פניה לגורמים ממשלתיים"
+                                    "action": "תלונה: בדיקת אפשרויות פעולה למקרה"
                                 },
                                 {
                                     "pattern": "0",
@@ -2739,12 +3214,12 @@
                                 {
                                     "pattern": "דיור",
                                     "type": "string",
-                                    "action": "דיור: בירור פרטים נוספים"
+                                    "action": "תלונה: בירור והוספת פרטים חסרים"
                                 },
                                 {
                                     "pattern": "מאבטח/ת",
                                     "type": "string",
-                                    "action": "מאבטח/ת: בירור והוספת פרטים חסרים"
+                                    "action": "תלונה: בירור והוספת פרטים חסרים"
                                 },
                                 {
                                     "pattern": "מסגרת חינוכית",
@@ -2905,7 +3380,7 @@
                                 {
                                     "pattern": "false",
                                     "type": "string",
-                                    "action": "תלונה: פניה לגורמים ממשלתיים"
+                                    "action": "תלונה: בדיקת אפשרויות פעולה למקרה"
                                 }
                             ]
                         }
@@ -2978,7 +3453,7 @@
                                 {
                                     "pattern": "false",
                                     "type": "string",
-                                    "action": "תלונה: פניה לגורמים ממשלתיים"
+                                    "action": "תלונה: בדיקת אפשרויות פעולה למקרה"
                                 }
                             ]
                         },
@@ -3063,7 +3538,7 @@
                                 {
                                     "pattern": "false",
                                     "type": "string",
-                                    "action": "תלונה: פניה לגורמים ממשלתיים"
+                                    "action": "תלונה: בדיקת אפשרויות פעולה למקרה"
                                 }
                             ]
                         },
@@ -3148,7 +3623,7 @@
                                 {
                                     "pattern": "false",
                                     "type": "string",
-                                    "action": "תלונה: פניה לגורמים ממשלתיים"
+                                    "action": "תלונה: בדיקת אפשרויות פעולה למקרה"
                                 }
                             ]
                         },
@@ -3254,13 +3729,18 @@
                         ]
                     },
                     {
-                        "action": "תלונה: פניה לגורמים ממשלתיים"
+                        "action": "תלונה: בדיקת אפשרויות פעולה למקרה"
                     }
                 ]
             },
             {
                 "topic": "תלונה: שיתוף עם ארגוני חברה אזרחית",
                 "script": [
+                    {
+                        "text": [
+                            "כעת נבדוק האם ישנם גורמי חברה אזרחית (עמותות או ארגונים שלא למטרות רווח) שיוכלו, אולי, לסייע לפונה בהמשך הטיפול במקרה.\n\n<br><br>\nחשוב להסביר שמדובר בארגונים שאינם קשורים למדינה או לממשלה. אם הפונה יאשר/תאשר, נעביר את פרטי המקרה שקיבלנו לארגון או לארגונים שיבחר והם אמורים ליצור קשר עם הפונה."
+                        ]
+                    },
                     {
                         "text": [
                             "cmd.checkRelevantNGOs(record)"
@@ -3306,7 +3786,7 @@
                 "script": [
                     {
                         "text": [
-                            "הצג/הציגי לפונה את הגורמים אליהם הממשלתיים אליהם ניתן לפנות בנושא הפניה:"
+                            "כעת נברר מיהם הגורמים הממשלתיים או הציבוריים אליהם ניתן לפנות כדי לקבל מידע או להתלונן על הארוע."
                         ]
                     },
                     {
@@ -3350,7 +3830,7 @@
                 ]
             },
             {
-                "topic": "מאבטח/ת: בירור אם היו עדים",
+                "topic": "תלונה: בירור אם היו עדים",
                 "script": [
                     {
                         "text": [
@@ -3379,12 +3859,12 @@
                                 {
                                     "pattern": "true",
                                     "type": "string",
-                                    "action": "מאבטח/ת: בקשת פרטי עדי ראיה"
+                                    "action": "תלונה: בקשת פרטי עדי ראיה"
                                 },
                                 {
                                     "pattern": "false",
                                     "type": "string",
-                                    "action": "מאבטח/ת: עדכון תיאור מקרה בפרטים נוספים"
+                                    "action": "תלונה: עדכון תיאור מקרה בפרטים נוספים"
                                 }
                             ]
                         }
@@ -3395,7 +3875,7 @@
                 ]
             },
             {
-                "topic": "מאבטח/ת: עדכון תיאור מקרה בפרטים נוספים",
+                "topic": "תלונה: עדכון תיאור מקרה בפרטים נוספים",
                 "script": [
                     {
                         "text": [
@@ -3428,7 +3908,7 @@
                 ]
             },
             {
-                "topic": "מאבטח/ת: בקשת פרטי עדי ראיה",
+                "topic": "תלונה: בקשת פרטי עדי ראיה",
                 "script": [
                     {
                         "text": [
@@ -3447,12 +3927,12 @@
                         }
                     },
                     {
-                        "action": "מאבטח/ת: עדכון תיאור מקרה בפרטים נוספים"
+                        "action": "תלונה: עדכון תיאור מקרה בפרטים נוספים"
                     }
                 ]
             },
             {
-                "topic": "מאבטח/ת: בירור והוספת פרטים חסרים",
+                "topic": "תלונה: בירור והוספת פרטים חסרים",
                 "script": [
                     {
                         "text": [
@@ -3474,7 +3954,7 @@
                                 {
                                     "pattern": "true",
                                     "type": "string",
-                                    "action": "מאבטח/ת: בירור אם היו עדים"
+                                    "action": "תלונה: בירור אם היו עדים"
                                 }
                             ]
                         },
@@ -3508,7 +3988,55 @@
                         }
                     },
                     {
-                        "action": "מאבטח/ת: בירור אם היו עדים"
+                        "action": "תלונה: בירור אם היו עדים"
+                    }
+                ]
+            },
+            {
+                "topic": "תלונה: בדיקת אפשרויות פעולה למקרה",
+                "script": [
+                    {
+                        "text": [
+                            "כעת נבדוק אם ישנם כיווני פעולה חוקיים או משפטיים אפשריים. נציג אותם לפונה כדי לשמוע האם היו רוצים שננסה לקדם אותם או את חלקם."
+                        ]
+                    },
+                    {
+                        "text": [
+                            "cmd.checkRelevantActions(record)"
+                        ],
+                        "collect": {
+                            "key": "_relevantactions",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "cmd.chooseRelevantActions(record)"
+                        ],
+                        "collect": {
+                            "key": "required_service",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "cmd.saveUser(record)"
+                        ]
+                    },
+                    {
+                        "action": "תלונה: פניה לגורמים ממשלתיים"
                     }
                 ]
             }
@@ -3520,6 +4048,16 @@
             }
         ],
         "variables": [
+            {
+                "name": "required_service",
+                "type": "string",
+                "id": 112
+            },
+            {
+                "name": "_relevantactions",
+                "type": "string",
+                "id": 329
+            },
             {
                 "name": "_details_to_add_to_description",
                 "type": "string",
@@ -3849,10 +4387,60 @@
                         "text": [
                             "<b>עדאלה - המרכז המשפטי לזכויות המיעוט הערבי בישראל</b>\n<br><br>\n<b>דוא\"ל: </b> <a href=\"mailto:adalah@adalah.org\">adalah@adalah.org</a><br>\n<b>טלפון:</b>  04-950-1610<br>\n<b>אתר: </b>https://www.adalah.org/<br>\n<b>פקס: </b> 04-950-3140<br>"
                         ],
+                        "meta": []
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "מרכז תמורה",
+                "script": [
+                    {
+                        "text": [
+                            "<b>מרכז תמורה</b>\nהמרכז המשפטי לקידום השוויון (ע\"ר), פועל במטרה להיאבק למען אוכלוסיות מוחלשות ומושתקות בחברה הישראלית, אשר מופלות על בסיס מרכיבי זהות כגון מגדר, מיניות ואתניות.\n\n \nהמרכז פועל להביא לשינוי חברתי וכלכלי במסגרת השדה המשפטי על ידי שימוש בכלים משפטיים: פנייה לערכאות, סיוע משפטי לקבוצות ולפרטים שנפגעו כתוצאה מאפליה, וליווי של מהלכים המתמקדים בחקיקה מתקנת. \n\n \n<br><br>\n<b>אתר: </b> <a href='http://www.tmura.org.il/' target='_blank'>http://www.tmura.org.il/</a><br>\n<b>טלפון:</b> 03-963419<br>\n<b>טופס לפניה מקוונת: </b><a href='http://www.tmura.org.il/page6.html' target='_blank'> http://www.tmura.org.il/page6.html</a><br>\n<b>כתובת: </b>שדרות יצחק רבין 7 (פינת אלי ויזל 2) ראשון-לציון"
+                        ],
                         "meta": [
                             {
-                                "key": "complainType",
-                                "value": "value"
+                                "key": "complaint_type",
+                                "value": "אפליה בהשכרת דירה מאדם פרטי"
+                            },
+                            {
+                                "key": "complaint_type",
+                                "value": "אפליה במכירת דירת יד 2 מידי אדם פרטי"
+                            },
+                            {
+                                "key": "complaint_type",
+                                "value": "אפליה בקבלה לישוב קהילתי"
+                            },
+                            {
+                                "key": "complaint_type",
+                                "value": "אפליה בקבלה לשכונת הרחבה במושב או בקיבוץ"
+                            },
+                            {
+                                "key": "complaint_type",
+                                "value": "אפליה בקבלה לנחלה בקיבוץ או במושב"
+                            },
+                            {
+                                "key": "complaint_type",
+                                "value": "אפליה בקבלה לישוב מסוג לא מוגדר"
+                            },
+                            {
+                                "key": "complaint_type",
+                                "value": "אפליה במכירת דירה על ידי חברת בניה/יזם/קבלן"
+                            },
+                            {
+                                "key": "complaint_type",
+                                "value": "אפליה בהשכרת דירה מחברה"
+                            },
+                            {
+                                "key": "complaint_type",
+                                "value": "מניעת כניסה"
+                            },
+                            {
+                                "key": "complaint_type",
+                                "value": "בידוק מפלה"
                             }
                         ]
                     },
@@ -4045,24 +4633,6 @@
                 "topic": "default",
                 "script": [
                     {
-                        "text": [
-                            "האם הפונה מעוניינ/ת לבדוק את האפשרות לנקוט פעולה זו?"
-                        ],
-                        "quick_replies": [
-                            {
-                                "title": "כן",
-                                "payload": "true",
-                                "content_type": "text"
-                            },
-                            {
-                                "title": "לא",
-                                "payload": "false",
-                                "content_type": "text"
-                            }
-                        ],
-                        "collect": null
-                    },
-                    {
                         "action": "complete"
                     }
                 ]
@@ -4072,7 +4642,7 @@
                 "script": [
                     {
                         "text": [
-                            "<b>תביעה נזיקית לפי חוק אפליה בשירותים ובמוצרים</b><br><br>\n\n ככל שפעולת המאבטח גרמה להפליה בהספקת מוצר/שירות ציבורי או במתן כניסה למקום ציבורי מחמת גזע, דת, לאום וכו', ניתן לתבוע לפי החוק וביהמ\"ש רשאי לפסוק 50 אלף ₪ פיצוי ללא הוכחת נזק.\n\n<br><br>\nכדאי להתייעץ לגבי סיכויי תביעה כזו עם עו\"ד נזיקי או מרכז תמורה: 03-9634194"
+                            "<b>תביעה נזיקית לפי חוק אפליה בשירותים ובמוצרים</b><br><br>\n\n ככל שפעולת המאבטח גרמה להפליה בהספקת מוצר/שירות ציבורי או במתן כניסה למקום ציבורי מחמת גזע, דת, לאום וכו', ניתן לתבוע לפי החוק וביהמ\"ש רשאי לפסוק 50 אלף ₪ פיצוי ללא הוכחת נזק.\n\n<br><br>\nכדאי להתייעץ לגבי סיכויי תביעה כזו עם עו\"ד נזיקי או ארגון רלוונטי\n\n<br><br>\nהאם הפונה מעוניינת לבדוק אפשרות פעולה זו?"
                         ],
                         "meta": [
                             {
@@ -4091,6 +4661,18 @@
                                 "key": "complaint_type",
                                 "value": "מניעת כניסה"
                             }
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "הפונה מעוניינ/ת לבדוק אפשרות לתביעה נזיקית לפי חוק אפליה בשירותים ומוצרים",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "false",
+                                "content_type": "text"
+                            }
                         ]
                     },
                     {
@@ -4103,12 +4685,24 @@
                 "script": [
                     {
                         "text": [
-                            "<b>(תביעה נזיקית (שלא לפי חוק אפליה בשירותים ובמוצרים</b><br><br>\n\nבמקרים שבהם מאבטח השפיל אדם בהתבטאות או באופן ביצוע הבידוק או הפעלת סמכויותיו על רקע מוצאו, לאום וכו' – במיוחד כאשר המקרה ארע בפומבי וכשקיימת עדות ברורה לקיומה של גזענות.\n<br><br>\nכדאי להתייעץ לגבי סיכויי תביעה כזו עם עו\"ד נזיקי או מרכז תמורה: 03-9634194"
+                            "<b>(תביעה נזיקית (שלא לפי חוק אפליה בשירותים ובמוצרים</b><br><br>\n\nבמקרים שבהם מאבטח השפיל אדם בהתבטאות או באופן ביצוע הבידוק או הפעלת סמכויותיו על רקע מוצאו, לאום וכו' – במיוחד כאשר המקרה ארע בפומבי וכשקיימת עדות ברורה לקיומה של גזענות.\n<br><br>\nכדאי להתייעץ לגבי סיכויי תביעה כזו עם עו\"ד נזיקי ארגון רלוונטי.\n<br><br>\nהאם הפונה מעוניינ/ת לבדוק אפשרות פעולה זו?"
                         ],
                         "meta": [
                             {
                                 "key": "offender",
                                 "value": "מאבטח/ת"
+                            }
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "הפונה מועניינ/ת לבדוק אפשרות לבתיעה נזיקית כנגד המאבטח/ת",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "false",
+                                "content_type": "text"
                             }
                         ]
                     },
@@ -4122,7 +4716,7 @@
                 "script": [
                     {
                         "text": [
-                            "<b>ועדת ההשגות על החלטות ועדות קבלה לישובים בנגב ובגליל</b>\n\n<br><br>\n\n\nבישוב בנגב ובגליל שבו פחות מ-400 משפחות מתקיימת ועדת קבלה, הבוחנת התאמה לחיים בקהילה קטנה, באמצעות חוות דעת של מכון מיון. כמו כן נבחן האם יש במועמדות משום פגיעה במרקם החברתי תרבותי של הישוב. אסור להפלות מחמת לאום, דת נטיה מינית, מוגבלות וכדומה. \nבמקרה שיש ראיה להפליה ניתן להגיש ערר לוועדת השגות :\n<a href=\"https://www.gov.il/he/Departments/General/reservations_committee\" target=\"_blank\">https://www.gov.il/he/Departments/General/reservations_committee </a>\n\n<br><br>\nבכל שאר הארץ אין ועדת קבלה ולישוב אסור להפלות . מי שנתקל בהפליה יופנה לעו\"ד או לאחד הארגונים העוסקים בנושא ליעוץ משפטי."
+                            "<b>ועדת ההשגות על החלטות ועדות קבלה לישובים בנגב ובגליל</b>\n\n<br><br>\n\n\nבישוב בנגב ובגליל שבו פחות מ-400 משפחות מתקיימת ועדת קבלה, הבוחנת התאמה לחיים בקהילה קטנה, באמצעות חוות דעת של מכון מיון. כמו כן נבחן האם יש במועמדות משום פגיעה במרקם החברתי תרבותי של הישוב. אסור להפלות מחמת לאום, דת נטיה מינית, מוגבלות וכדומה. \nבמקרה שיש ראיה להפליה ניתן להגיש ערר לוועדת השגות :\n<a href=\"https://www.gov.il/he/Departments/General/reservations_committee\" target=\"_blank\">https://www.gov.il/he/Departments/General/reservations_committee </a>\n\n<br><br>\nבכל שאר הארץ אין ועדת קבלה ולישוב אסור להפלות . מי שנתקל בהפליה יופנה לעו\"ד או לאחד הארגונים העוסקים בנושא ליעוץ משפטי.\n<br><br>\nהאם המקרה רלוונטי להגדרות אלו? אם כן, האם הפונה מעוניינ/ת לבדוק את כיוון הפעולה הזה?"
                         ],
                         "meta": [
                             {
@@ -4141,6 +4735,28 @@
                                 "key": "complaint_type",
                                 "value": "אפליה בקבלה לישוב מסוג לא מוגדר"
                             }
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "נראה שהמקרה לא מהווה עבירה על החוק",
+                                "payload": "false",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "נראה שישנה עבירה על החוק, הפונה מעוניינ/ת להגיש ערר לוודעת השגות",
+                                "payload": "הגשת ערר לוועדת ההשגות של משרד המשפטים על החלטות ועדות קבלה",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "נראה שישנה עבירה על החוק, הפונה מעוניינ/ת ליצור קשר עם עו\"ד או ארגון שעוסק בנושא",
+                                "payload": "הפונה מבקש/ת ליצור קשר עם עו\"ד או ארגון שעוסק בנושא",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "הפונה אינו מעוניינ/ת לפעול  באף אחת מן האפשרויות",
+                                "payload": "false",
+                                "content_type": "text"
+                            }
                         ]
                     },
                     {
@@ -4153,7 +4769,7 @@
                 "script": [
                     {
                         "text": [
-                            "<b>תביעה אזרחית כנגד האגודה השיתופית</b>\n<br><br>\n\nניתן לתבוע בהליך אזרחי את האגודה השיתופית וניתן לדרוש מרשות מקרקעי ישראל לאפשר הרכישה חרף התנגדות האגודה השיתופית. על פי המצב המשפטי הקיים למושב וקיבוץ שיקול דעת נרחב לדחות מועמדים המבקשים לגור בישוב אך סירוב כזה דורש את אישור רשות מקרקעי ישראל. בתי המשפט קבעו במספר מקרים כי האגודה השיתופית המנהלת את הישוב היא גוף המחוייב לפעול בשוויון בהקצאת מגרשים, אך מומלץ במקרה זה להתייעץ עם ארגון רלוונטי או עו\"ד פרטי."
+                            "<b>תביעה אזרחית כנגד האגודה השיתופית</b>\n<br><br>\n\nניתן לתבוע בהליך אזרחי את האגודה השיתופית וניתן לדרוש מרשות מקרקעי ישראל לאפשר הרכישה חרף התנגדות האגודה השיתופית. על פי המצב המשפטי הקיים למושב וקיבוץ שיקול דעת נרחב לדחות מועמדים המבקשים לגור בישוב אך סירוב כזה דורש את אישור רשות מקרקעי ישראל. בתי המשפט קבעו במספר מקרים כי האגודה השיתופית המנהלת את הישוב היא גוף המחוייב לפעול בשוויון בהקצאת מגרשים, אך מומלץ במקרה זה להתייעץ עם ארגון רלוונטי או עו\"ד פרטי.\n<br><br>\n\nהאם הפונה מעוניינ/ת לבדוק אפשרות זו?"
                         ],
                         "meta": [
                             {
@@ -4163,6 +4779,18 @@
                             {
                                 "key": "complaint_type",
                                 "value": "אפליה בקבלה לנחלה בקיבוץ או במושב"
+                            }
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "הפונה מעוניינ/ת ליצור קשר עם עו\"ד או ארגון רלוונטי לבדוק אפשרות לתביעה אזרחית כנגד האגודה השיתופית.",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "false",
+                                "content_type": "text"
                             }
                         ]
                     },
@@ -4176,16 +4804,28 @@
                 "script": [
                     {
                         "text": [
-                            "ניתן להגיש תביעה נזיקית נגד החברה לקבלת פיצוי"
+                            "ניתן להגיש תביעה נזיקית נגד החברה לקבלת פיצוי.\n\n<br><br>\nהאם הפונה מעוניינ/ת לבדוק אפשרות זו?"
                         ],
                         "meta": [
                             {
                                 "key": "complain_type",
-                                "value": "אפליה ברכישת דירה מחברה"
+                                "value": "אפליה במכירת דירה על ידי חברת בניה/יזם/קבלן"
                             },
                             {
                                 "key": "complain_type",
-                                "value": "אפליה בהשכרת דירה מחברה, קבלן או יזם"
+                                "value": "אפליה בהשכרת דירה מחברה"
+                            }
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "הפונה מעוניינ/ת לבדוק את האפשרות להגיש תביעת נזיקין כנגד החברה",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "false",
+                                "content_type": "text"
                             }
                         ]
                     },
@@ -4199,16 +4839,33 @@
                 "script": [
                     {
                         "text": [
-                            "יש לבדוק האם מדובר בקרקע שבה זכתה החברה במכרז בניה של רשות מקרקעי ישראל\nאם כן – ניתן לפנות לוועדת המכרזים של רשות מקרקעי ישראל בדרישה לפסול את זכייתה החברה או לקנוס אותה. יש לשלוח תלונה עם פרטי המקרה ליועץ המשפטי של הרשות.\n<br><br>\nאם הקרקע לא הועברה במכרז מהרשות פרטית – ניתן לתבוע תביעה נזיקית את החברה לקבלת פיצוי. לצורך כך מוצע ליצור קשר עם ארגון רלוונטי או עו\"ד פרטי"
+                            "יש לבדוק האם מדובר בקרקע שבה זכתה החברה במכרז בניה של רשות מקרקעי ישראל\nאם כן – ניתן לפנות לוועדת המכרזים של רשות מקרקעי ישראל בדרישה לפסול את זכייתה החברה או לקנוס אותה. יש לשלוח תלונה עם פרטי המקרה ליועצת המשפטית של הרשות, מניה לייקין, בדוא\"ל:  <a href ='mailto:yohamash@land.gov.il'>yohamash@land.gov.il</a>\n<br><br>\nאם הקרקע לא הועברה במכרז מהרשות פרטית – ניתן לתבוע תביעה נזיקית את החברה לקבלת פיצוי. לצורך כך מוצע ליצור קשר עם ארגון רלוונטי או עו\"ד פרטי. מיד נבדוק אם ישנן עמותות רלוונטיות שיכולות לסייע בנושא.\n\n<br><br>\n\nבחרו באפשרות המתאימה"
                         ],
                         "meta": [
                             {
-                                "key": "complain_type",
-                                "value": "אפליה ברכישת דירה מחברה"
+                                "key": "complaint_type",
+                                "value": "אפליה במכירת דירה על ידי חברת בניה/יזם/קבלן"
                             },
                             {
-                                "key": "complain_type",
-                                "value": "אפליה בהשכרת דירה מחברה, קבלן או יזם"
+                                "key": "complaint_type",
+                                "value": "אפליה בהשכרת דירה מחברה"
+                            }
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "הפונה מעוניינ/ת לבדוק האם ניתן לפנות לוועדת המכרזים של רשות מקרקעי ישראל",
+                                "payload": "הפונה מעוניינ/ת לבדוק האם ניתן לפנות לוועדת המכרזים של רשות מקרקעי ישראל",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "הפונה מעוניינ/ת לבדוק אפשרות לתביעה נזיקית",
+                                "payload": "הפונה מעוניינ/ת לבדוק עם עו\"ד או ארגון שיכול האם ניתן לפנות לוועדת המכרזים של רשות מקרקעי ישראל",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "הפונה לא מעוניינ/ת באף אחד מן האפשרויות",
+                                "payload": "false",
+                                "content_type": "text"
                             }
                         ]
                     },
@@ -4222,26 +4879,27 @@
                 "script": [
                     {
                         "text": [
-                            "אם האפליה קשורה בהתנהלות של תיווך, ניתן לפנות בתלונה משמעתית נגד חברת בתיווך לרשם המתווכים במשרד המשפטים.\n<br>\n\n<br><br>\n<b>לפרטי יצירת הקשר: </b><a href=\"https://www.justice.gov.il/Units/RashamHamtavchim/Pages/YeziratKesher.aspx\" target=\"_blank\">https://www.justice.gov.il/Units/RashamHamtavchim/Pages/YeziratKesher.aspx</a>"
+                            "אם האפליה קשורה בהתנהלות של תיווך, ניתן לפנות בתלונה משמעתית נגד חברת בתיווך לרשם המתווכים במשרד המשפטים.\n<br>\n\n<br><br>\n<b>לפרטי יצירת הקשר: </b><a href=\"https://www.justice.gov.il/Units/RashamHamtavchim/Pages/YeziratKesher.aspx\" target=\"_blank\">https://www.justice.gov.il/Units/RashamHamtavchim/Pages/YeziratKesher.aspx</a>\n\n<br><br>\nהאם הפונה מעוניינ/ת לבדוק אפשרות זו?"
                         ],
                         "meta": [
                             {
-                                "key": "complain_type",
-                                "value": "אפליה ברכישת דירה מחברה"
-                            },
-                            {
-                                "key": "complain_type",
-                                "value": "אפליה ברכישת דירה מאדם פרטי"
-                            },
-                            {
-                                "key": "complain_type",
-                                "value": "אפליה בהשכרת דירה מאדם פרטי"
-                            },
-                            {
-                                "key": "complain_type",
-                                "value": "אפליה בהשכרת דירה מחברה, קבלן או יזם"
+                                "key": "complaint_type",
+                                "value": "אפליה של חברת תיווך"
                             }
-                        ]
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "בדיקת אפשרות לתלונה משמעתית כנגד חברת התיווך",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "false",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": null
                     },
                     {
                         "action": "complete"
@@ -4249,20 +4907,32 @@
                 ]
             },
             {
-                "topic": "דיור: בדיקת אפשרות לתביעת נזיקין כנגד אדם על מניעת מכירה/שכרה",
+                "topic": "דיור: בדיקת אפשרות לתביעת נזיקין כנגד אדם על מניעת מכירה/השכרה",
                 "script": [
                     {
                         "text": [
-                            "אין איסור מפורש בחוק על הפליה ביחס לאנשים פרטיים המוכרים או משכירים את דירתם אך חשוב לתעד ולדווח על כך. <br><br>\nניתן לבחון אפשרות להגשת תביעה חוזית, אולם הפסיקה בנושא היא מאוד מוגבלת ולכן כדאי להתיעץ עם ארגון רלוונטי או עו\"ד פרטי."
+                            "אין איסור מפורש בחוק על הפליה ביחס לאנשים פרטיים המוכרים או משכירים את דירתם אך חשוב לתעד ולדווח על כך. <br><br>\nניתן לבחון אפשרות להגשת תביעה חוזית, אולם הפסיקה בנושא היא מאוד מוגבלת ולכן כדאי להתיעץ עם ארגון רלוונטי או עו\"ד פרטי. למשל, אם ההתנהלות של המשכיר הייתה חסרת תום לב (שיקר, הסתיר וכדומה) ניתן לתבוע אותו על חוסר תום לב במשא ומתן לכריתת חוזה, כלומר - לפי סעיף מדיני החוזים.\n\n<br><br>\nבהמשך נבדוק אם ישנם ארגוני חברה אזרחית שיוכלו לסייע בנושא.\n\n<br><br>\nהאם הפונה מעוניינ/ת לבדוק אפשרות זו?"
                         ],
                         "meta": [
                             {
-                                "key": "complain_type",
-                                "value": "אפליה ברכישת דירה מאדם פרטי"
+                                "key": "complaint_type",
+                                "value": "אפליה בהשכרת דירה מאדם פרטי"
                             },
                             {
-                                "key": "complain_type",
-                                "value": "אפליה בהשכרת דירה מאדם פרטי"
+                                "key": "complaint_type",
+                                "value": "אפליה במכירת דירת יד 2 מידי אדם פרטי"
+                            }
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "בדיקת אפשרות לתביעת נזיקין על מניעת מכירה/השכרה",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "false",
+                                "content_type": "text"
                             }
                         ]
                     },
