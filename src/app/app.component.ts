@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
     this.content.notUploadedFileText = 'תקלה בהעלאת קובץ';
     this.content.inputPlaceholder = 'הקלידו הודעה...';
 
+
     const recordKeysToSave = (record) => {
       // filter records fields, to save those that do not start with '_'
       const result = {};
@@ -82,7 +83,7 @@ export class AppComponent implements OnInit {
             this.content.addTo(`נמצאו ${organizationsList.length} אפשרויות רלוונטיות לנושא הפניה:`);
           }
 
-      // ask the returning questio for eaach relevant organization
+      // ask the returning question for eaach relevant organization
         for (const organization of organizationsList) {
             try {
               const orgName = organization.topic;
@@ -106,6 +107,69 @@ export class AppComponent implements OnInit {
         return await share_with_orgs;
       } ;
 
+
+      const retrieveRelevantActions = async (record, scriptNo) => {
+        // retrieve the the list of NGOs, exclude the `default` thread
+        const allActions: {'topic'?: string, 'script'?: any}[] = Script[scriptNo].script.slice(1);
+
+        const relevantactions = allActions.filter( (action) => {
+              const actionMetaData = action.script[0].meta; // get the action metadata
+              // run over the organziation relevancy parameters
+              for (let condition = 0; condition <= actionMetaData.length - 1; condition++) {
+                const [conditionKey, conditionValue] = [actionMetaData[condition].key, actionMetaData[condition].value];
+                  if (            // here is the logic to decide which action is relevant. We can add any kind of logic.
+                      (conditionKey === 'offender' && conditionValue === record.offender) ||
+                      (conditionKey === 'complaint_type' && conditionValue === record.complaint_type)
+                      ) { return 1; }
+                    }
+                  return 0;
+                });
+        return relevantactions;
+      };
+
+      const selectActionsToTake = async (record, scriptNo: string) => {
+        // function to ask user who to share the data with
+
+        const actionsList = record._relevantactions;
+
+        if (!record.required_service) {record.required_service = ' '; }
+
+        let actions_to_take = record.required_service;
+
+        console.log(`Relevant Actions:`, actionsList);
+
+          if (actionsList.length > 0) {
+            this.content.addTo(`נמצאו ${actionsList.length} פעולות שניתן להציג לפונה, כדי לברר אם יהיה/תהיה מועניינ/ת לבחון:`);
+          }
+
+          // iterate over the relevant actions and ask for user input
+        for (const action of actionsList) {
+            try {
+              const actionText = action.script[0].text;
+              const options = action.script[0].quick_replies.map(
+                                   (x) => {
+                                             return {
+                                                    'display' : x['title'],
+                                                    'value' :  x['payload']
+                                                    };
+                                           }
+                                     );
+
+              this.content.addOptions(actionText, options);
+              const actionResponse =  await this.content.waitForInput();
+
+              if (actionResponse !== 'false') {                // if user approves, add org to the record field
+                  actions_to_take += `* ${actionResponse} \n`;
+                }
+
+              } catch (error) {
+                console.log('error ' + error);
+              }
+            }
+        console.log('actions_to_take: ', actions_to_take);
+        return await actions_to_take;
+      };
+
     const vid = window.location.search.slice(1).split('&')[0].split('=')[1];
     this.hubspot.getUser(vid)
         .pipe(
@@ -122,6 +186,9 @@ export class AppComponent implements OnInit {
 
                 checkRelevantGovernmentDepartments: async (record) => retrieveRelevantOrgs(record, '4'),
                 chooseGovernmentDeptToShareWith: async (record) =>  selectOrgsToShareDataWith(record, '4'),
+
+                checkRelevantActions: async (record) => retrieveRelevantActions(record, '5'),
+                chooseRelevantActions: async (record) => selectActionsToTake(record, '5'),
 
                 combinedPoliceEventDescription: async (record) => {
                   let result = ' ';
