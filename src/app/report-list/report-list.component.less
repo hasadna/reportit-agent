@@ -1,0 +1,47 @@
+:host {
+    background-color: #f6f6f6;
+    width: 100%;
+    padding: 22px;
+
+    table {
+        width: 100%;
+        border-spacing: 0 15px;
+
+        td:first-child, th:first-child {
+            padding-right: 20px;
+        }
+
+        td:last-child, th:last-child {
+            padding-left: 20px;
+        }
+
+        th {
+            font-size: 16px;
+            font-weight: normal;
+            color: #b0b0b0;
+            text-align: right;
+        }
+
+        tbody {
+            tr {
+                height: 60px;
+                border-radius: 9px;
+                box-shadow: 0 6px 4px -2px rgba(0, 0, 0, 0.04);
+                background-color: #ffffff;
+
+                td {
+                    text-align: right;
+                    font-size: 16px;
+                    font-weight: 300;
+                    color: #000000;
+
+                    &.name:hover {
+                        text-decoration: underline;
+                        cursor: pointer;
+                    }
+                }                      
+            }
+        }
+
+    }
+}

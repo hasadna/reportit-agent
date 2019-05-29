@@ -1,0 +1,19 @@
+<app-side-pane>
+  <div class='header'>
+    <span>
+      דיווח על מקרי גזענות ממסדית
+    </span>
+  </div>
+  <div class='content'>
+    <div class='profile'>
+      <div class='user-basic'>
+        <span class='right'><img [src]='avatar_url'></span>
+        <span class='left'>
+          <span class='user-name'>{{profile.email}}</span>
+          <span class='logout'>התנתקות</span>
+        </span>
+      </div>
+    </div>
+    <app-system-status *ngIf='reports' [reports]='reports'></app-system-status>
+  </div>
+</app-side-pane>

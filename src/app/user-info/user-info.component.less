@@ -1,0 +1,43 @@
+:host {
+    
+    .profile {
+        
+        .user-basic {
+            display: flex;
+            flex-flow: row;
+            align-items: center;
+
+            .right {
+                display: flex;
+                width: 40px;
+                height: 40px;
+
+                img {
+                    border-radius: 20px;
+                }
+            }
+
+            .left {
+                margin-right: 20px;
+                display: flex;
+                flex-flow: column;
+
+                .user-name {
+                    font-size: 24px;
+                    font-weight: 500;
+                }
+
+                .logout {
+                    font-size: 16px;
+                    font-weight: normal;
+                    text-decoration: underline;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    app-system-status {
+        margin-top: auto;
+    }
+}

@@ -1,0 +1,55 @@
+<app-side-pane>
+  <div class='header'>
+    <div class='icon'>
+        <i class="fas fa-chevron-right" (click)='back()'></i>
+    </div>
+    <span>חזרה לרשימת הפונים</span>
+  </div>
+  <div class='content' *ngIf='report'>
+    <div class='icon-statuses'>
+      <div class='icon-status'>
+        <img src='assets/img/icon-man.svg'/>
+        <span i18n class='label'>המוקדן הממונה:&nbsp;</span>
+        <span class='info'>{{report.agent ? report.agent.username : ''}}</span>
+      </div>
+      <div class='icon-status'>
+        <img src='assets/img/icon-calendar.svg'/>
+        <span i18n class='label'>תאריך הפניה הראשונה&nbsp;</span>
+        <span class='info'>{{humanize(report.created_at)}}</span>
+      </div>
+      <div class='icon-status'>
+        <img src='assets/img/icon-calendar-edit.svg'/>
+        <span i18n class='label'>עודכן לאחרונה&nbsp;</span>
+        <span class='info'>{{humanize(report.updated_at)}}</span>
+      </div>
+    </div>
+    <app-status-widget [report]='report'></app-status-widget>
+    <hr/>
+    <app-editable-field-widget [report]='report' [field]='"full_name"'>
+      <label i18n>שם הפונה</label>
+    </app-editable-field-widget>
+    <div class='contacts'>
+      <label i18n>אמצעי יצירת קשר</label>
+      <app-editable-field-widget [report]='report' [field]='"phone"' [oneLine]='true'>
+        <label i18n>מספר טלפון:&nbsp;</label>
+      </app-editable-field-widget>
+      <app-editable-field-widget [report]='report' [field]='"email"' [oneLine]='true'>
+        <label i18n>אימייל:&nbsp;</label>
+      </app-editable-field-widget>
+    </div>
+    <app-editable-field-widget [report]='report' [field]='"complaint_type"'>
+      <label i18n>סוג התלונה</label>
+    </app-editable-field-widget>
+    <app-editable-field-widget [report]='report' [field]='"offender"'>
+      <label i18n>הגורם הפוגע</label>
+    </app-editable-field-widget>
+    <app-editable-field-widget [report]='report' [field]='"event_description"' [text]='true'>
+      <label i18n>תיאור המקרה</label>
+    </app-editable-field-widget>
+    <app-editable-field-widget [report]='report' [field]='"required_service"'>
+      <label i18n>השירות שביקש/ה</label>
+    </app-editable-field-widget>
+    <hr/>
+  </div>
+</app-side-pane>
+

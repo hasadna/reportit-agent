@@ -1,0 +1,14 @@
+<div [class.oneLine]='oneLine' [class.active]='active' >
+  <span class='label'>
+    <ng-content select='label'></ng-content>
+    <span class='edit-button' (click)='edit()'></span>
+  </span>
+  <span class='static'>
+    <span [innerHTML]='report[field] | nl2br'></span>
+    <span class='edit-button' (click)='edit()'></span>
+  </span>
+  <span class='edit'>
+    <input #textInput *ngIf='!text' type='text' [(ngModel)]='report[field]'/>
+    <textarea #textArea *ngIf='text' [(ngModel)]='report[field]'></textarea>
+  </span>
+</div>
