@@ -1,0 +1,31 @@
+<div class='current'>
+  <span i18n class='new' *ngIf='report.status !== "active" && report.status !== "done"'>
+    <span class='circle'></span>
+    <span>פניה חדשה</span>
+    <i class="fas fa-caret-down" (click)='toggle($event)'></i>
+  </span>
+  <span i18n class='active' *ngIf='report.status === "active"'>
+    <span class='circle'></span>
+    <span>בטיפול</span>
+    <i class="fas fa-caret-down" (click)='toggle($event)'></i>
+  </span>
+  <span i18n class='done' *ngIf='report.status === "done"'>
+    <span class='circle'></span>
+    <span>הטיפול הושלם</span>
+    <i class="fas fa-caret-down" (click)='toggle($event)'></i>
+  </span>
+</div>
+<div class='dropdown' [class.show]='show'>
+  <span i18n class='new' *ngIf='report.status === "active" || report.status === "done"' (click)='select("new")'>
+    <span class='circle'></span>
+    <span>פניה חדשה</span>
+  </span>
+  <span i18n class='active' *ngIf='report.status !== "active"' (click)='select("active")'>
+    <span class='circle'></span>
+    <span>בטיפול</span>
+  </span>
+  <span i18n class='done' *ngIf='report.status !== "done"' (click)='select("done")'>
+    <span class='circle'></span>
+    <span>הטיפול הושלם</span>
+  </span>
+</div>

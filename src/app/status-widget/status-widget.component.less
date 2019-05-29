@@ -1,0 +1,72 @@
+:host {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    position: relative;
+
+    .circle {
+        display: block;
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        margin-left: 8px;
+    }
+
+    .new .circle {
+        background-color:#4877ee;
+    }
+    .active .circle {
+        background-color: #f3805a;
+    }
+    .done .circle {
+        background-color: #5cd918;
+    }
+
+    .current {
+        border-radius: 6px;
+        border: solid 1px #dadada;
+        font-size: 16px;
+        font-weight: 300;
+        color: #000000;
+        width: auto;
+        padding: 1px 10px;
+        > span {
+            display: flex;
+            flex-flow: row;
+            align-items: center;
+
+            i {
+                margin-right: 10px;
+                color: #686868;
+                cursor: pointer;                
+            }
+        }
+    }
+
+    .dropdown {
+        position: absolute;
+        top: 28px;
+        border-radius: 3px;
+        border: solid 1px #dadada;
+        background-color: #ffffff;
+        display: flex;
+        flex-flow: column;
+        display: none;
+        z-index: 1;
+
+        &.show {
+            display: initial;
+        }
+
+        > span {
+            display: flex;
+            flex-flow: row;
+            align-items: center;    
+            padding: 8px 10px;
+            border: solid 1px #e7e7e7;
+            cursor: pointer;
+        }
+    }
+
+}
+
