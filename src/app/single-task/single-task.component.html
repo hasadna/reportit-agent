@@ -1,0 +1,25 @@
+<div class='task' [class.complete]='task.complete'>
+  <div class='emblem'>
+      <i class="checkbox far fa-check-square"></i>
+  </div>
+  <div class='content'>
+    <div class='title' (click)='setCards()'>
+      <h1>{{task.title}}</h1>
+    </div>
+    <p class='body' [innerHTML]='content' *ngIf='content'></p>
+    <div class='footer'>
+      <div class='date'>
+        <label>נוצרה:</label>
+        <span>{{ humanize(task.created_at) }}</span>
+      </div>
+      <div class='date'>
+        <label>עודכנה:</label>
+        <span>{{ humanize(task.updated_at) }}</span>
+      </div>
+      <div class='complete'>
+        <label>הושלמה:</label>
+        <input type='checkbox' [(ngModel)]='task.complete' (change)='changed()'/>
+      </div>
+    </div>
+  </div>
+</div>

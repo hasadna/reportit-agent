@@ -1,15 +1,139 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { ScriptRunnerService, ContentService, FileUploader } from 'hatool';
+import { switchMap } from 'rxjs/operators';
+import { StrapiService } from '../strapi.service';
+import { InfoCardsService } from '../info-cards.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-chatbox',
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.less']
 })
-export class ChatboxComponent implements OnInit {
+export class ChatboxComponent implements OnInit, OnDestroy {
 
-  constructor() { }
+  @Input() report: any;
+  subscription: Subscription = null;
+
+  constructor(private runner: ScriptRunnerService,
+              private content: ContentService,
+              private strapi: StrapiService,
+              private infocards: InfoCardsService
+  ) {}
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   ngOnInit() {
+    this.content.sendButtonText = '';
+    this.content.uploadFileText = 'לחצ/י לבחירת קובץ';
+    this.content.uploadedFileText = 'קובץ הועלה בהצלחה';
+    this.content.notUploadedFileText = 'תקלה בהעלאת קובץ';
+    this.content.inputPlaceholder = 'הקלידו הודעה...';
+
+    const recordKeysToSave = (record) => {
+      // filter records fields, to save those that do not start with '_'
+      const result = {};
+      for (const key in record) {
+        if (key.match(/^[^_]/)) {
+          result[key] = record[key];
+          }
+        }
+        return result;
+    };
+
+
+    this.subscription = this.runner.run(
+      'assets/script.json',
+      1,
+      {
+        /// Specific Utils
+        getOffender: async (record) => {
+          console.log('OFFENDER', record.offender);
+          return record.offender;
+        },
+        combinedPoliceEventDescription: async (record) => {
+          return `${record.event_description} \n \n \
+                        פרטים נוספים, בשיחה עם המוקדנ/ית: ${record._police_more_details}, \n
+                        ${record._police_arrest}, \n
+                        ${record._police_court}, \n
+                        ${record._police_has_lawyer}, \n
+                        עדי ראייה: ${record._police_witness_details},
+                        `;
+        },
+        countFiles: async (record) => {
+          let counter = 0;
+          for (let index = 1; index <= 5; index++) {
+            const fileName = 'file' + (index.toString());
+
+            if (fileName in record) {
+              counter += 1;
+            }
+          }
+          console.log('File Counter: ' + counter.toString());
+          return counter.toString();
+        },
+        selectNGO: async (record) => {
+          for (const org of this.infocards.allOrgs) {
+            console.log('selectNGO org:', org);
+            if (org['Organization Type'] === 'ארגון חברה אזרחית') {
+              this.content.addTo(`האם תרצו לשתף את המקרה עם ${org['Organization Name']}?`,
+                                 () => { this.infocards.appendCard('org:' + org.slug); });
+              this.content.addOptions(null, [
+                { display: 'כן', value: () => { console.log('yes'); } },
+                { display: 'לא', value: () => { console.log('no'); } },
+                { display: 'אנונימית',
+                  value: () => {
+                    this.infocards.addTask(record, 'org_send_anonymously', org, 'org:' + org.slug);
+                  }
+                },
+              ]);
+              (await this.content.waitForInput())();
+            }
+          }
+        },
+
+        /// Generic Utils
+        saveUser: async (record) => {
+          const recordToSave = recordKeysToSave(record);
+          await this.strapi.updateReport(recordToSave);
+        },
+        uploader: async (record, key, uploader: FileUploader) => {
+          uploader.active = true;
+          const uploaded = await this.strapi.uploadFile(
+            record.id,
+            uploader.selectedFile, record.id + '/' + key,
+              (progress) => { uploader.progress = progress; },
+              (success) => { uploader.success = success; }
+          );
+          return uploaded;
+        },
+      },
+      (key, value) => {},
+      this.report,
+      (meta) => {
+        for (const item of meta) {
+          if (item.key === 'infocard') {
+            this.infocards.appendCard('info:' + item.value);
+          }
+        }
+      },
+      (event) => {
+        this.infocards.addTask(this.report, event, {}, '');
+      }
+    ).pipe(
+      switchMap(() => {
+        const report = Object.assign({}, this.report, {finished_intake: true});
+        return this.strapi.updateReport(report);
+      })
+    ).subscribe((report) => {
+        this.report = Object.assign(this.report, report);
+        console.log('done!');
+    });
   }
 
 }
+

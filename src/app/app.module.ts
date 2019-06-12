@@ -20,6 +20,12 @@ import { SidePaneComponent } from './side-pane/side-pane.component';
 import { StatusWidgetComponent } from './status-widget/status-widget.component';
 import { EditableFieldWidgetComponent } from './editable-field-widget/editable-field-widget.component';
 import { Nl2brPipe } from './nl2br.pipe';
+import { HatoolLibModule } from 'hatool';
+import { InfoCardComponent } from './info-card/info-card.component';
+import { OrgCardComponent } from './org-card/org-card.component';
+import { TaskCardComponent } from './task-card/task-card.component';
+import { TasksComponent } from './tasks/tasks.component';
+import { SingleTaskComponent } from './single-task/single-task.component';
 
 @NgModule({
   declarations: [
@@ -38,13 +44,19 @@ import { Nl2brPipe } from './nl2br.pipe';
     SidePaneComponent,
     StatusWidgetComponent,
     EditableFieldWidgetComponent,
-    Nl2brPipe
+    Nl2brPipe,
+    InfoCardComponent,
+    OrgCardComponent,
+    TaskCardComponent,
+    TasksComponent,
+    SingleTaskComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    HatoolLibModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

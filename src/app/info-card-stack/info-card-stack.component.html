@@ -1,3 +1,8 @@
-<p>
-  info-card-stack works!
-</p>
+<div class='container' #container>
+  <div class='filler' *ngIf='filler'></div>
+  <ng-container *ngFor='let card of cards'>
+  <app-info-card [card]='card' *ngIf='card._kind === "infocard"'></app-info-card>
+  <app-org-card [card]='card' *ngIf='card._kind === "org"'></app-org-card>
+  <app-task-card [card]='card' *ngIf='card._kind === "task"'></app-task-card>
+  </ng-container>
+</div>

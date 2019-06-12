@@ -21,7 +21,7 @@ export class ReportListComponent implements OnInit {
   }
 
   humanize(x) {
-    return moment(x).max().fromNow();
+    return moment.min(moment(), moment(x)).fromNow();
   }
 
   select(report) {
