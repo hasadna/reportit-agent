@@ -1,0 +1,22 @@
+:host {
+    width: 100%;
+    max-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+
+    .container {
+        width: 100%;
+        min-height: 100%;
+        display: flex;
+        flex-flow: column;
+        justify-content: flex-end;
+        border: solid 1px #dbdbdb;
+        background-color: #f6f6f6;
+
+        .filler {
+            height: 100vh;
+        }
+    }
+}

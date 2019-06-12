@@ -1,0 +1,23 @@
+:host {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+
+    .checkbox {
+        color: #61ce9c;
+        font-size: 28px;
+        margin: 0 20px 0 0;
+    }
+
+    app-info-card {
+        flex: 1 1 100%;
+
+        ::ng-deep .card {
+            background-image: radial-gradient(circle at 14% 0, #61ce9c, #6ddea1);
+            h1 {
+                color: #ffffff !important;
+                margin-bottom: 0 !important;
+            }    
+        }
+    }
+}

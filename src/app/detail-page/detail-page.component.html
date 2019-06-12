@@ -1,3 +1,11 @@
 <app-report-edit [report]='report'></app-report-edit>
-<app-chatbox></app-chatbox>
-<app-info-card-stack></app-info-card-stack>
+<ng-container *ngIf='report'>
+    <div class='detail' *ngIf='!report.finished_intake'>
+        <app-chatbox [report]='report'></app-chatbox>
+        <app-info-card-stack></app-info-card-stack>
+    </div>
+    <div class='detail' *ngIf='report.finished_intake'>
+        <app-tasks [report]='report'></app-tasks>
+        <app-info-card-stack></app-info-card-stack>
+    </div>
+</ng-container>
