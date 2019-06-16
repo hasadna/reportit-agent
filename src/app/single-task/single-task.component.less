@@ -4,6 +4,7 @@
         margin: 15px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08);
         padding: 10px 15px;
+        padding-bottom: 0;
         color: #000000;
         &.complete {
             color: #888;
@@ -26,26 +27,21 @@
                 display: flex;
                 flex-flow: row;
                 align-items: center;
-                margin-bottom: 10px;
                 cursor: pointer;
                 
                 h1 {
                     font-size: 18px;
                     font-weight: 500;
+                    width: 100%;
                 }    
             }
             
-            .body {
-                font-size: 18px;
-                font-weight: 300;
-                margin-bottom: 20px;
-            }
-
-            .footer {
+            .status {
                 display: flex;
                 flex-flow: row;
                 align-items: center;
                 justify-content: flex-end;
+                margin: 10px 0;
 
                 > * {
                     width: 30%;
@@ -57,6 +53,37 @@
                         font-weight: bold;
                     }
                 }
+            }
+
+            .body {
+                font-size: 18px;
+                font-weight: 300;
+                margin-bottom: 20px;
+
+                .updates {
+                    display: flex;
+                    flex-flow: column;                    
+                    input {
+                        width: 75%;
+                        border-radius: 3px;
+                        margin: 13px;
+                        padding: 5px;
+                        align-self: flex-end;
+                        border: 1px solid #ccc;
+                    }
+                }
+            }
+
+            .footer {
+                display: flex;
+                flex-flow: row;
+                align-items: center;
+                justify-content: center;
+                border-top: 1px solid #ccc;
+                margin: 10px -15px;
+                margin-bottom: 0;
+                padding: 3px;
+                cursor: pointer;
             }
 
         }

@@ -58,12 +58,10 @@ export class InfoCardsService {
   }
 
   _fillIn(message: string, ...contexts) {
-    console.log('FILL IN', message, contexts);
     return message.replace(
       RegExp('({{([a-z_0-9A-Z ]+)}})', 'g'),
       (match, p1, p2) => {
         for (const context of contexts) {
-          console.log('FILL IN match', message, p2, context[p2]);
           if (context[p2]) {
             return context[p2];
           }
@@ -76,7 +74,6 @@ export class InfoCardsService {
   addTask(report, task_slug, context, related_slugs) {
     const task_template = this.taskTemplates[task_slug];
     if (task_template) {
-      console.log('template', task_template);
       const newTask = {
         report: '' + report.id,
         title: this._fillIn(task_template.Title, report, context),
