@@ -1,7 +1,7 @@
 #!/bin/sh
 git checkout feature/ui && \
 rm .gitignore && \
-ng build --prod && \
+ng build --prod  --baseHref=/reportit-agent/ && \
 git add dist/reportit-agent && \
 git commit -m dist && \
 (git branch -D gh-pages || true) && \
