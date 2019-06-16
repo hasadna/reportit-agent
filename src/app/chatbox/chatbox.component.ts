@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { ScriptRunnerService, ContentService, FileUploader } from 'hatool';
+import { ScriptRunner, ContentManager, FileUploader } from 'hatool';
 import { switchMap } from 'rxjs/operators';
 import { StrapiService } from '../strapi.service';
 import { InfoCardsService } from '../info-cards.service';
 import { Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-chatbox',
@@ -14,12 +15,17 @@ export class ChatboxComponent implements OnInit, OnDestroy {
 
   @Input() report: any;
   subscription: Subscription = null;
+  content: ContentManager;
+  runner: ScriptRunner;
 
-  constructor(private runner: ScriptRunnerService,
-              private content: ContentService,
-              private strapi: StrapiService,
-              private infocards: InfoCardsService
-  ) {}
+  constructor(private strapi: StrapiService,
+              private infocards: InfoCardsService,
+              private http: HttpClient,
+  ) {
+    this.content = new ContentManager();
+    this.runner = new ScriptRunner(this.http, this.content);
+    console.log('CHAT INIT!!');
+  }
 
   ngOnDestroy() {
     if (this.subscription) {
