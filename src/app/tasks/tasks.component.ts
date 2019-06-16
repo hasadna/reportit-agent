@@ -10,6 +10,7 @@ import { StrapiService } from '../strapi.service';
 export class TasksComponent implements OnInit {
 
   @Input() report: any;
+  open = null;
 
   constructor(private infoCards: InfoCardsService, private api: StrapiService) { }
 
@@ -20,8 +21,19 @@ export class TasksComponent implements OnInit {
   restart() {
     this.api.updateReport(Object.assign({}, this.report, {finished_intake: false}))
       .subscribe((report) => {
-        console.log('restarted');
         this.report = Object.assign(this.report, report);
       });
+  }
+
+  toggle(task) {
+    this.infoCards.clear();
+    if (this.open === task) {
+      this.open = null;
+    } else {
+      this.open = task;
+      for (const card of task.card_slugs.split(',')) {
+        this.infoCards.appendCard(card);
+      }
+    }
   }
 }

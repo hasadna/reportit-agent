@@ -26,6 +26,7 @@ import { OrgCardComponent } from './org-card/org-card.component';
 import { TaskCardComponent } from './task-card/task-card.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { SingleTaskComponent } from './single-task/single-task.component';
+import { SingleTaskUpdateComponent } from './single-task-update/single-task-update.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { SingleTaskComponent } from './single-task/single-task.component';
     OrgCardComponent,
     TaskCardComponent,
     TasksComponent,
-    SingleTaskComponent
+    SingleTaskComponent,
+    SingleTaskUpdateComponent
   ],
   imports: [
     BrowserModule,

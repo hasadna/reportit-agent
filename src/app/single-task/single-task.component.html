@@ -3,11 +3,10 @@
       <i class="checkbox far fa-check-square"></i>
   </div>
   <div class='content'>
-    <div class='title' (click)='setCards()'>
+    <div class='title' (click)='requestToggle()'>
       <h1>{{task.title}}</h1>
     </div>
-    <p class='body' [innerHTML]='content' *ngIf='content'></p>
-    <div class='footer'>
+    <div class='status'>
       <div class='date'>
         <label>נוצרה:</label>
         <span>{{ humanize(task.created_at) }}</span>
@@ -20,6 +19,17 @@
         <label>הושלמה:</label>
         <input type='checkbox' [(ngModel)]='task.complete' (change)='changed()'/>
       </div>
+    </div>
+    <div class='body' *ngIf='open'>
+      <p [innerHTML]='content' *ngIf='content'></p>
+      <div class='updates'>
+        <app-single-task-update [update]='update' *ngFor='let update of task.updates'></app-single-task-update>
+        <input type='text' placeholder='השארת עדכון' (change)='addUpdate($event)'/>
+      </div>
+    </div>
+    <div class='footer' [class.open]='open' (click)='requestToggle()'>
+      <i class="fas fa-chevron-up" *ngIf='open'></i>
+      <i class="fas fa-chevron-down" *ngIf='!open'></i>
     </div>
   </div>
 </div>

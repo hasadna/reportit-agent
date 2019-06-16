@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, from } from 'rxjs';
 import { HttpClient, HttpEventType, HttpResponse, HttpRequest } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
+
+import * as gravatar from 'gravatar';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +19,15 @@ export class StrapiService {
   URL_GET_ORGS = this.BASE_URL + '/organizations';
   URL_GET_TASK_TEMPLATES = this.BASE_URL + '/tasktemplates';
   URL_GET_TASKS = this.BASE_URL + '/tasks';
+  URL_GET_TASK_UPDATES = this.BASE_URL + '/taskupdates';
+  URL_GET_USERS = this.BASE_URL + '/users';
 
   URL_GET_REPORT = this.URL_GET_REPORTS + '/';
   URL_GET_TASK = this.URL_GET_TASKS + '/';
+  URL_GET_USER = this.URL_GET_USERS + '/';
 
   URL_NEW_TASK = this.URL_GET_TASKS;
+  URL_NEW_TASK_UPDATE = this.URL_GET_TASK_UPDATES;
 
   URL_UPDATE_REPORT = this.URL_GET_REPORT;
   URL_UPDATE_TASK = this.URL_GET_TASK;
@@ -31,6 +37,8 @@ export class StrapiService {
   loggedIn = new BehaviorSubject<boolean>(null);
   token = new BehaviorSubject<string>(null);
   profile = new BehaviorSubject<any>(null);
+
+  private profile_cache = {};
 
   constructor(private http: HttpClient) {
     this.token.next(window.localStorage.jwt);
@@ -99,7 +107,6 @@ export class StrapiService {
   }
 
   getProfile(token) {
-    console.log('GET PROFILE', token);
     this.http.get(this.URL_GET_PROFILE, {
       headers: {
         Authorization: `Bearer ${token}`
@@ -118,14 +125,26 @@ export class StrapiService {
     });
   }
 
-  getReport(id): Observable<any> {
-    return this.http.get(this.URL_GET_REPORT + id, {
+  getOneByType(url, id): Observable<any> {
+    return this.http.get(url + id, {
       headers: {
         Authorization: `Bearer ${this.token.getValue()}`
       }
     }).pipe(
       map((response: any) => response.statusCode ? null : response)
     );
+  }
+
+  getReport(id): Observable<any> {
+    return this.getOneByType(this.URL_GET_REPORT, id);
+  }
+
+  getTask(id): Observable<any> {
+    return this.getOneByType(this.URL_GET_TASK, id);
+  }
+
+  getUser(id): Observable<any> {
+    return this.getOneByType(this.URL_GET_USER, id);
   }
 
   updateByType(url, item): Observable<any> {
@@ -172,8 +191,8 @@ export class StrapiService {
     return this.getByType(this.URL_GET_TASK_TEMPLATES);
   }
 
-  addTask(newTask: any): Observable<any> {
-    return this.http.post(this.URL_NEW_TASK, newTask, {
+  addByType(url: string, newItem: any): Observable<any> {
+    return this.http.post(url, newItem, {
       headers: {
         Authorization: `Bearer ${this.token.getValue()}`
       }
@@ -182,4 +201,25 @@ export class StrapiService {
     );
   }
 
+  addTask(newTask: any): Observable<any> {
+    return this.addByType(this.URL_NEW_TASK, newTask);
+  }
+
+  addTaskUpdate(newTaskUpdate: any): Observable<any> {
+    return this.addByType(this.URL_NEW_TASK_UPDATE, newTaskUpdate);
+  }
+
+  getUserProfile(user_id) {
+    if (!this.profile_cache[user_id]) {
+      return this.getUser(user_id)
+        .pipe(
+          map((user: any) => {
+            user.gravatar = gravatar.url(user.email, {s: 16});
+            this.profile_cache[user_id] = user;
+            return user;
+          })
+        );
+    }
+    return from([this.profile_cache[user_id]]);
+  }
 }
