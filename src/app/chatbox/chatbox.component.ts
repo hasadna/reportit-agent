@@ -105,7 +105,8 @@ export class ChatboxComponent implements OnInit, OnDestroy {
         /// Generic Utils
         saveUser: async (record) => {
           const recordToSave = recordKeysToSave(record);
-          await this.strapi.updateReport(recordToSave);
+          this.strapi.updateReport(recordToSave)
+              .subscribe(() => { console.log('SAVED!'); });
         },
         uploader: async (record, key, uploader: FileUploader) => {
           uploader.active = true;
