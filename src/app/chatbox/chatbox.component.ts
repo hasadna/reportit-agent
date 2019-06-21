@@ -54,7 +54,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
 
     this.subscription = this.runner.run(
       'assets/script.json',
-      1,
+      0,
       {
         /// Specific Utils
         getOffender: async (record) => {
@@ -142,4 +142,3 @@ export class ChatboxComponent implements OnInit, OnDestroy {
   }
 
 }
-
