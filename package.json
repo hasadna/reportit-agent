@@ -21,7 +21,7 @@
     "@angular/router": "~7.1.0",
     "core-js": "^2.5.4",
     "gravatar": "^1.8.0",
-    "hatool": "0.0.19",
+    "hatool": "0.0.22",
     "moment": "^2.24.0",
     "rxjs": "~6.3.3",
     "showdown": "^1.9.0",
