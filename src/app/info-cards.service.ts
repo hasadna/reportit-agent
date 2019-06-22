@@ -87,4 +87,8 @@ export class InfoCardsService {
         });
     }
   }
+
+  getOrg(org_slug) {
+    return this.infoCardMap['org:' + org_slug];
+  }
 }
