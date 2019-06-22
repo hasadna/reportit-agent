@@ -85,14 +85,12 @@ export class ChatboxComponent implements OnInit, OnDestroy {
         checkShareWithJusticeMinistry: async (record) => {
           for (const org of this.infocards.allOrgs) {
             if (org.slug === 'justice_ministry_anti_racism_unit') {
-              break;
-            }}
-            console.log('Checking whether to share with the justice ministry anti-racism unit');
-            this.content.addTo(`האם תרצו לשתף את המקרה עם ${org['Organization Name']}?`,
-                               () => {this.infocards.appendCard('org' + org.slug); });
-            this.content.addOptions(null, [
-              { display: 'כן, מאשר/ת להעביר להם את פרטי המקרה, כולל שמי ופרטי הקשר',
-                value: () => {
+              console.log('Checking whether to share with the justice ministry anti-racism unit');
+              this.content.addTo(`האם תרצו לשתף את המקרה עם ${org['Organization Name']}?`,
+                                () => {this.infocards.appendCard('org:' + org.slug); });
+              this.content.addOptions(null, [
+                { display: 'כן, מאשר/ת להעביר להם את פרטי המקרה, כולל שמי ופרטי הקשר',
+                  value: () => {
                    console.log('yes');
                    this.infocards.addTask(record,
                                           'send_report_to_governmental_unit',
@@ -116,10 +114,10 @@ export class ChatboxComponent implements OnInit, OnDestroy {
               },
             ]);
             (await this.content.waitForInput())();
-        },
+        }}},
         selectGovOrgs: async (record) => {
           for (const org of this.infocards.allOrgs) {
-            console.log('selectNGO org:', org);
+            console.log('select Gov org:', org);
             if (org['Organization Type'] === 'יחידה ממשלתית') {
               this.content.addTo(`האם תרצו לשתף את המקרה עם ${org['Organization Name']}?`,
                                  () => { this.infocards.appendCard('org:' + org.slug); });
@@ -147,6 +145,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
                 },
                { display: 'מאשר/ת להעביר את תיאור המקרה, ללא פרטים מזהים',
                  value: () => {
+                              console.log('Anonymously');
                               this.infocards.addTask(record, 'org_send_anonymously', org, 'org:' + org.slug);
                               }
                 },
