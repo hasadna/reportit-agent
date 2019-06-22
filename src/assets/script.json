@@ -108,7 +108,39 @@
                 "script": [
                     {
                         "text": [
-                            "cmd.checkShareWithJusticeMinistry(record)"
+                            "האם הפונה מעוניינ/ת לשתף את פרטי המקרה עם היחידה למאבק בגזענות במשרד המשפטים?"
+                        ],
+                        "collect": null,
+                        "quick_replies": [
+                            {
+                                "title": "כן, מאשר/ת להעביר להם את פרטי המקרה, כולל שמי ופרטי הקשר",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "מאשר/ת להעביר את תיאור המקרה, ללא פרטים מזהים",
+                                "payload": "anonymously",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "meta": [
+                            {
+                                "key": "on:yes",
+                                "value": "shareWithJusticeMinistry"
+                            },
+                            {
+                                "key": "on:anonymously",
+                                "value": "shareAnonyomuslyWithJusticeMinistry"
+                            },
+                            {
+                                "key": "infocard",
+                                "value": "justice_ministry_anti_racism_unit"
+                            }
                         ]
                     },
                     {
