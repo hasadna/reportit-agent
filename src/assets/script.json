@@ -2775,6 +2775,26 @@
           },
           {
             "text": [
+              "עדכון שדה הטלפון (ואז שמירה)"
+            ],
+            "collect": {
+              "key": "phone",
+              "options": [
+                {
+                  "default": true,
+                  "pattern": "default",
+                  "action": "next"
+                }
+              ]
+            }
+          },
+          {
+            "text": [
+              "cmd.saveUser(record)"
+            ]
+          },
+          {
+            "text": [
               "שוב הכרטיס הראשון"
             ],
             "meta": [
