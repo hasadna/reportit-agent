@@ -82,6 +82,23 @@ export class ChatboxComponent implements OnInit, OnDestroy {
           console.log('File Counter: ' + counter.toString());
           return counter.toString();
         },
+        selectGovOrgs: async (record) => {
+          for (const org of this.infocards.allOrgs) {
+            console.log('selectNGO org:', org);
+            if (org['Organization Type'] === 'יחידה ממשלתית') {
+              this.content.addTo(`האם תרצו לשתף את המקרה עם ${org['Organization Name']}?`,
+                                 () => { this.infocards.appendCard('org:' + org.slug); });
+              this.content.addOptions(null, [
+                { display: 'כן', value: () => { console.log('yes');
+                                                this.infocards.addTask(record, 'send_report_to_governmental_units', org, 'org:' + org.slug);
+                                              }
+                                            },
+                { display: 'לא', value: () => { console.log('no'); } },
+              ]);
+              (await this.content.waitForInput())();
+            }
+          }
+        },
         selectNGO: async (record) => {
           for (const org of this.infocards.allOrgs) {
             console.log('selectNGO org:', org);
