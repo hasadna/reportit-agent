@@ -82,39 +82,27 @@ export class ChatboxComponent implements OnInit, OnDestroy {
           console.log('File Counter: ' + counter.toString());
           return counter.toString();
         },
-        checkShareWithJusticeMinistry: async (record) => {
-          for (const org of this.infocards.allOrgs) {
-            if (org.slug === 'justice_ministry_anti_racism_unit') {
-              console.log('Checking whether to share with the justice ministry anti-racism unit');
-              this.content.addTo(`האם תרצו לשתף את המקרה עם ${org['Organization Name']}?`,
-                                () => {this.infocards.appendCard('org:' + org.slug); });
-              this.content.addOptions(null, [
-                { display: 'כן, מאשר/ת להעביר להם את פרטי המקרה, כולל שמי ופרטי הקשר',
-                  value: () => {
-                   console.log('yes');
+        shareWithJusticeMinistry: async (record) => {
+            for (const org of this.infocards.allOrgs) {
+            if (org['slug'] === 'justice_ministry_anti_racism_unit') {
+                console.log('Orgs: ' , org);
+                console.log('Share with Justice Ministry');
                    this.infocards.addTask(record,
                                           'send_report_to_governmental_unit',
                                           org,
-                                          'org:' + org.slug);
-                              }
-                },
-                { display: 'מאשר/ת להעביר את תיאור המקרה, ללא פרטים מזהים',
-                  value: () => {
-                    console.log('Anonymously');
+                                          'org:justice_ministry_anti_racism_unit');
+            }
+        }},
+        shareAnonyomuslyWithJusticeMinistry: async (record) => {
+          for (const org of this.infocards.allOrgs) {
+          if (org['slug'] === 'justice_ministry_anti_racism_unit') {
+                    console.log('Anonymously share with Justice Ministry');
                     this.infocards.addTask(record,
                                           'org_send_anonymously',
                                           org,
-                                          'org:' + org.slug);
-                              }
-                },
-                { display: 'לא',
-                  value: () => {
-                    console.log('no');
-                    }
-              },
-            ]);
-            (await this.content.waitForInput())();
-        }}},
+                                          'org:justice_ministry_anti_racism_unit');
+              }
+            }},
         selectGovOrgs: async (record) => {
           for (const org of this.infocards.allOrgs) {
             console.log('select Gov org:', org);
