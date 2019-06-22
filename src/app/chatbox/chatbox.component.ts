@@ -99,16 +99,17 @@ export class ChatboxComponent implements OnInit, OnDestroy {
                                           'org:justice_ministry_anti_racism_unit');
             }
         }},
-        shareAnonyomuslyWithJusticeMinistry: async (record) => {
+        shareAnonymouslyWithJusticeMinistry: async (record) => {
           for (const org of this.infocards.allOrgs) {
-          if (org['slug'] === 'justice_ministry_anti_racism_unit') {
-                    console.log('Anonymously share with Justice Ministry');
-                    this.infocards.addTask(record,
-                                          'org_send_anonymously',
-                                          org,
-                                          'org:justice_ministry_anti_racism_unit');
+            if (org['slug'] === 'justice_ministry_anti_racism_unit') {
+                      console.log('Anonymously share with Justice Ministry');
+                      this.infocards.addTask(record,
+                                             'org_send_anonymously',
+                                             org,
+                                             'org:justice_ministry_anti_racism_unit');
+                }
               }
-            }},
+            },
         selectGovOrgs: async (record) => {
           for (const org of this.infocards.allOrgs) {
             console.log('select Gov org:', org);
