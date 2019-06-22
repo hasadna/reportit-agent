@@ -62,13 +62,19 @@ export class ChatboxComponent implements OnInit, OnDestroy {
           return record.offender;
         },
         combinedPoliceEventDescription: async (record) => {
-          return `${record.event_description} \n \n \
-                        פרטים נוספים, בשיחה עם המוקדנ/ית: ${record._police_more_details}, \n
-                        ${record._police_arrest}, \n
-                        ${record._police_court}, \n
-                        ${record._police_has_lawyer}, \n
-                        עדי ראייה: ${record._police_witness_details},
-                        `;
+          let new_description = record.event_description + `\n \n פרטים נוספים, משיחה עם המוקדנ/ית: \n`;
+          if (record._police_more_details !== 'false') {
+            new_description += `${record._police_more_details}\n`;
+          }
+          new_description += `${record._police_arrest} \n`;
+          new_description += `${record._police_court} \n`;
+          new_description += `${record._police_has_lawyer} \n`;
+          if (typeof record._police_witness_details !== 'undefined') {
+            new_description += `${record._police_witness_details}`;
+          } else {
+            new_description += `אין פרטים של עדי ראייה`;
+          }
+          return new_description;
         },
         countFiles: async (record) => {
           let counter = 0;
