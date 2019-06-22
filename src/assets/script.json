@@ -108,45 +108,7 @@
                 "script": [
                     {
                         "text": [
-                            "האם את/ה מעוניינ/ת להעביר את פרטי המקרה ליחידה לתיאום המאבק בגזענות במשרד המשפטים?"
-                        ],
-                        "meta": [
-                            {
-                                "key": "card1",
-                                "value": "היחידה הממשלתית לתיאום המאבק בגזענות"
-                            }
-                        ],
-                        "collect": {
-                            "key": "justice_ministry_send",
-                            "options": [
-                                {
-                                    "default": true,
-                                    "pattern": "default",
-                                    "action": "next"
-                                }
-                            ]
-                        },
-                        "quick_replies": [
-                            {
-                                "title": "כן, מאשר/ת להעביר להם את פרטי המקרה, כולל שמי ופרטי הקשר",
-                                "payload": "הפונה אישר/ה להעביר את פרטי המקרה במלואם",
-                                "content_type": "text"
-                            },
-                            {
-                                "title": "מאשר/ת להעביר את תיאור המקרה, ללא פרטים מזהים",
-                                "payload": "הפונה אישר/ה להעביר את תיאור המקרה ללא פרטים מזוהים",
-                                "content_type": "text"
-                            },
-                            {
-                                "title": "לא",
-                                "payload": "לא ניתן אישור הפונה להעברת פרטי המקרה",
-                                "content_type": "text"
-                            }
-                        ]
-                    },
-                    {
-                        "text": [
-                            "cmd.saveUser(record)"
+                            "cmd.checkShareWithJusticeMinistry(record)"
                         ]
                     },
                     {
@@ -1031,21 +993,7 @@
                         "text": [
                             "cmd.selectNGO(record)"
                         ],
-                        "collect": {
-                            "key": "_relevantorgs",
-                            "options": [
-                                {
-                                    "default": true,
-                                    "pattern": "default",
-                                    "action": "next"
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "text": [
-                            "cmd.saveUser(record)"
-                        ]
+                        "collect": null
                     },
                     {
                         "action": "סיום שיחה"
@@ -1064,21 +1012,7 @@
                         "text": [
                             "cmd.selectGovOrgs(record)"
                         ],
-                        "collect": {
-                            "key": "_relevantorgs",
-                            "options": [
-                                {
-                                    "default": true,
-                                    "pattern": "default",
-                                    "action": "next"
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "text": [
-                            "cmd.saveUser(record)"
-                        ]
+                        "collect": null
                     },
                     {
                         "action": "תלונה: בירור אפשרות להעביר פרטים למשרד המשפטים"

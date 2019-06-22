@@ -82,6 +82,41 @@ export class ChatboxComponent implements OnInit, OnDestroy {
           console.log('File Counter: ' + counter.toString());
           return counter.toString();
         },
+        checkShareWithJusticeMinistry: async (record) => {
+          for (const org of this.infocards.allOrgs) {
+            if (org.slug === 'justice_ministry_anti_racism_unit') {
+              break;
+            }}
+            console.log('Checking whether to share with the justice ministry anti-racism unit');
+            this.content.addTo(`האם תרצו לשתף את המקרה עם ${org['Organization Name']}?`,
+                               () => {this.infocards.appendCard('org' + org.slug); });
+            this.content.addOptions(null, [
+              { display: 'כן, מאשר/ת להעביר להם את פרטי המקרה, כולל שמי ופרטי הקשר',
+                value: () => {
+                   console.log('yes');
+                   this.infocards.addTask(record,
+                                          'send_report_to_governmental_unit',
+                                          org,
+                                          'org:' + org.slug);
+                              }
+                },
+                { display: 'מאשר/ת להעביר את תיאור המקרה, ללא פרטים מזהים',
+                  value: () => {
+                    console.log('Anonymously');
+                    this.infocards.addTask(record,
+                                          'org_send_anonymously',
+                                          org,
+                                          'org:' + org.slug);
+                              }
+                },
+                { display: 'לא',
+                  value: () => {
+                    console.log('no');
+                    }
+              },
+            ]);
+            (await this.content.waitForInput())();
+        },
         selectGovOrgs: async (record) => {
           for (const org of this.infocards.allOrgs) {
             console.log('selectNGO org:', org);
@@ -90,7 +125,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
                                  () => { this.infocards.appendCard('org:' + org.slug); });
               this.content.addOptions(null, [
                 { display: 'כן', value: () => { console.log('yes');
-                                                this.infocards.addTask(record, 'send_report_to_governmental_units', org, 'org:' + org.slug);
+                                                this.infocards.addTask(record, 'send_report_to_governmental_unit', org, 'org:' + org.slug);
                                               }
                                             },
                 { display: 'לא', value: () => { console.log('no'); } },
@@ -106,19 +141,25 @@ export class ChatboxComponent implements OnInit, OnDestroy {
               this.content.addTo(`האם תרצו לשתף את המקרה עם ${org['Organization Name']}?`,
                                  () => { this.infocards.appendCard('org:' + org.slug); });
               this.content.addOptions(null, [
-                { display: 'כן', value: () => { console.log('yes'); } },
-                { display: 'לא', value: () => { console.log('no'); } },
-                { display: 'אנונימית',
-                  value: () => {
-                    this.infocards.addTask(record, 'org_send_anonymously', org, 'org:' + org.slug);
-                  }
+                { display: 'כן', value: () => { console.log('yes');
+                                                this.infocards.addTask(record, 'send_to_ngo', org, 'org:' + org.slug);
+                                              }
                 },
+               { display: 'מאשר/ת להעביר את תיאור המקרה, ללא פרטים מזהים',
+                 value: () => {
+                              this.infocards.addTask(record, 'org_send_anonymously', org, 'org:' + org.slug);
+                              }
+                },
+                { display: 'לא',
+                  value: () => {
+                      console.log('no');
+                    }
+                }
               ]);
               (await this.content.waitForInput())();
             }
           }
         },
-
         /// Generic Utils
         saveUser: async (record) => {
           const recordToSave = recordKeysToSave(record);
