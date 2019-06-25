@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { StrapiService } from './strapi.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -8,12 +9,5 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  constructor(api: StrapiService, router: Router) {
-    api.loggedIn.subscribe((loggedIn) => {
-      console.log('LOGGED IN', loggedIn);
-      if (loggedIn === false) {
-        router.navigate(['login']);
-      }
-    });
-  }
+  constructor() {}
 }

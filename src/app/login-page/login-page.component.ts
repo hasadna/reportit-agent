@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StrapiService } from '../strapi.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -10,10 +11,22 @@ export class LoginPageComponent implements OnInit {
 
   username: string;
   password: string;
+  returnUrl: string;
 
-  constructor(public api: StrapiService) { }
+  constructor(public api: StrapiService,
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
+    this.returnUrl = this.route.snapshot.queryParams['next'] || '/';
+    this.api.loggedIn.subscribe((loggedIn) => {
+      if (loggedIn) {
+        this.router.navigate([this.returnUrl]);
+      }
+    });
   }
 
+  login() {
+    this.api.login(this.username, this.password);
+  }
 }
