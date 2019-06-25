@@ -157,7 +157,19 @@ export class StrapiService {
     );
   }
 
+  prepareToSave(record) {
+    // filter records fields, to save those that do not start with '_'
+    const result = {};
+    for (const [key, value] of Object.entries(record)) {
+      if (key[0] !== '_') {
+        result[key] = value;
+      }
+    }
+    return result;
+  }
+
   updateReport(report): Observable<any> {
+    report = this.prepareToSave(report);
     return this.updateByType(this.URL_UPDATE_REPORT, report);
   }
 

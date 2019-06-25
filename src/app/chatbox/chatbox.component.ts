@@ -40,18 +40,6 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     this.content.notUploadedFileText = 'תקלה בהעלאת קובץ';
     this.content.inputPlaceholder = 'הקלידו הודעה...';
 
-    const recordKeysToSave = (record) => {
-      // filter records fields, to save those that do not start with '_'
-      const result = {};
-      for (const key in record) {
-        if (key.match(/^[^_]/)) {
-          result[key] = record[key];
-          }
-        }
-        return result;
-    };
-
-
     this.subscription = this.runner.run(
       'assets/script.json',
       0,
@@ -156,8 +144,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
         },
         /// Generic Utils
         saveUser: async (record) => {
-          const recordToSave = recordKeysToSave(record);
-          this.strapi.updateReport(recordToSave)
+          this.strapi.updateReport(record)
               .subscribe(() => { console.log('SAVED!'); });
         },
         uploader: async (record, key, uploader: FileUploader) => {
