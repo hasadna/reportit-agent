@@ -4,7 +4,8 @@
     <span class='edit-button' (click)='edit()'></span>
   </span>
   <span class='static'>
-    <span [innerHTML]='report[field] | nl2br'></span>
+    <span [innerHTML]='report[field] | nl2br' *ngIf='report[field]'></span>
+    <span *ngIf='!report[field]' class='empty'>אין מידע</span>
     <span class='edit-button' (click)='edit()'></span>
   </span>
   <span class='edit'>

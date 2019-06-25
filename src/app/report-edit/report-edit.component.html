@@ -41,8 +41,23 @@
       <label i18n>סוג התלונה</label>
     </app-editable-field-widget>
     <app-editable-field-widget [report]='report' [field]='"offender"'>
-      <label i18n>הגורם הפוגע</label>
+      <label i18n>מושא התלונה</label>
     </app-editable-field-widget>
+
+    <app-editable-field-widget [report]='report' [field]='"offender_details"' [text]='true'>
+      <label i18n>פרטים נוספים על מושא התלונה</label>
+    </app-editable-field-widget>
+    <app-editable-field-widget [report]='report' [field]='"offender_organization"'>
+      <label i18n>שם המוסד או הארגון</label>
+    </app-editable-field-widget>
+    <app-editable-field-widget [report]='report' [field]='"offender_organization_category"'>
+      <label i18n>סוג המוסד או הארגון</label>
+    </app-editable-field-widget>
+    <app-editable-field-widget [report]='report' [field]='"offender_organization_details"'>
+      <label i18n>פרטי קשר עם המוסד או הארגון</label>
+    </app-editable-field-widget>
+
+
     <app-editable-field-widget [report]='report' [field]='"event_description"' [text]='true'>
       <label i18n>תיאור המקרה</label>
     </app-editable-field-widget>
