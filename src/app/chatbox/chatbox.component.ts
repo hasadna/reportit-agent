@@ -33,6 +33,43 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     }
   }
 
+  matchScenarios(record, scenarios) {
+    console.log('MATCH SCENARIOS', record, scenarios);
+    if (!record || !scenarios) {
+      return false;
+    }
+    scenarios = scenarios.scenarios || [];
+    for (const scenario of scenarios) {
+      let matchingScenario = true;
+      console.log('> SCENARIO', scenario);
+      for (const [field, value] of Object.entries(scenario)) {
+        let values = [];
+        if (!Array.isArray(value)) {
+          values = [value];
+        } else {
+          values = value;
+        }
+        const expected = record[field];
+        console.log('> > ', field, expected, values);
+        let foundExpected = false;
+        for (const option of values) {
+          if (option === expected) {
+            foundExpected = true;
+            break;
+          }
+        }
+        if (!foundExpected) {
+          matchingScenario = false;
+          break;
+        }
+      }
+      if (matchingScenario) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   ngOnInit() {
     this.content.sendButtonText = '';
     this.content.uploadFileText = 'לחצ/י לבחירת קובץ';
@@ -77,31 +114,28 @@ export class ChatboxComponent implements OnInit, OnDestroy {
           return counter.toString();
         },
         shareWithJusticeMinistry: async (record) => {
-            for (const org of this.infocards.allOrgs) {
-            if (org['slug'] === 'justice_ministry_anti_racism_unit') {
-                console.log('Orgs: ' , org);
-                console.log('Share with Justice Ministry');
-                   this.infocards.addTask(record,
-                                          'send_report_to_governmental_unit',
-                                          org,
-                                          'org:justice_ministry_anti_racism_unit');
-            }
-        }},
+          const org = this.infocards.getOrg('justice_ministry_anti_racism_unit');
+          console.log('Share with Justice Ministry');
+          this.infocards.addTask(record,
+                                 'send_report_to_governmental_unit',
+                                 org,
+                                 'org:justice_ministry_anti_racism_unit');
+        },
         shareAnonymouslyWithJusticeMinistry: async (record) => {
-          for (const org of this.infocards.allOrgs) {
-            if (org['slug'] === 'justice_ministry_anti_racism_unit') {
-                      console.log('Anonymously share with Justice Ministry');
-                      this.infocards.addTask(record,
-                                             'org_send_anonymously',
-                                             org,
-                                             'org:justice_ministry_anti_racism_unit');
-                }
-              }
-            },
+          const org = this.infocards.getOrg('justice_ministry_anti_racism_unit');
+          console.log('Anonymously share with Justice Ministry');
+          this.infocards.addTask(record,
+                                  'org_send_anonymously',
+                                  org,
+                                  'org:justice_ministry_anti_racism_unit');
+        },
         selectGovOrgs: async (record) => {
           for (const org of this.infocards.allOrgs) {
             console.log('select Gov org:', org);
             if (org['Organization Type'] === 'יחידה ממשלתית') {
+              if (!this.matchScenarios(record, org.scenarios)) {
+                continue;
+              }
               this.content.addTo(`האם תרצו לשתף את המקרה עם ${org['Organization Name']}?`,
                                  () => { this.infocards.appendCard('org:' + org.slug); });
               this.content.addOptions(null, [
@@ -119,6 +153,9 @@ export class ChatboxComponent implements OnInit, OnDestroy {
           for (const org of this.infocards.allOrgs) {
             console.log('selectNGO org:', org);
             if (org['Organization Type'] === 'ארגון חברה אזרחית') {
+              if (!this.matchScenarios(record, org.scenarios)) {
+                continue;
+              }
               this.content.addTo(`האם תרצו לשתף את המקרה עם ${org['Organization Name']}?`,
                                  () => { this.infocards.appendCard('org:' + org.slug); });
               this.content.addOptions(null, [
