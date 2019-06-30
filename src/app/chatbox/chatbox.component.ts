@@ -104,9 +104,10 @@ export class ChatboxComponent implements OnInit, OnDestroy {
         countFiles: async (record) => {
           let counter = 0;
           for (let index = 1; index <= 5; index++) {
-            const fileName = 'file' + (index.toString());
+            const fileName = `file${index.toString()}description`;
 
-            if (fileName in record) {
+            if (fileName in record && record[fileName] !== null ) {
+              console.log(`Found file ${index}: ${record[fileName]}`);
               counter += 1;
             }
           }
