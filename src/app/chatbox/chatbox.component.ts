@@ -201,7 +201,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
       (meta) => {
         for (const item of meta) {
           if (item.key === 'infocard') {
-            this.infocards.appendCard('info:' + item.value);
+            this.infocards.appendCard(item.value);
           }
         }
       },

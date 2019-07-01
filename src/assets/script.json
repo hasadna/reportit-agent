@@ -434,7 +434,7 @@
                     },
                     {
                         "text": [
-                            "cmd.uploader(key,uploader)"
+                            "cmd.uploader(record,key,uploader)"
                         ],
                         "collect": {
                             "key": "_files_counter",
@@ -667,7 +667,7 @@
                     },
                     {
                         "text": [
-                            "cmd.uploader(key, uploader)"
+                            "cmd.uploader(record,key, uploader)"
                         ],
                         "collect": {
                             "key": "file1",
@@ -752,7 +752,7 @@
                     },
                     {
                         "text": [
-                            "cmd.uploader(key, uploader)"
+                            "cmd.uploader(record,key, uploader)"
                         ],
                         "collect": {
                             "key": "file2",
@@ -837,7 +837,7 @@
                     },
                     {
                         "text": [
-                            "cmd.uploader(key, uploader)"
+                            "cmd.uploader(record,key, uploader)"
                         ],
                         "collect": {
                             "key": "file3",
@@ -922,7 +922,7 @@
                     },
                     {
                         "text": [
-                            "cmd.uploader(key, uploader)"
+                            "cmd.uploader(record,key, uploader)"
                         ],
                         "collect": {
                             "key": "file4",
@@ -1007,7 +1007,7 @@
                     },
                     {
                         "text": [
-                            "cmd.uploader(key, uploader)"
+                            "cmd.uploader(record,key, uploader)"
                         ],
                         "collect": {
                             "key": "file5",

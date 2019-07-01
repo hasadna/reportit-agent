@@ -41,7 +41,10 @@ export class StrapiService {
   private profile_cache = {};
 
   constructor(private http: HttpClient) {
-    this.token.next(window.localStorage.jwt);
+    const currentToken = window.localStorage.jwt;
+    if (currentToken && currentToken.length > 10) {
+      this.token.next(currentToken);
+    }
     this.token.subscribe((token) => {
       console.log('TOKEN', token);
       if (token) {
@@ -51,9 +54,6 @@ export class StrapiService {
         this.loggedIn.next(false);
       }
     });
-    // window.setTimeout(() => {
-    //   this.login('adam', 'AyaStrapi999');
-    // }, 5000);
   }
 
   login(user, password) {
@@ -67,6 +67,13 @@ export class StrapiService {
         this.loggedIn.next(false);
       }
     });
+  }
+
+  logout() {
+    if (window.localStorage.jwt) {
+      localStorage.removeItem('jwt');
+    }
+    window.location.reload();
   }
 
   uploadFile(report_id, file: File, path, progress, success) {
