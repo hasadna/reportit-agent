@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, from } from 'rxjs';
+import { BehaviorSubject, Observable, of, from, Subject } from 'rxjs';
 import { HttpClient, HttpEventType, HttpResponse, HttpRequest } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 
@@ -35,6 +35,7 @@ export class StrapiService {
   FILE_UPLOAD = this.BASE_URL + '/upload/';
 
   loggedIn = new BehaviorSubject<boolean>(null);
+  loggedInError = new Subject<string>();
   token = new BehaviorSubject<string>(null);
   profile = new BehaviorSubject<any>(null);
 
@@ -66,6 +67,8 @@ export class StrapiService {
       } else {
         this.loggedIn.next(false);
       }
+    }, (error: any) => {
+      this.loggedInError.next(error && error.error && error.error.message);
     });
   }
 

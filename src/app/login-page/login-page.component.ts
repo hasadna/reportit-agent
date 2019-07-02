@@ -12,6 +12,7 @@ export class LoginPageComponent implements OnInit {
   username: string;
   password: string;
   returnUrl: string;
+  error: string;
 
   constructor(public api: StrapiService,
               private route: ActivatedRoute,
@@ -24,9 +25,13 @@ export class LoginPageComponent implements OnInit {
         this.router.navigate([this.returnUrl]);
       }
     });
+    this.api.loggedInError.subscribe((message) => {
+      this.error = message;
+    });
   }
 
   login() {
+    this.error = null;
     this.api.login(this.username, this.password);
   }
 }
