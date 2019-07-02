@@ -180,7 +180,14 @@ export class StrapiService {
 
   updateReport(report): Observable<any> {
     report = this.prepareToSave(report);
-    return this.updateByType(this.URL_UPDATE_REPORT, report);
+    const ret = this.updateByType(this.URL_UPDATE_REPORT, report);
+    ret.subscribe(null, (error) => {
+      console.log('FAILED TO SAVE REPORT');
+      console.log('This might happen if the report has a field which is unknown to the backend');
+      console.log('Report is', report);
+      throw new Error('Failed to save report ' + JSON.stringify(report));
+    });
+    return ret;
   }
 
   updateTask(task): Observable<any> {

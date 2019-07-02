@@ -27,7 +27,7 @@ export class StatusWidgetComponent implements OnInit {
     this.api.updateReport(this.report)
       .subscribe((response) => {
         console.log('updated', response);
-      });
+      }, () => {});
   }
 
 }

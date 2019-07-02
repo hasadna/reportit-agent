@@ -22,7 +22,7 @@ export class TasksComponent implements OnInit {
     this.api.updateReport(Object.assign({}, this.report, {finished_intake: false}))
       .subscribe((report) => {
         this.report = Object.assign(this.report, report);
-      });
+      }, () => {});
   }
 
   toggle(task) {

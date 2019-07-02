@@ -37,13 +37,17 @@ export class InfoCardsService {
   }
 
   appendCard(slug) {
-    let card = this.infoCardMap['info:' + slug];
+    let card = this.infoCardMap[slug];
+    if (!card) {
+      card = this.infoCardMap['info:' + slug];
+    }
     if (!card) {
       card = this.infoCardMap['org:' + slug];
     }
     if (card) {
       this.appendCardValue(card);
     } else {
+      console.log('Unknown card slug ' + slug);
       throw new Error('Unknown card slug ' + slug);
     }
   }

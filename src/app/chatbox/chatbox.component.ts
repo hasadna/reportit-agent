@@ -183,7 +183,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
         /// Generic Utils
         saveUser: async (record) => {
           this.strapi.updateReport(record)
-              .subscribe(() => { console.log('SAVED!'); });
+              .subscribe(() => { console.log('SAVED!'); }, () => {});
         },
         uploader: async (record, key, uploader: FileUploader) => {
           uploader.active = true;
@@ -216,7 +216,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     ).subscribe((report) => {
         this.report = Object.assign(this.report, report);
         console.log('done!');
-    });
+    }, () => {});
   }
 
 }

@@ -34,7 +34,7 @@ export class EditableFieldWidgetComponent implements OnInit {
       this.api.updateReport(this.report)
           .subscribe((response) => {
             Object.assign(this.report, response);
-          });
+          }, () => {});
     }
   }
 
