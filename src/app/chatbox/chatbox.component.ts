@@ -101,6 +101,18 @@ export class ChatboxComponent implements OnInit, OnDestroy {
           }
           return new_description;
         },
+        combinedEventDescription: async (record) => {
+          let new_description = record.event_description;
+          if (record._add_details_to_add_to_description === 'true') {
+            new_description += `\n פרטים נוספים, משיחה עם המוקדנ/ית: \n${record._details_to_add_to_description}\n`;
+          }
+          if (record._ask_for_witness_details === 'true') {
+            new_description += `\n${record._witness_details}`;
+          } else {
+            new_description += `אין פרטים של עדי ראייה`;
+          }
+          return new_description;
+        },
         countFiles: async (record) => {
           let counter = 0;
           for (let index = 1; index <= 5; index++) {
@@ -117,11 +129,15 @@ export class ChatboxComponent implements OnInit, OnDestroy {
         shareWithJusticeMinistry: async (record) => {
           this.infocards.addTask(record,
                                  'share_full_details_with_justice_ministry',
+                                 {},
+                                 ''
                                  );
         },
         shareAnonymouslyWithJusticeMinistry: async (record) => {
           this.infocards.addTask(record,
                                   'share_anonymously_with_justice_ministry',
+                                  {},
+                                  ''
                                 );
         },
         selectGovOrgs: async (record) => {
