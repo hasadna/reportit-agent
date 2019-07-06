@@ -290,7 +290,8 @@
                                     "pattern": "default",
                                     "action": "next"
                                 }
-                            ]
+                            ],
+                            "multiple": true
                         }
                     },
                     {
@@ -363,7 +364,8 @@
                                     "pattern": "default",
                                     "action": "next"
                                 }
-                            ]
+                            ],
+                            "multiple": true
                         }
                     },
                     {
@@ -434,7 +436,7 @@
                     },
                     {
                         "text": [
-                            "cmd.uploader(record,key,uploader)"
+                            "cmd.uploader(key,uploader)"
                         ],
                         "collect": {
                             "key": "_files_counter",
@@ -571,7 +573,8 @@
                                     "pattern": "default",
                                     "action": "next"
                                 }
-                            ]
+                            ],
+                            "multiple": true
                         }
                     },
                     {
@@ -667,18 +670,9 @@
                     },
                     {
                         "text": [
-                            "cmd.uploader(record,key, uploader)"
+                            "cmd.uploader(record,key,uploader)"
                         ],
-                        "collect": {
-                            "key": "file1",
-                            "options": [
-                                {
-                                    "default": true,
-                                    "pattern": "default",
-                                    "action": "next"
-                                }
-                            ]
-                        }
+                        "collect": null
                     },
                     {
                         "text": [
@@ -752,18 +746,9 @@
                     },
                     {
                         "text": [
-                            "cmd.uploader(record,key, uploader)"
+                            "cmd.uploader(record,key,uploader)"
                         ],
-                        "collect": {
-                            "key": "file2",
-                            "options": [
-                                {
-                                    "default": true,
-                                    "pattern": "default",
-                                    "action": "next"
-                                }
-                            ]
-                        }
+                        "collect": null
                     },
                     {
                         "text": [
@@ -837,18 +822,9 @@
                     },
                     {
                         "text": [
-                            "cmd.uploader(record,key, uploader)"
+                            "cmd.uploader(record,key,uploader)"
                         ],
-                        "collect": {
-                            "key": "file3",
-                            "options": [
-                                {
-                                    "default": true,
-                                    "pattern": "default",
-                                    "action": "next"
-                                }
-                            ]
-                        }
+                        "collect": null
                     },
                     {
                         "text": [
@@ -922,18 +898,9 @@
                     },
                     {
                         "text": [
-                            "cmd.uploader(record,key, uploader)"
+                            "cmd.uploader(record,key,uploader)"
                         ],
-                        "collect": {
-                            "key": "file4",
-                            "options": [
-                                {
-                                    "default": true,
-                                    "pattern": "default",
-                                    "action": "next"
-                                }
-                            ]
-                        }
+                        "collect": null
                     },
                     {
                         "text": [
@@ -1007,18 +974,9 @@
                     },
                     {
                         "text": [
-                            "cmd.uploader(record,key, uploader)"
+                            "cmd.uploader(record,key,uploader)"
                         ],
-                        "collect": {
-                            "key": "file5",
-                            "options": [
-                                {
-                                    "default": true,
-                                    "pattern": "default",
-                                    "action": "next"
-                                }
-                            ]
-                        }
+                        "collect": null
                     },
                     {
                         "text": [
