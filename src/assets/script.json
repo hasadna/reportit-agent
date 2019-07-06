@@ -116,6 +116,21 @@
                                 {
                                     "default": true,
                                     "pattern": "default",
+                                    "action": "repeat"
+                                },
+                                {
+                                    "pattern": "yes",
+                                    "type": "string",
+                                    "action": "תלונה: משלוח פרטי הפניה ליחידה לתאום המאבק בגזענות"
+                                },
+                                {
+                                    "pattern": "anonymously",
+                                    "type": "string",
+                                    "action": "תלונה: משלוח אנונימי ליחידה לתאום המאבק בגזענות"
+                                },
+                                {
+                                    "pattern": "no",
+                                    "type": "string",
                                     "action": "next"
                                 }
                             ]
@@ -138,14 +153,6 @@
                             }
                         ],
                         "meta": [
-                            {
-                                "key": "on:yes",
-                                "value": "shareWithJusticeMinistry"
-                            },
-                            {
-                                "key": "on:anonymously",
-                                "value": "shareAnonyomuslyWithJusticeMinistry"
-                            },
                             {
                                 "key": "infocard",
                                 "value": "justice_ministry_anti_racism_unit"
@@ -1334,6 +1341,32 @@
                     },
                     {
                         "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "תלונה: משלוח פרטי הפניה ליחידה לתאום המאבק בגזענות",
+                "script": [
+                    {
+                        "text": [
+                            "cmd.shareWithJusticeMinistry(record)"
+                        ]
+                    },
+                    {
+                        "action": "תלונה: שיתוף עם ארגוני חברה אזרחית"
+                    }
+                ]
+            },
+            {
+                "topic": "תלונה: משלוח אנונימי ליחידה לתאום המאבק בגזענות",
+                "script": [
+                    {
+                        "text": [
+                            "cmd.shareAnonymouslyWithJusticeMinistry(record)"
+                        ]
+                    },
+                    {
+                        "action": "תלונה: שיתוף עם ארגוני חברה אזרחית"
                     }
                 ]
             }
