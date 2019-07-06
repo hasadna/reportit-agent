@@ -110,7 +110,16 @@
                         "text": [
                             "האם הפונה מעוניינ/ת לשתף את פרטי המקרה עם היחידה למאבק בגזענות במשרד המשפטים?"
                         ],
-                        "collect": null,
+                        "collect": {
+                            "key": "_add_task",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        },
                         "quick_replies": [
                             {
                                 "title": "כן, מאשר/ת להעביר להם את פרטי המקרה, כולל שמי ופרטי הקשר",
