@@ -1182,24 +1182,24 @@
                                 {
                                     "pattern": "false",
                                     "type": "string",
-                                    "action": "next"
+                                    "action": "תלונה: בירור אם היו עדים"
                                 },
                                 {
                                     "pattern": "true",
                                     "type": "string",
-                                    "action": "תלונה: בירור אם היו עדים"
+                                    "action": "next"
                                 }
                             ]
                         },
                         "quick_replies": [
                             {
                                 "title": "כן, כל הפרטים הללו כבר מופיעים בתיאור האירוע",
-                                "payload": "true",
+                                "payload": "false",
                                 "content_type": "text"
                             },
                             {
                                 "title": "לא, חלק מהפרטים חסרים",
-                                "payload": "false",
+                                "payload": "true",
                                 "content_type": "text"
                             }
                         ]
@@ -1257,6 +1257,11 @@
                                     "pattern": "משטרה",
                                     "type": "string",
                                     "action": "משטרה: בחירת מסלול פעולה"
+                                },
+                                {
+                                    "pattern": "מאבטח/ת",
+                                    "type": "string",
+                                    "action": "מאבטח/ת: בחירת מסלול פעולה"
                                 }
                             ]
                         }
@@ -1480,7 +1485,59 @@
                     },
                     {
                         "text": [
-                            "cmd.selectGovOrgs(record)"
+                            "ספרו לפונה על המחלקה לחקירות שוטרים (מח\"ש)."
+                        ],
+                        "meta": [
+                            {
+                                "key": "org",
+                                "value": "mahash"
+                            }
+                        ]
+                    },
+                    {
+                        "text": [
+                            "בררו האם הפונה מעוניינ/ת להעביר את פרטי המקרה למח\"ש."
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "הפונה מאשר להעביר את פרטי המקרה במלואם",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "הפונה מאשר/ת להעביר את המקרה ללא פרטים מזהים",
+                                "payload": "anonymously",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "הפונה לא מאשר/ת להעביר את פרטי המקרה למח\"ש",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "_mahash",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        },
+                        "meta": [
+                            {
+                                "key": "infocard",
+                                "value": "mahash"
+                            },
+                            {
+                                "key": "on:yes",
+                                "value": "send_to_mahash"
+                            },
+                            {
+                                "key": "on:anonymously",
+                                "value": "send_anonymously_to_mahash"
+                            }
                         ]
                     },
                     {
@@ -1518,6 +1575,37 @@
                         "action": "תלונה: בירור אפשרות להעביר פרטים למשרד המשפטים"
                     }
                 ]
+            },
+            {
+                "topic": "משטרה: שיתוף פרטי מקרה עם מח\"ש",
+                "script": [
+                    {
+                        "text": [
+                            "cmd."
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "מאבטח/ת: בחירת מסלול פעולה",
+                "script": [
+                    {
+                        "text": [
+                            "cmd.checkOfficeRepresetativeRelevancy(record)"
+                        ]
+                    },
+                    {
+                        "text": [
+                            "cmd.checkSpecificGuardAndComplain(record)"
+                        ]
+                    },
+                    {
+                        "action": "תלונה: בירור אפשרות להעביר פרטים למשרד המשפטים"
+                    }
+                ]
             }
         ],
         "triggers": [
@@ -1527,6 +1615,11 @@
             }
         ],
         "variables": [
+            {
+                "name": "_mahash",
+                "type": "string",
+                "id": 447
+            },
             {
                 "name": "_track",
                 "type": "string",

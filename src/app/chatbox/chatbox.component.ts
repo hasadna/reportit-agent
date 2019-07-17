@@ -103,16 +103,55 @@ export class ChatboxComponent implements OnInit, OnDestroy {
         },
         combinedEventDescription: async (record) => {
           let new_description = record.event_description;
-          if (record._add_details_to_add_to_description === 'true') {
+          if (record._add_details_to_description === 'true') {
             new_description += `\n פרטים נוספים, משיחה עם המוקדנ/ית: \n${record._details_to_add_to_description}\n`;
           }
           if (record._ask_for_witness_details === 'true') {
             new_description += `\n${record._witness_details}`;
           } else {
-            new_description += `אין פרטים של עדי ראייה`;
+            new_description += `\nאין פרטים של עדי ראייה`;
           }
           return new_description;
         },
+        checkOfficeRepresetativeRelevancy: async (record) => {
+          const location = record.event_location;
+
+          if (location === 'משרד ממשלתי' || location === 'תחבורה ציבורית' || location === 'בית חולים') {
+            this.content.addTo('אם הארוע\
+             המפלה התרחש בתחומי רשות ציבורית\
+            (בית חולים, משרד ממשלתי, תחבורה ציבורית)\
+           כדאי בכל מקרה להגיש תלונה\
+            לממונה על טיפול בתלונות בנושא גזענות במשרד הרלוונטי');
+           this.infocards.appendCard('office_preventing_racism');
+           this.content.addOptions('בדקו האם ישנו ממונה במשרד הרלוונטי:', [
+                { display: 'כן', value: () => { console.log('yes');
+                                                this.infocards.addTask(record,
+                                                                       'share_with_office_fight_racism_contact',
+                                                                       {},
+                                                                        '');
+                                              }
+                                            },
+                { display: 'לא', value: () => { console.log('no'); } },
+              ]);
+              (await this.content.waitForInput())();
+          }
+        },
+        checkSpecificGuardAndComplain: async (record) => {
+        if (record.offender === 'מאבטח/ת' && record.Offender_person_details !== null) {
+          this.content.addTo('תלונה לגבי מאבטח/ת ספציפי/תי, שפרטיהם ידועים, מומלץ להעביר למחלקת האבטחה והרישוי במשטרת ישראל.');
+          this.infocards.appendCard('police_security_department');
+          this.content.addOptions(
+            'האם הפונה מעוניין לקבל סיוע בפנייה למחלקת האבטחה והרישוי במשטרה?',
+            [
+              {display: 'כן', value: () => {console.log('yes');
+                                           this.infocards.addTask(record,
+                                                                  'compaint_guard_to_police',
+                                                                  {},
+                                                                  ''); }},
+              {display: 'לא', value: () => {console.log('no'); }}
+            ]);
+            (await this.content.waitForInput())();
+          }},
         countFiles: async (record) => {
           let counter = 0;
           for (let index = 1; index <= 5; index++) {
