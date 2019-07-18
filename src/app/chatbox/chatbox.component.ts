@@ -136,23 +136,25 @@ export class ChatboxComponent implements OnInit, OnDestroy {
               (await this.content.waitForInput())();
           }
         },
-        checkSpecificGuardAndComplain: async (record) => {
-        if (record.offender === 'מאבטח/ת' && record.Offender_person_details !== null) {
-          this.content.addTo('תלונה לגבי מאבטח/ת ספציפי/תי, שפרטיהם ידועים, מומלץ להעביר למחלקת האבטחה והרישוי במשטרת ישראל.');
-          this.infocards.appendCard('police_security_department');
-          this.content.addOptions(
-            'האם הפונה מעוניין לקבל סיוע בפנייה למחלקת האבטחה והרישוי במשטרה?',
-            [
-              {display: 'כן', value: () => {console.log('yes');
-                                           this.infocards.addTask(record,
-                                                                  'compaint_guard_to_police',
-                                                                  {},
-                                                                  ''); }},
-              {display: 'לא', value: () => {console.log('no'); }}
-            ]);
-            (await this.content.waitForInput())();
-          }},
-        countFiles: async (record) => {
+        checkSpecificGuardComplain: async (record) => {
+          if (record.offender === 'מאבטח/ת') {
+            if (record.Offender_person_details !== null) {
+              this.content.addTo('הסבירו לפונה שמכיוון שמסר פרטים מזהים לגבי המאבטח, יש באפשרותו להגיש תלונה כנגדם\
+                                  למחלקת האבטחה והרישוי במשטרת ישראל.');
+              this.infocards.appendCard('police_security_department');
+              this.content.addOptions('האם הפונה מעוניין לקבל סיוע בפנייה למחלקת האבטחה והרישוי במשטרה והגשת תלונה על המאבטח?', [
+                   { display: 'כן', value: () => { console.log('yes');
+                                                   this.infocards.addTask(record,
+                                                                          'compaint_guard_to_police',
+                                                                          {},
+                                                                           '');
+                                                 }
+                                               },
+                   { display: 'לא', value: () => { console.log('no'); } },
+                 ]);
+                 (await this.content.waitForInput())();
+               }}},
+      countFiles: async (record) => {
           let counter = 0;
           for (let index = 1; index <= 5; index++) {
             const fileName = `file${index.toString()}description`;
