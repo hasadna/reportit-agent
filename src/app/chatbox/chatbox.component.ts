@@ -88,6 +88,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
         },
         getOffenderOrganizationCategory: async (record) => {
           console.log('OFFENDER Organization Category: ', record.offender_organization_category);
+          console.log('Offender Org Name: ', record.Offender_organization_details);
           return record.offender_organization_category;
         },
         combinedPoliceEventDescription: async (record) => {
@@ -98,7 +99,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
           new_description += `${record._police_arrest} \n`;
           new_description += `${record._police_court} \n`;
           new_description += `${record._police_has_lawyer} \n`;
-          if (typeof record._police_witness_details !== 'undefined') {
+          if (typeof record._police_witness_details !== undefined) {
             new_description += `${record._police_witness_details}`;
           } else {
             new_description += `אין פרטים של עדי ראייה`;
@@ -142,7 +143,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
         },
         checkSpecificGuardComplain: async (record) => {
           if (record.offender === 'מאבטח/ת') {
-            if (record.Offender_person_details !== null) {
+            if (record.Offender_person_details !== undefined) {
               this.content.addTo('הסבירו לפונה שמכיוון שמסר פרטים מזהים לגבי המאבטח, יש באפשרותו להגיש תלונה כנגדם\
                                   למחלקת האבטחה והרישוי במשטרת ישראל.');
               this.infocards.appendCard('police_security_department');
