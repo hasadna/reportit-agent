@@ -82,8 +82,23 @@
                 "script": [
                     {
                         "text": [
-                            "This is מסגרת חינוכית: בירור פרטים נוספים"
-                        ]
+                            "cmd.getOffenderOrganizationCategory(record)"
+                        ],
+                        "collect": {
+                            "key": "_offender_org_category",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "אוניברסיטה/מכללה",
+                                    "type": "string",
+                                    "action": "מסגרת חינוכית: מסלול אוניברסיטה/מכללה"
+                                }
+                            ]
+                        }
                     },
                     {
                         "action": "complete"
@@ -1262,6 +1277,11 @@
                                     "pattern": "מאבטח/ת",
                                     "type": "string",
                                     "action": "מאבטח/ת: בחירת מסלול פעולה"
+                                },
+                                {
+                                    "pattern": "מסגרת חינוכית",
+                                    "type": "string",
+                                    "action": "מסגרת חנוכית: בחירת מסלול פעולה"
                                 }
                             ]
                         }
@@ -1695,6 +1715,93 @@
                         "action": "תלונה: בירור אפשרות להעביר פרטים למשרד המשפטים"
                     }
                 ]
+            },
+            {
+                "topic": "מסגרת חינוכית: מסלול אוניברסיטה/מכללה",
+                "script": [
+                    {
+                        "action": "תלונה: בירור והוספת פרטים חסרים"
+                    }
+                ]
+            },
+            {
+                "topic": "מסגרת חנוכית: בחירת מסלול פעולה",
+                "script": [
+                    {
+                        "text": [
+                            "cmd.getOffenderOrganizationCategory(record)"
+                        ],
+                        "collect": {
+                            "key": "_offender_org_category",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "אוניברסיטה/מכללה",
+                                    "type": "string",
+                                    "action": "אוניברסיטה/מכללה: פניה רשמית למוסד"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "אוניברסיטה/מכללה: פניה רשמית למוסד",
+                "script": [
+                    {
+                        "text": [
+                            "אפליה אסורה באקדמיה עשויה להתבטא בצורות שונות. למשל, בסירוב קבלה למעונות, בתנאי קבלה מפלים, גזענות יכולה להתבטא במילים וביחס משפיל.\n\n<br><br>\nאם המקרה שתואר על ידי הפונה כולל מתייחס לאפליה או יחס לא ראוי, יש לפנות בכתב לדיקן הסטודנטים במוסד הרלוונטי.\n<br><br>\nבהמשך, במידה ולא תתקבל תשובה, או שהתשובה שתשלח לא מספקת ניתן לפנות בכתב לנציב קבילות הסטודנטים של המוסד, האחראי על בירור תלונות המוגשות על ידי סטודנטים או מועמדים ללימודים בגין פגיעה בזכויותיהם. בסמכות הנציב להמליץ למוסד על דרכי פעולה."
+                        ]
+                    },
+                    {
+                        "text": [
+                            "האם הפונה מעוניינ/ת שנסייע לו לנסח פניה לדיקן ו/או לנציב/ת קבילות הסטודנטים?"
+                        ],
+                        "collect": {
+                            "key": "_add_task",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        },
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "true",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "false",
+                                "content_type": "text"
+                            }
+                        ],
+                        "platforms": {
+                            "web": {
+                                "files": []
+                            }
+                        },
+                        "meta": [
+                            {
+                                "key": "on:true",
+                                "value": "contact_acadeimc_org"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
             }
         ],
         "triggers": [
@@ -1704,6 +1811,11 @@
             }
         ],
         "variables": [
+            {
+                "name": "_offender_org_category",
+                "type": "string",
+                "id": 180
+            },
             {
                 "name": "_is_it_policy",
                 "type": "string",
