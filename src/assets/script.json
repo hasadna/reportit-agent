@@ -516,7 +516,7 @@
                 ]
             },
             {
-                "topic": "סיום שיחה",
+                "topic": "קביעת שיחת המשך",
                 "script": [
                     {
                         "text": [
@@ -537,7 +537,7 @@
                         ]
                     },
                     {
-                        "action": "complete"
+                        "action": "סיום שיחה"
                     }
                 ]
             },
@@ -570,7 +570,7 @@
                                 {
                                     "pattern": "דיור",
                                     "type": "string",
-                                    "action": "תלונה: בירור והוספת פרטים חסרים"
+                                    "action": "דיור: בדיקה אילו פרטים חסרים צריך להשלים"
                                 },
                                 {
                                     "pattern": "מאבטח/ת",
@@ -1097,7 +1097,7 @@
                         "collect": null
                     },
                     {
-                        "action": "סיום שיחה"
+                        "action": "קביעת שיחת המשך"
                     }
                 ]
             },
@@ -2412,6 +2412,26 @@
                                     "pattern": "אפליה בקבלה לנחלה בקיבוץ או במושב",
                                     "type": "string",
                                     "action": "דיור: אפליה בקבלה לנחלה בקיבוץ או במושב"
+                                },
+                                {
+                                    "pattern": "אפליה במכירת דירה על ידי חברת בניה/יזם/קבלן",
+                                    "type": "string",
+                                    "action": "דיור: אפליה במכירת דירה על ידי חברת בניה/יזם/קבלן, בדיקת מעמד הקרקע"
+                                },
+                                {
+                                    "pattern": "אפליה במכירת דירת יד 2 מידי אדם פרטי",
+                                    "type": "string",
+                                    "action": "דיור: הפליה של אדם פרטי"
+                                },
+                                {
+                                    "pattern": "אפליה בהשכרת דירה מאדם פרטי",
+                                    "type": "string",
+                                    "action": "דיור: הפליה של אדם פרטי"
+                                },
+                                {
+                                    "pattern": "אפליה של חברת תיווך",
+                                    "type": "string",
+                                    "action": "דיור: בירור הגשת תלונה כנגד חברת תיווך"
                                 }
                             ]
                         },
@@ -2564,6 +2584,428 @@
                         "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
                     }
                 ]
+            },
+            {
+                "topic": "דיור: אפליה על ידי חברת בניה/יזם/קבלן, בירור פרטים חסרים",
+                "script": [
+                    {
+                        "text": [
+                            "ודאו ששם החברה, היזם והפרוייקט (אם רלוונטי) מופיע ברשומת המידע. אם לא, בררו פרטים אלו עם הפונה\n<br>\nהאם יש צורך לעדכן את שם החברה, היזם או שם הפרוייקט?"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "_update_offedner_organization",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "yes",
+                                    "type": "string",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "no",
+                                    "type": "string",
+                                    "action": "דיור: אפליה על ידי חברת בניה/יזם/קבלן, בירור פרטים חסרים, בירור מיקום פרוייקט"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "מהם שם החברה, היזם והפרוייקט (אם רלוונטי)?"
+                        ],
+                        "collect": {
+                            "key": "offender_organization",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "cmd.saveUser(record)"
+                        ]
+                    },
+                    {
+                        "text": [
+                            "האם יש לפונה פרטי התקשרות רלוונטים נוספים או אחרים מאלו שמוזנים כרגע? <br>\nהאם תרצו לעדכן פרטי התקשרות עם החברה, היזם או הפרוייקט?"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן, לעדכן פרטי הקשר",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "_update_offedner_organization",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "דיור: אפליה על ידי חברת בניה/יזם/קבלן, בירור פרטים חסרים, בירור מיקום פרוייקט"
+                                },
+                                {
+                                    "pattern": "yes",
+                                    "type": "string",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "הזינו את פרטי הקשר או ההתקשרות הרלוונטים"
+                        ],
+                        "collect": {
+                            "key": "offender_organization_details",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "cmd.saveUser(record)"
+                        ]
+                    },
+                    {
+                        "action": "דיור: אפליה על ידי חברת בניה/יזם/קבלן, בירור פרטים חסרים, בירור מיקום פרוייקט"
+                    }
+                ]
+            },
+            {
+                "topic": "דיור: בדיקה אילו פרטים חסרים צריך להשלים",
+                "script": [
+                    {
+                        "text": [
+                            "cmd.getComplaintType(record)"
+                        ],
+                        "collect": {
+                            "key": "complaint_type",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "תלונה: בירור והוספת פרטים חסרים"
+                                },
+                                {
+                                    "pattern": "אפליה במכירת דירה על ידי חברת בניה/יזם/קבלן",
+                                    "type": "string",
+                                    "action": "דיור: אפליה על ידי חברת בניה/יזם/קבלן, בירור פרטים חסרים"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "דיור: אפליה על ידי חברת בניה/יזם/קבלן, בירור פרטים חסרים, בירור מיקום פרוייקט",
+                "script": [
+                    {
+                        "text": [
+                            "בדקו האם מיקום הפרוייקט המדובר מופיע ברשומות המידע בצד, וודאו את המיקום עם הפונה.\n<br><br>\nהאם יש צורך לעדכן את מיקום הפרוייקט?"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "meta": [],
+                        "collect": {
+                            "key": "_update_event_location",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "תלונה: בירור אם היו עדים"
+                                },
+                                {
+                                    "pattern": "yes",
+                                    "type": "string",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "מהו מיקום או כתובת הפרוייקט?"
+                        ],
+                        "collect": {
+                            "key": "event_location",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "cmd.saveUser(record)"
+                        ]
+                    },
+                    {
+                        "action": "תלונה: בירור אם היו עדים"
+                    }
+                ]
+            },
+            {
+                "topic": "דיור: אפליה במכירת דירה על ידי חברת בניה/יזם/קבלן, בדיקת מעמד הקרקע",
+                "script": [
+                    {
+                        "text": [
+                            "בררו האם הפונה יודע/ת מה מעמד הקרקע עליו מוקם הפרוייקט."
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "קרקע שבה זכתה החברה במכרז בניה של רשות מקרקעי ישראל",
+                                "payload": "minhal",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "קרקע פרטית",
+                                "payload": "private",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "הפונה לא יודע/ת או לא בטוח/ה",
+                                "payload": "not_sure",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "housing_land_type",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "repeat"
+                                },
+                                {
+                                    "pattern": "minhal",
+                                    "type": "string",
+                                    "action": "דיור: אפליה במכירת דירה על ידי חברת בניה/יזם/קבלן, קרקע מנהל"
+                                },
+                                {
+                                    "pattern": "private",
+                                    "type": "string",
+                                    "action": "דיור: בדיקת אפשרות לתביעת נזיקין"
+                                },
+                                {
+                                    "pattern": "not_sure",
+                                    "type": "string",
+                                    "action": "דיור: אפליה במכירת דירה על ידי חברת בניה/יזם/קבלן, מעמד הקרקע לא ידוע"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "דיור: אפליה במכירת דירה על ידי חברת בניה/יזם/קבלן, מעמד הקרקע לא ידוע",
+                "script": [
+                    {
+                        "text": [
+                            "בררו האם הפונה מעוניינ/ת שנסייע בבדיקת מעמד הקרקע, ושבמידה ונגלה שמדובר באדמת רשות מקרקעי ישראל, נפנה בתלונה בנושא."
+                        ],
+                        "meta": [
+                            {
+                                "key": "on:yes",
+                                "value": "housing_check_land_status"
+                            }
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "דיור: בדיקת אפשרות לתביעת נזיקין"
+                    }
+                ]
+            },
+            {
+                "topic": "דיור: אפליה במכירת דירה על ידי חברת בניה/יזם/קבלן, קרקע פרטית",
+                "script": [
+                    {
+                        "text": [
+                            "This is דיור: אפליה במכירת דירה על ידי חברת בניה/יזם/קבלן, קרקע פרטית"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "דיור: אפליה במכירת דירה על ידי חברת בניה/יזם/קבלן, קרקע מנהל",
+                "script": [
+                    {
+                        "text": [
+                            "הסבירו לפונה שאם מדובר בקרקע שבה זכתה החברה במכרז בניה של רשות מקרקעי ישראל, ניתן לפנות לוועדת המכרזים של רשות מקרקעי ישראל בדרישה לפסול את זכייתה החברה או לקנוס אותה."
+                        ],
+                        "meta": [
+                            {
+                                "key": "infocard",
+                                "value": "minhal"
+                            }
+                        ]
+                    },
+                    {
+                        "text": [
+                            "אם הפונה מעוניינ/ת שנסייע בהגשת תלונה ליעוץ המשפטי של רשות מקרקעי ישראל?"
+                        ],
+                        "collect": null,
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "meta": [
+                            {
+                                "key": "on:yes",
+                                "value": "contact_minhal_legal_advisor"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "דיור: בדיקת אפשרות לתביעת נזיקין"
+                    }
+                ]
+            },
+            {
+                "topic": "דיור: בדיקת אפשרות לתביעת נזיקין",
+                "script": [
+                    {
+                        "text": [
+                            "הסבירו לפונה כי ייתכן שניתן להגיש תביעה נזיקית נגד החברה לקבלת פיצוי. <br><br>\n\nבדיקה זו תתאפשר באמצעות פניה לעו\"ד פרטי (בה לא נוכל לסייע), או לארגונים הפועלים בתחום, ושיוצגו בהמשך השיחה."
+                        ]
+                    },
+                    {
+                        "text": [
+                            "לפני כן, נברר האם יהיו מעוניינים להעביר את פרטי המקרה ליחידה לתאום המאבק בגזענות במשרד המשפטים."
+                        ]
+                    },
+                    {
+                        "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
+                    }
+                ]
+            },
+            {
+                "topic": "סיום שיחה",
+                "script": [
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "דיור: הפליה של אדם פרטי",
+                "script": [
+                    {
+                        "text": [
+                            "הסבירו לפונה שאין איסור מפורש בחוק על הפליה ביחס לאנשים פרטיים המוכרים או משכירים את דירתם אך חשוב לתעד ולדווח על כך.\n<br><br>\n\nניתן לבחון אפשרות להגשת תביעה בנושא, אולם הפסיקה בנושא היא מאוד מוגבלת ולכן כדאי להתיעץ עם ארגון רלוונטי, מרשימה שנציג בהמשך השיחה, או עם עו\"ד פרטי (בזה לא נוכל לסייע).\n\n<br><br>\nלפני כן נברר האם יהיו מעוניינים להעביר את פרטי המקרה ליחידה לתיאום המאבק בגזענות במשרד המשפטים."
+                        ]
+                    },
+                    {
+                        "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
+                    }
+                ]
+            },
+            {
+                "topic": "דיור: בירור הגשת תלונה כנגד חברת תיווך",
+                "script": [
+                    {
+                        "text": [
+                            "אם חברת תיווך נהגה בצורה מפלה במכירת או השכרת נכס, ניתן לבדוק את האפשרות להגיש תלונה משמעתית לרשם המתווכים במשרד המשפטים.\n<br><br>\nבררו האם הפונה מועניינ/ת שנבדוק ונסייע בביצוע פנייה שכזו."
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "meta": [
+                            {
+                                "key": "infocard",
+                                "value": "realtors_registrar"
+                            },
+                            {
+                                "key": "on:yes",
+                                "value": "send_justice_ministry_realtors_registrar"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
+                    }
+                ]
             }
         ],
         "triggers": [
@@ -2573,6 +3015,41 @@
             }
         ],
         "variables": [
+            {
+                "name": "_send_complaint_to_minhal",
+                "type": "string",
+                "id": 221
+            },
+            {
+                "name": "housing_land_type",
+                "type": "string",
+                "id": 443
+            },
+            {
+                "name": "event_location",
+                "type": "string",
+                "id": 428
+            },
+            {
+                "name": "_update_event_location",
+                "type": "string",
+                "id": 343
+            },
+            {
+                "name": "offender_organization_details",
+                "type": "string",
+                "id": 80
+            },
+            {
+                "name": "offender_organization",
+                "type": "string",
+                "id": 383
+            },
+            {
+                "name": "_update_offedner_organization",
+                "type": "string",
+                "id": 395
+            },
             {
                 "name": "complaint_type",
                 "type": "string",
