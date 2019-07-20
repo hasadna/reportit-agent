@@ -106,13 +106,20 @@ export class ChatboxComponent implements OnInit, OnDestroy {
           }
           return new_description;
         },
+          addMunicipalReaction: async (record) => {
+                const new_description = `${record.event_description} \n\n\
+                                  פרטי הפניה ותגובת הרשות המקומית, כפי שתוארו בשיחה עם המוקדנ/ית: \n\
+                                  ${record._details_to_add_to_description}`;
+                return new_description;
+          },
         combinedEventDescription: async (record) => {
           let new_description = record.event_description;
           if (record._add_details_to_description === 'true') {
-            new_description += `\n פרטים נוספים, משיחה עם המוקדנ/ית: \n${record._details_to_add_to_description}\n`;
+            new_description += `\n\n פרטים נוספים, משיחה עם המוקדנ/ית: \n${record._details_to_add_to_description}\n`;
+            record._details_to_add_to_description = undefined;
           }
           if (record._ask_for_witness_details === 'true') {
-            new_description += `\n${record._witness_details}`;
+            new_description += `\n עדים או אנשים שיוכלו לאמת את הפרטים: \n${record._witness_details}`;
           } else {
             new_description += `\nאין פרטים של עדי ראייה`;
           }
@@ -171,6 +178,12 @@ export class ChatboxComponent implements OnInit, OnDestroy {
           }
           console.log('File Counter: ' + counter.toString());
           return counter.toString();
+        },
+        checkIfUltraOrthodoxEducationOrg: async (record) => {
+          if (record.offender_details === 'חינוך חרדי') {
+            return 'true';
+          }
+          return 'false';
         },
         shareWithJusticeMinistry: async (record) => {
           this.infocards.addTask(record,

@@ -78,7 +78,7 @@
                 ]
             },
             {
-                "topic": "מסגרת חינוכית: בירור פרטים נוספים",
+                "topic": "מסגרת חינוכית: בחירת מסלול לפי מסגרת",
                 "script": [
                     {
                         "text": [
@@ -90,18 +90,48 @@
                                 {
                                     "default": true,
                                     "pattern": "default",
-                                    "action": "next"
+                                    "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
                                 },
                                 {
                                     "pattern": "אוניברסיטה/מכללה",
                                     "type": "string",
                                     "action": "מסגרת חינוכית: מסלול אוניברסיטה/מכללה"
+                                },
+                                {
+                                    "pattern": "בית ספר",
+                                    "type": "string",
+                                    "action": "מסגרת חינוכית: מסלול בתי ספר וגנים ציבוריים"
+                                },
+                                {
+                                    "pattern": "גן חובה",
+                                    "type": "string",
+                                    "action": "מסגרת חינוכית: מסלול בתי ספר וגנים ציבוריים"
+                                },
+                                {
+                                    "pattern": "גן טרום חובה",
+                                    "type": "string",
+                                    "action": "מסגרת חינוכית: מסלול בתי ספר וגנים ציבוריים"
+                                },
+                                {
+                                    "pattern": "גן טרום טרום חובה",
+                                    "type": "string",
+                                    "action": "מסגרת חינוכית: מסלול בתי ספר וגנים ציבוריים"
+                                },
+                                {
+                                    "pattern": "גן פרטי לגיל הרך",
+                                    "type": "string",
+                                    "action": "מסגרת חינוכית: מסלול גן פרטי לגיל הרך"
+                                },
+                                {
+                                    "pattern": "חוגים של רשות מקומית",
+                                    "type": "string",
+                                    "action": "מסגרת חינוכית: מסלול חוגים ברשות מקומית"
                                 }
                             ]
                         }
                     },
                     {
-                        "action": "complete"
+                        "action": "תלונה: בדיקת אפשרויות פעולה למקרה"
                     }
                 ]
             },
@@ -119,7 +149,7 @@
                 ]
             },
             {
-                "topic": "תלונה: בירור אפשרות להעביר פרטים למשרד המשפטים",
+                "topic": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים",
                 "script": [
                     {
                         "text": [
@@ -491,6 +521,19 @@
                     {
                         "text": [
                             "עדכנו את הפונה בכל המשימות שרשמתם לעצמכם (ומופיעות בצד המסך).\n\nחשוב לסכם עם הפונה מתי תהיו איתו/איתה בקשר כדי לעדכן על מצב הטיפול בפניה."
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "בסדר",
+                                "payload": "ok",
+                                "content_type": "text"
+                            }
+                        ],
+                        "meta": [
+                            {
+                                "key": "on:ok",
+                                "value": "update_user"
+                            }
                         ]
                     },
                     {
@@ -537,7 +580,7 @@
                                 {
                                     "pattern": "מסגרת חינוכית",
                                     "type": "string",
-                                    "action": "מסגרת חינוכית: בירור פרטים נוספים"
+                                    "action": "תלונה: בירור והוספת פרטים חסרים"
                                 },
                                 {
                                     "pattern": "אחר",
@@ -1073,7 +1116,7 @@
                         "collect": null
                     },
                     {
-                        "action": "תלונה: בירור אפשרות להעביר פרטים למשרד המשפטים"
+                        "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
                     }
                 ]
             },
@@ -1082,7 +1125,7 @@
                 "script": [
                     {
                         "text": [
-                            "האם היו עדים למקרה?"
+                            "האם היו עדים למקרה, או אנשים אחרים שיכולים לאמת את המידע?"
                         ],
                         "quick_replies": [
                             {
@@ -1281,7 +1324,7 @@
                                 {
                                     "pattern": "מסגרת חינוכית",
                                     "type": "string",
-                                    "action": "מסגרת חנוכית: בחירת מסלול פעולה"
+                                    "action": "מסגרת חינוכית: בחירת מסלול לפי מסגרת"
                                 }
                             ]
                         }
@@ -1561,7 +1604,7 @@
                         ]
                     },
                     {
-                        "action": "תלונה: בירור אפשרות להעביר פרטים למשרד המשפטים"
+                        "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
                     }
                 ]
             },
@@ -1579,7 +1622,7 @@
                         ]
                     },
                     {
-                        "action": "תלונה: בירור אפשרות להעביר פרטים למשרד המשפטים"
+                        "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
                     }
                 ]
             },
@@ -1592,7 +1635,7 @@
                         ]
                     },
                     {
-                        "action": "תלונה: בירור אפשרות להעביר פרטים למשרד המשפטים"
+                        "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
                     }
                 ]
             },
@@ -1712,7 +1755,7 @@
                         ]
                     },
                     {
-                        "action": "תלונה: בירור אפשרות להעביר פרטים למשרד המשפטים"
+                        "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
                     }
                 ]
             },
@@ -1720,35 +1763,7 @@
                 "topic": "מסגרת חינוכית: מסלול אוניברסיטה/מכללה",
                 "script": [
                     {
-                        "action": "תלונה: בירור והוספת פרטים חסרים"
-                    }
-                ]
-            },
-            {
-                "topic": "מסגרת חנוכית: בחירת מסלול פעולה",
-                "script": [
-                    {
-                        "text": [
-                            "cmd.getOffenderOrganizationCategory(record)"
-                        ],
-                        "collect": {
-                            "key": "_offender_org_category",
-                            "options": [
-                                {
-                                    "default": true,
-                                    "pattern": "default",
-                                    "action": "next"
-                                },
-                                {
-                                    "pattern": "אוניברסיטה/מכללה",
-                                    "type": "string",
-                                    "action": "אוניברסיטה/מכללה: פניה רשמית למוסד"
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "action": "complete"
+                        "action": "אוניברסיטה/מכללה: פניה רשמית למוסד"
                     }
                 ]
             },
@@ -1799,7 +1814,567 @@
                         ]
                     },
                     {
-                        "action": "תלונה: בירור אפשרות להעביר פרטים למשרד המשפטים"
+                        "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
+                    }
+                ]
+            },
+            {
+                "topic": "מסגרת חינוכית: מסלול בתי ספר וגנים ציבוריים",
+                "script": [
+                    {
+                        "text": [
+                            "כרקע חשוב לדעת שאפליית תלמידים במוסדות חינוך חובה מטעמי מוצא, מין, זהות מגדרית, נטייה מינית, רקע סוציואקונומי או השקפה פוליטית היא אפליה אסורה. \n<br><br>\nהאיסור להפלות חל על כל מוסדות החינוך בישראל בכל גיל של התלמיד."
+                        ]
+                    },
+                    {
+                        "text": [
+                            "האיסור להפלות מעוגן בחוק זכויות התלמיד, בחוק איסור הפליה במוצרים ושירותים ובחקיקה נוספת."
+                        ]
+                    },
+                    {
+                        "text": [
+                            "אפליה בכלל ואפליית תלמידים בפרט עשויה להוות עבירה פלילית."
+                        ]
+                    },
+                    {
+                        "text": [
+                            "האם מדובר באפליה בקבלה?"
+                        ],
+                        "collect": {
+                            "key": "_acceptance_discrimination",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "yes",
+                                    "type": "string",
+                                    "action": "מסגרת חינוכית: אפליה בקבלה בחינוך חובה"
+                                }
+                            ]
+                        },
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "meta": [
+                            {
+                                "key": "info",
+                                "value": "education_ministry"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "מסגרת חינוכית: תביעה אזרחית"
+                    }
+                ]
+            },
+            {
+                "topic": "מסגרת חינוכית: אפליה בקבלה בחינוך חובה",
+                "script": [
+                    {
+                        "text": [
+                            "cmd.checkIfUltraOrthodoxEducationOrg(record)"
+                        ],
+                        "collect": {
+                            "key": "_check_if_ultraorthodox_edu",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "true",
+                                    "type": "string",
+                                    "action": "מסגרת חינוכית: פניה לוועדת הערר של האגף לחינוך חרדי במשרד החינוך"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "במסגרות החינוך הממלכתיות, הרישום לבית ספר יסודי ולגני ילדים מתבצע על פי אזורי רישום, ולילד יש זכות ללמוד במוסד הלימוד הקרוב ביותר לביתו."
+                        ]
+                    },
+                    {
+                        "text": [
+                            "בררו האם הפונה מעוניינ/ת שנסייע בפניה למחלקת החינוך ברשות המקומיות הרלוונטית."
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "_municipal_education_send",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        },
+                        "meta": [
+                            {
+                                "key": "on:yes",
+                                "value": "contact_municipal_education_department"
+                            },
+                            {
+                                "key": "infocard",
+                                "value": "municipal_education_list"
+                            }
+                        ]
+                    },
+                    {
+                        "text": [
+                            "בררו האם הפונה מעוניינ/ת שנסייע בפניה לאגף לפניות ותלונות הציבור במשרד החינוך."
+                        ],
+                        "meta": [
+                            {
+                                "key": "infocard",
+                                "value": "education_ministry"
+                            },
+                            {
+                                "key": "on:yes",
+                                "value": "contact_education_ministry"
+                            }
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "_education_ministry_send",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "מסגרת חינוכית: תביעה אזרחית"
+                    }
+                ]
+            },
+            {
+                "topic": "מסגרת חינוכית: תביעה אזרחית",
+                "script": [
+                    {
+                        "text": [
+                            "ניתן לבדוק אפשרות להגיש תביעה אזרחית מכוח חוק איסור אפליה ולזכות בפיצוי אף ללא הוכחת נזק. <br>\n<br>\nניתן לבצע הליך זה בשלושה אמצעים:\n<br>\n<ul>\n<li>פניה לעורך דין פרטי (לא נוכל לסייע בכך)</li>\n<li>פניה לאגף לסיוע משפטי במשרד המשפטים</li>\n<li>פניה לסיוע של ארגון חברה אזרחית הפועל בתחום (בהמשך נציע אפשרויות רלוונטיות)\n\n<br><br>\nהאם הפונה מעוניין שנסייע בפניה לאגף לסיוע משפטי במשרד המשפטים?"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": null,
+                        "meta": [
+                            {
+                                "key": "infocard",
+                                "value": "justice_ministry_legal_assistance"
+                            },
+                            {
+                                "key": "on:yes",
+                                "value": "justice_ministry_ask_assistance"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
+                    }
+                ]
+            },
+            {
+                "topic": "מסגרת חינוכית: פניה לוועדת הערר של האגף לחינוך חרדי במשרד החינוך",
+                "script": [
+                    {
+                        "text": [
+                            "במקרה שמוסד חינוכי חרדי דחה קבלת תלמיד/ה לשורותיו וההורים סבורים שמדובר בהחלטה שאינה מוצדקת, הם רשאים לערער על ההחלטה בפני ועדת ערר של המחוז החרדי במשרד החינוך.\nבית הספר מחויב ליידע את ההורים על אפשרות הערעור על החלטתו, ועל האפשרות לפנות לוועדת הערר. \n\n<br><br>\nהוועדה לא תדון במקרים בהם לא הוגש קודם לכן ערעור למוסד החינוכי."
+                        ],
+                        "meta": [
+                            {
+                                "key": "infocard",
+                                "value": "education_ministry_unltra_orthodox"
+                            }
+                        ]
+                    },
+                    {
+                        "text": [
+                            "האם הפונה (או ההורים) ערערו על הבקשה בפני המוסד החינוכי?"
+                        ],
+                        "collect": {
+                            "key": "_check_if_ultraorthodox_edu",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "yes",
+                                    "type": "string",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "no",
+                                    "type": "string",
+                                    "action": "מסגרת חינוכית: חינוך חרדי אפליה בקבלה, ערעור בפני המוסד"
+                                }
+                            ],
+                            "multiple": true
+                        },
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ]
+                    },
+                    {
+                        "text": [
+                            "בררו אם הפונה מעוניינ/ת שנסייע לו בפניה לועדת הערר במשרד החינוך"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": null,
+                        "meta": [
+                            {
+                                "key": "on:yes",
+                                "value": "contact_education_ministry_ultra_ortodox"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "מסגרת חינוכית: תביעה אזרחית"
+                    }
+                ]
+            },
+            {
+                "topic": "מסגרת חינוכית: חינוך חרדי אפליה בקבלה, ערעור בפני המוסד",
+                "script": [
+                    {
+                        "text": [
+                            "בדקו בצד המסך אם יש בידינו את פרטי ההתקשרות עם בית הספר. אם לא, בקשו מהפונה כל פרט מידע והזינו אותו לשדה \"פרטי קשר עם המוסד או הארגון\" שבצד ימין של המסך."
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "סיימתי",
+                                "payload": "ok",
+                                "content_type": "text"
+                            }
+                        ],
+                        "meta": [
+                            {
+                                "key": "on:ok",
+                                "value": "contact_ultra_orthodox_edu_inst"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "מסגרת חינוכית: תביעה אזרחית"
+                    }
+                ]
+            },
+            {
+                "topic": "מסגרת חינוכית: מסלול גן פרטי לגיל הרך",
+                "script": [
+                    {
+                        "text": [
+                            "מסגרות אלה אינן כפופות לדיני החינוך, על כן הדרך לתקוף אותם בגין אפליה היא באמצעות חוק איסור אפליה.\n<br><br>"
+                        ]
+                    },
+                    {
+                        "action": "מאבטח/ת: בירור מסלול תלונת נזיקין"
+                    }
+                ]
+            },
+            {
+                "topic": "מסגרת חינוכית: מסלול חוגים ברשות מקומית",
+                "script": [
+                    {
+                        "text": [
+                            "האם החוג מופעל על ידי או בניהול הרשות המקומית?"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "הפונה לא יודע/ת",
+                                "payload": "not sure",
+                                "content_type": "text"
+                            }
+                        ],
+                        "meta": [],
+                        "collect": {
+                            "key": "_check_if_municipal_activity",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "repeat"
+                                },
+                                {
+                                    "pattern": "yes",
+                                    "type": "string",
+                                    "action": "מסגרת חינוכית: חוג שמנוהל על ידי רשות מקומית"
+                                },
+                                {
+                                    "pattern": "no",
+                                    "type": "string",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "not sure",
+                                    "type": "string",
+                                    "action": "מסגרת חינוכית: חוג, בדיקה אם חוג מופעל על ידי רשות מקומית או במתקניה"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
+                    }
+                ]
+            },
+            {
+                "topic": "מסגרת חינוכית: חוג שמנוהל על ידי רשות מקומית",
+                "script": [
+                    {
+                        "text": [
+                            "אם העיריה מפעילה את החוגים אפשר לפנות למנכ\"ל העירייה ולמבקר הפנים שלה.\n<br><br>\nבמידה ואמצעי זה לא יסייע, ניתן לשקול אפשרות לתביעה על סמך חוג איסור אפליה."
+                        ]
+                    },
+                    {
+                        "text": [
+                            "בדקו עם הפונה האם כבר יצרו כבר קשר עם הרשות המקומית בנושא."
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "_check_if_municipal_activity",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "yes",
+                                    "type": "string",
+                                    "action": "מסגרת חינוכית: חוגים, בירור תגובת העירייה לפונה"
+                                },
+                                {
+                                    "pattern": "no",
+                                    "type": "string",
+                                    "action": "מסגרת חינוכית: חוגים, יצירת קשר עם רשות מקומית"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
+                    }
+                ]
+            },
+            {
+                "topic": "מסגרת חינוכית: חוגים, יצירת קשר עם רשות מקומית",
+                "script": [
+                    {
+                        "text": [
+                            "בדקו אם פרטי הרשות המקומית מוזנים בפרטי הארוע שבצד ימין. אם לא, בררו עם הפונה באיזו רשות מדובר והזינו לפרטי הארוע שבצד ימין של המסך."
+                        ]
+                    },
+                    {
+                        "text": [
+                            "בררו אם הפונה מעוניינ/ת שנסייע בפניה לרשות המקומית."
+                        ],
+                        "meta": [
+                            {
+                                "key": "on:yes",
+                                "value": "contact_municipality_activity"
+                            }
+                        ],
+                        "collect": null,
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
+                    }
+                ]
+            },
+            {
+                "topic": "מסגרת חינוכית: חוג, בדיקה אם חוג מופעל על ידי רשות מקומית או במתקניה",
+                "script": [
+                    {
+                        "text": [
+                            "האם הפונה מעוניינ/ת שננסה לברר האם החוג מופעל על ידי הרשות המקומית?"
+                        ],
+                        "meta": [
+                            {
+                                "key": "on:yes",
+                                "value": "check_if_municipal_activity"
+                            }
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
+                    }
+                ]
+            },
+            {
+                "topic": "מסגרת חינוכית: חוגים, בירור תגובת העירייה לפונה",
+                "script": [
+                    {
+                        "text": [
+                            "בקשו מהפונה לספר מה היתה תגובת העירייה.\nנסו לברר את תוכן התגובה, המועד בה ניתנה, עם היה הקשר.\nבמידה וישנו מסמך כתוב, בקשו מהפונה להעביר עליכם עותק שלו."
+                        ],
+                        "collect": {
+                            "key": "_details_to_add_to_description",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ],
+                            "multiple": true
+                        }
+                    },
+                    {
+                        "text": [
+                            "cmd.addMunicipalReaction(record)"
+                        ],
+                        "collect": {
+                            "key": "event_description",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "אמרו לפונה שיהיה עליכם להתייעץ לגבי המשך הטיפול במקרה לאור תגובת הרשות המקומית. מומלץ לקבוע זמן או מועד לשיחה הבאה בה תעדכנו אותם."
+                        ],
+                        "meta": [
+                            {
+                                "key": "on:ok",
+                                "value": "municipal_activity_communication_log"
+                            }
+                        ],
+                        "platforms": {
+                            "web": {
+                                "files": []
+                            }
+                        },
+                        "quick_replies": [
+                            {
+                                "title": "בסדר",
+                                "payload": "ok",
+                                "content_type": "text"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
                     }
                 ]
             }
@@ -1811,6 +2386,31 @@
             }
         ],
         "variables": [
+            {
+                "name": "_check_if_municipal_activity",
+                "type": "string",
+                "id": 296
+            },
+            {
+                "name": "_check_if_ultraorthodox_edu",
+                "type": "string",
+                "id": 472
+            },
+            {
+                "name": "_municipal_education_send",
+                "type": "string",
+                "id": 476
+            },
+            {
+                "name": "_education_ministry_send",
+                "type": "string",
+                "id": 271
+            },
+            {
+                "name": "_acceptance_discrimination",
+                "type": "string",
+                "id": 125
+            },
             {
                 "name": "_offender_org_category",
                 "type": "string",
