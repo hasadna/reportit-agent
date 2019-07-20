@@ -87,9 +87,11 @@ export class ChatboxComponent implements OnInit, OnDestroy {
           return record.offender;
         },
         getOffenderOrganizationCategory: async (record) => {
-          console.log('OFFENDER Organization Category: ', record.offender_organization_category);
-          console.log('Offender Org Name: ', record.Offender_organization_details);
           return record.offender_organization_category;
+        },
+        getComplaintType: async (record) => {
+          console.log('complaint type: ', record.complaint_type);
+          return record.complaint_type;
         },
         combinedPoliceEventDescription: async (record) => {
           let new_description = record.event_description + `\n \n פרטים נוספים, משיחה עם המוקדנ/ית: \n`;

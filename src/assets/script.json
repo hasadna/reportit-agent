@@ -1325,6 +1325,11 @@
                                     "pattern": "מסגרת חינוכית",
                                     "type": "string",
                                     "action": "מסגרת חינוכית: בחירת מסלול לפי מסגרת"
+                                },
+                                {
+                                    "pattern": "דיור",
+                                    "type": "string",
+                                    "action": "דיור: בחירת מסלול פעולה"
                                 }
                             ]
                         }
@@ -2377,6 +2382,131 @@
                         "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
                     }
                 ]
+            },
+            {
+                "topic": "דיור: בחירת מסלול פעולה",
+                "script": [
+                    {
+                        "text": [
+                            "cmd.getComplaintType(record)"
+                        ],
+                        "collect": {
+                            "key": "_complaint_type",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "אפליה בקבלה לישוב קהילתי",
+                                    "type": "string",
+                                    "action": "דיור: בדיקה האם מדובר בועדת קבלה"
+                                },
+                                {
+                                    "pattern": "אפליה בקבלה לשכונת הרחבה במושב או בקיבוץ",
+                                    "type": "string",
+                                    "action": "דיור: בדיקה האם מדובר בועדת קבלה"
+                                }
+                            ]
+                        },
+                        "meta": []
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "דיור: בדיקה האם מדובר בועדת קבלה",
+                "script": [
+                    {
+                        "text": [
+                            "האם המקרה קשור בהחלטה או התנהלות של ועדת קבלה בישוב?"
+                        ],
+                        "meta": [
+                            {
+                                "key": "infocard",
+                                "value": "settlement_committee"
+                            }
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "_is_committee",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "yes",
+                                    "type": "string",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "no",
+                                    "type": "string",
+                                    "action": "דיור: הפניה ליעוץ משפטי"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "בררו האם הפונה מעוניינ/ת שננסה לסייע בפניה לועדת ההשגות על החלטות ועדות קבלה לישובים בנגב ובגליל במשרד המשפטים."
+                        ],
+                        "meta": [
+                            {
+                                "key": "infocard",
+                                "value": "justice_ministry_admission_committee"
+                            },
+                            {
+                                "key": "on:yes",
+                                "value": "contact_justice_ministry_application_commitee"
+                            }
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
+                    }
+                ]
+            },
+            {
+                "topic": "דיור: הפניה ליעוץ משפטי",
+                "script": [
+                    {
+                        "text": [
+                            "למעט ישובים קטנים, של עד 400 משפחות, החוק אינו מתיר מניעת קבלה לישוב. \n<br><br>\nבמידה והפונה נתקל/ה בהפליה ניתן להציע להם לפנות לעו\"ד (בכך לא נוכל לסייע) או לנסות להיעזר ב אחד הארגונים העוסקים בנושא ליעוץ משפטי, שנציע בהמשך השיחה"
+                        ]
+                    },
+                    {
+                        "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
+                    }
+                ]
             }
         ],
         "triggers": [
@@ -2386,6 +2516,16 @@
             }
         ],
         "variables": [
+            {
+                "name": "_is_committee",
+                "type": "string",
+                "id": 104
+            },
+            {
+                "name": "_complaint_type",
+                "type": "string",
+                "id": 42
+            },
             {
                 "name": "_check_if_municipal_activity",
                 "type": "string",
