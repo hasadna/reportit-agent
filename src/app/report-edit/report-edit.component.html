@@ -25,46 +25,67 @@
     </div>
     <app-status-widget [report]='report'></app-status-widget>
     <hr/>
-    <app-editable-field-widget [report]='report' [field]='"full_name"'>
+    <app-editable-field-widget [report]='report' field="full_name">
       <label i18n>שם הפונה</label>
     </app-editable-field-widget>
     <div class='contacts'>
       <label i18n>אמצעי יצירת קשר</label>
-      <app-editable-field-widget [report]='report' [field]='"phone"' [oneLine]='true'>
+      <app-editable-field-widget [report]='report' field="phone" [oneLine]='true'>
         <label i18n>מספר טלפון:&nbsp;</label>
       </app-editable-field-widget>
-      <app-editable-field-widget [report]='report' [field]='"email"' [oneLine]='true'>
+      <app-editable-field-widget [report]='report' field="email" [oneLine]='true'>
         <label i18n>אימייל:&nbsp;</label>
       </app-editable-field-widget>
+      <app-editable-field-widget [report]='report' field="whatsapp" [oneLine]='true'>
+        <label i18n>וואטספ:&nbsp;</label>
+      </app-editable-field-widget>
+      <app-editable-field-widget [report]='report' field="facebook" [oneLine]='true'>
+        <label i18n>פייסבוק:&nbsp;</label>
+      </app-editable-field-widget>
     </div>
-    <app-editable-field-widget [report]='report' [field]='"complaint_type"'>
+    <app-editable-field-widget [report]='report' field="complaint_type">
       <label i18n>סוג התלונה</label>
     </app-editable-field-widget>
-    <app-editable-field-widget [report]='report' [field]='"offender"'>
+    <app-editable-field-widget [report]='report' field="offender">
       <label i18n>מושא התלונה</label>
     </app-editable-field-widget>
 
-    <app-editable-field-widget [report]='report' [field]='"offender_details"' [text]='true'>
-      <label i18n>פרטים נוספים על מושא התלונה</label>
+    <app-editable-field-widget [report]='report' field="event_description" [text]='true'>
+      <label i18n>תיאור המקרה</label>
     </app-editable-field-widget>
-    <app-editable-field-widget [report]='report' [field]='"offender_organization"'>
+    <app-editable-field-widget [report]='report' field="event_location">
+      <label i18n>מיקום האירוע</label>
+    </app-editable-field-widget>
+
+    <app-editable-field-widget [report]='report' field="offender_details" [text]='true'>
+      <label i18n>מידע נוסף על מושא התלונה</label>
+    </app-editable-field-widget>
+    <app-editable-field-widget [report]='report' field="offender_person_details">
+      <label i18n>פרטים אישיים של מושא התלונה</label>
+    </app-editable-field-widget>
+    <app-editable-field-widget [report]='report' field="offender_organization">
       <label i18n>שם המוסד או הארגון</label>
     </app-editable-field-widget>
-    <app-editable-field-widget [report]='report' [field]='"offender_organization_category"'>
+    <app-editable-field-widget [report]='report' field="offender_organization_category">
       <label i18n>סוג המוסד או הארגון</label>
     </app-editable-field-widget>
-    <app-editable-field-widget [report]='report' [field]='"offender_organization_details"'>
+    <app-editable-field-widget [report]='report' field="offender_organization_details">
       <label i18n>פרטי קשר עם המוסד או הארגון</label>
     </app-editable-field-widget>
 
-
-    <app-editable-field-widget [report]='report' [field]='"event_description"' [text]='true'>
-      <label i18n>תיאור המקרה</label>
-    </app-editable-field-widget>
-    <app-editable-field-widget [report]='report' [field]='"required_service"'>
+    <app-editable-field-widget [report]='report' field="required_service">
       <label i18n>השירות שביקש/ה</label>
     </app-editable-field-widget>
     <hr/>
+
+    <label i18n>קבצים מצורפים:</label>
+    <div class='files'>
+      <ng-container *ngFor='let file of report.evidence_files; let idx=index;'>
+        <a [href]='strapi.BASE_URL + file.url' target='_blank'>{{report['file' + (idx+1) + 'description']}}</a>
+      </ng-container>
+
+    </div>
+
   </div>
 </app-side-pane>
 

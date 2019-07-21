@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import * as moment from 'moment';
+import { StrapiService } from '../strapi.service';
 
 @Component({
   selector: 'app-report-edit',
@@ -12,7 +13,7 @@ export class ReportEditComponent implements OnInit {
 
   @Input() report: any;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, public strapi: StrapiService) {
     moment.locale('he');
   }
 
