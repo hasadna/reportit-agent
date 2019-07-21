@@ -586,6 +586,16 @@
                                     "pattern": "אחר",
                                     "type": "string",
                                     "action": "אחר: בירור פרטים נוספים"
+                                },
+                                {
+                                    "pattern": "בריאות",
+                                    "type": "string",
+                                    "action": "בריאות: בדיקה האם הפניה רלוונטית לנושא הגזענות והאפליה"
+                                },
+                                {
+                                    "pattern": "אחר",
+                                    "type": "string",
+                                    "action": "תלונה: בירור והוספת פרטים חסרים"
                                 }
                             ]
                         }
@@ -1330,6 +1340,11 @@
                                     "pattern": "דיור",
                                     "type": "string",
                                     "action": "דיור: בחירת מסלול פעולה"
+                                },
+                                {
+                                    "pattern": "בריאות",
+                                    "type": "string",
+                                    "action": "בריאות: בחירת מסלול פעולה"
                                 }
                             ]
                         }
@@ -2999,6 +3014,379 @@
                             {
                                 "key": "on:yes",
                                 "value": "send_justice_ministry_realtors_registrar"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "תלונה: האם להעביר פרטים ליחידה לתיאום המאבק בגזענות במשרד המשפטים"
+                    }
+                ]
+            },
+            {
+                "script": [
+                    {
+                        "text": [
+                            "This is undefined"
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "בריאות: בדיקה האם הפניה רלוונטית לנושא הגזענות והאפליה",
+                "script": [
+                    {
+                        "text": [
+                            "קראו את פרטי המקרה ותקשרו עם הפונה כדי להבין את מהות הפניה.<br>\n<br>\nשאלו את עצמכם האם תוכן הפניה עוסק באפליה או התנהלות על רקע גזעני.<br><br>\n\nבמקרה שלא – למשל – אם הפניה עוסקת ברשלנות רפואית, פגיעה בפרטיות, טיב הטיפול הרפואי, היעדר או יכולת כלכלית לרכוש תרופה - יש להפנות את הפונה לעמוד עם פרטי הקשר לכל המוקדים הקיימים במשרד הבריאות"
+                        ],
+                        "meta": [
+                            {
+                                "key": "infocard",
+                                "value": "health_ministry_contacts"
+                            }
+                        ]
+                    },
+                    {
+                        "text": [
+                            "האם פרטי המקרה עוסקים באפליה או התנהלות על רקע גזעני?"
+                        ],
+                        "collect": {
+                            "key": "_complaint_type",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "repeat"
+                                },
+                                {
+                                    "pattern": "yes",
+                                    "type": "string",
+                                    "action": "תלונה: בירור והוספת פרטים חסרים"
+                                },
+                                {
+                                    "pattern": "no",
+                                    "type": "string",
+                                    "action": "סיום שיחה"
+                                }
+                            ]
+                        },
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "meta": [
+                            {
+                                "key": "on:no",
+                                "value": "health_non_racism"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "complete"
+                    }
+                ]
+            },
+            {
+                "topic": "בריאות: מסלול הערות גזעניות או מעליבות",
+                "script": [
+                    {
+                        "text": [
+                            "במשרד הבריאות פועלת מתאמת למאבק בגזענות.<br><br>\nבררו האם הפונה מעוניינ/ת שנסייע בפניה למתאמת המאבק בגזענות והעברת פרטי המקרה."
+                        ],
+                        "meta": [
+                            {
+                                "key": "on:yes",
+                                "value": "contact_health_ministry_zero_racims"
+                            }
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "collect": {
+                            "key": "_relevantactions",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "בריאות: בירור אפשרות לתביעת נזיקין"
+                                },
+                                {
+                                    "pattern": "yes",
+                                    "type": "string",
+                                    "action": "next"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "האם הארוע התרחש או קשור באחד מבתי החולים בארץ?"
+                        ],
+                        "collect": {
+                            "key": "_relevantactions",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "בריאות: בירור אפשרות לתביעת נזיקין"
+                                },
+                                {
+                                    "pattern": "yes",
+                                    "type": "string",
+                                    "action": "next"
+                                }
+                            ]
+                        },
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "meta": [
+                            {
+                                "key": "on:yes",
+                                "value": "send_health_centers_antiracism_officers"
+                            }
+                        ]
+                    },
+                    {
+                        "text": [
+                            "עדכנו את הפונה שננסה לאתר את הממונה למאבק בגזענות במוסד, ונעביר גם אליהם העתק של הפניה לממונה במשרד הבריאות."
+                        ],
+                        "meta": [
+                            {
+                                "key": "key",
+                                "value": "value"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "בריאות: בירור אפשרות לתביעת נזיקין"
+                    }
+                ]
+            },
+            {
+                "topic": "בריאות: בחירת מסלול פעולה",
+                "script": [
+                    {
+                        "text": [
+                            "cmd.getComplaintType(record)"
+                        ],
+                        "collect": {
+                            "key": "complaint_type",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "הערות גזעניות או מעליבות",
+                                    "type": "string",
+                                    "action": "בריאות: מסלול הערות גזעניות או מעליבות"
+                                },
+                                {
+                                    "pattern": "סירוב להעניק טיפול על רקע גזעני או מפלה",
+                                    "type": "string",
+                                    "action": "בריאות: מסלול סירוב להעניק טיפול על רקע גזעני או מפלה"
+                                },
+                                {
+                                    "pattern": "המרפאה/מרכז רפואי לא היו נגישים",
+                                    "type": "string",
+                                    "action": "בריאות: מסלול המרפאה/מרכז רפואי לא היו נגישים"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": "בריאות: בירור אפשרות לתביעת נזיקין"
+                    }
+                ]
+            },
+            {
+                "topic": "בריאות: מסלול סירוב להעניק טיפול על רקע גזעני או מפלה",
+                "script": [
+                    {
+                        "text": [
+                            "במשרד הבריאות פועלת נציבות קבילות כלפי בעלי מקצועות רפואיים.\n<br><br>\nבררו האם הפונה מעוניינ/ת שנסייע בהעברת פרטי המקרה לבירור בנציבות"
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן, הפונה מאשר/ת להעביר את הפניה עם פרטים מזהים",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "הפונה מאשר/ת לפנות לנציב ללא מסירת פרטים מזהים",
+                                "payload": "anonymously",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא, הפונה אינו מעוניין לפנות לנציבות",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "meta": [
+                            {
+                                "key": "on:anonymously",
+                                "value": "send_to_helath_ministry_public_inqueries_anonymously"
+                            },
+                            {
+                                "key": "on:yes",
+                                "value": "send_to_health_ministry_public_inquiries"
+                            },
+                            {
+                                "key": "infocard",
+                                "value": "health_ministry_public_inquiries"
+                            }
+                        ],
+                        "collect": {
+                            "key": "_relevantactions",
+                            "options": [
+                                {
+                                    "default": true,
+                                    "pattern": "default",
+                                    "action": "repeat"
+                                },
+                                {
+                                    "pattern": "anonymously",
+                                    "type": "string",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "yes",
+                                    "type": "string",
+                                    "action": "next"
+                                },
+                                {
+                                    "pattern": "no",
+                                    "type": "string",
+                                    "action": "בריאות: בירור אפשרות לתביעת נזיקין"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": [
+                            "עדכנו את הפונה שהעתק הפניה יועבר גם למתאמת המאבק בגזענות במשרד הבריאות"
+                        ],
+                        "meta": [
+                            {
+                                "key": "on:ok",
+                                "value": "contact_health_ministry_zero_racims"
+                            }
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "בסדר",
+                                "payload": "ok",
+                                "content_type": "text"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "בריאות: בירור אפשרות לתביעת נזיקין"
+                    }
+                ]
+            },
+            {
+                "topic": "בריאות: מסלול המרפאה/מרכז רפואי לא היו נגישים",
+                "script": [
+                    {
+                        "text": [
+                            "ניתן לפנות בשאלות ובתלונות לממונת שוויון זכויות לאנשים עם מוגבלות במשרד הבריאות."
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן, הפונה מעוניינ/ת לפנות לממונה ומאשרת להעביר את פרטי המקרה",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "הפונה מאשר/ת לפנות לממונה, מבלי לחשוף פרטים מזהים",
+                                "payload": "anonymously",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
+                            }
+                        ],
+                        "meta": [
+                            {
+                                "key": "on:yes",
+                                "value": "send_to_health_ministry_accessiblity"
+                            },
+                            {
+                                "key": "infocard",
+                                "value": "health_ministry_accessiblity"
+                            },
+                            {
+                                "key": "on:anonymously",
+                                "value": "send_to_health_ministry_accessiblity_anonymously"
+                            }
+                        ]
+                    },
+                    {
+                        "action": "בריאות: בירור אפשרות לתביעת נזיקין"
+                    }
+                ]
+            },
+            {
+                "topic": "בריאות: בירור אפשרות לתביעת נזיקין",
+                "script": [
+                    {
+                        "text": [
+                            "הסבירו לפונה כי במקרים מסוימים ניתן להגיש תביעה אזרחית לפיצוי בגין הפליה בקבלת טיפול רפואי. <br><br>\nיש ניתן להיוועץ עם הלשכה לסיוע משפטי במשרד המשפטים, או עם ארגונים רלוונטיים (שנציג בהמשך השיחה), או עם עו\"ד פרטי (בכך לא נוכל לסייע).<br><br>\nבררו האם הפונה מעוניינ/ת שנסייע בפניה ללשכה לסיוע משפטי במשרד המשפטים."
+                        ],
+                        "meta": [
+                            {
+                                "key": "infocard",
+                                "value": "justice_ministry_legal_assistance"
+                            },
+                            {
+                                "key": "on:yes",
+                                "value": "justice_ministry_ask_assistance"
+                            }
+                        ],
+                        "quick_replies": [
+                            {
+                                "title": "כן",
+                                "payload": "yes",
+                                "content_type": "text"
+                            },
+                            {
+                                "title": "לא",
+                                "payload": "no",
+                                "content_type": "text"
                             }
                         ]
                     },
