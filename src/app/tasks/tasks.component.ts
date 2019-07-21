@@ -32,7 +32,9 @@ export class TasksComponent implements OnInit {
     } else {
       this.open = task;
       for (const card of task.card_slugs.split(',')) {
-        this.infoCards.appendCard(card);
+        if (card) {
+          this.infoCards.appendCard(card);
+        }
       }
     }
   }

@@ -28,7 +28,6 @@ export class SingleTaskComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.content = this.converter.makeHtml(this.task.description);
-    console.log('USER', this.task);
   }
 
   changed() {

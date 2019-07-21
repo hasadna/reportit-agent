@@ -281,6 +281,12 @@ export class ChatboxComponent implements OnInit, OnDestroy {
       }
     ).pipe(
       switchMap(() => {
+        this.content.addOptions(null, [
+          {value: true, display: 'לחצו לסיום השיחה והצגת רשימת המשימות'},
+        ]);
+        return this.content.waitForInput();
+      }),
+      switchMap(() => {
         const report = Object.assign({}, this.report, {finished_intake: true});
         return this.strapi.updateReport(report);
       })
