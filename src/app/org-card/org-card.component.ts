@@ -98,7 +98,7 @@ export class OrgCardComponent implements OnInit {
     this.inner = {
       title: c['Organization Name'],
       content: `
-${c['Description']}
+${c['Description'] || ''}
 
 ${this.email()}
 ${this.website()}
