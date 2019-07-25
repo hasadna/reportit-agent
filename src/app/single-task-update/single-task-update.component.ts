@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { StrapiService } from '../strapi.service';
 import * as moment from 'moment';
+import { isObject } from 'util';
 
 @Component({
   selector: 'app-single-task-update',
@@ -21,7 +22,11 @@ export class SingleTaskUpdateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.api.getUserProfile(this.update.user)
+    let user_id = this.update.user;
+    if (isObject(user_id)) {
+      user_id = user_id.id;
+    }
+    this.api.getUserProfile(user_id)
       .subscribe((profile) => {
         this.avatar = profile.gravatar;
         this.username = profile.username;

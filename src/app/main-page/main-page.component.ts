@@ -19,7 +19,7 @@ export class MainPageComponent implements OnInit {
         this.profile = profile;
         this.api.getReports()
         .subscribe((reports) => {
-          this.reports = reports;
+          this.reports = reports.sort((a, b) => a.id < b.id ? 1 : -1);
         });
       }
     );
