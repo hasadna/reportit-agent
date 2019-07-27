@@ -156,7 +156,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
               this.content.addTo('הסבירו לפונה שמכיוון שמסר פרטים מזהים לגבי המאבטח, יש באפשרותו להגיש תלונה כנגדם\
                                   למחלקת האבטחה והרישוי במשטרת ישראל.');
               this.infocards.appendCard('police_security_department');
-              this.content.addOptions('האם הפונה מעוניין לקבל סיוע בפנייה למחלקת האבטחה והרישוי במשטרה והגשת תלונה על המאבטח?', [
+              this.content.addOptions('האם הפונה מעוניינ/ת לקבל סיוע בפנייה למחלקת האבטחה והרישוי במשטרה והגשת תלונה על המאבטח?', [
                    { display: 'כן', value: () => { console.log('yes');
                                                    this.infocards.addTask(record,
                                                                           'compaint_guard_to_police',
