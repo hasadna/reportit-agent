@@ -131,7 +131,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
           const location = record.event_location;
 
           if (location === 'משרד ממשלתי' || location === 'תחבורה ציבורית' || location === 'בית חולים') {
-            this.content.addTo('אם הארוע\
+            this.content.addTo('אם האירוע\
              המפלה התרחש בתחומי רשות ציבורית\
             (בית חולים, משרד ממשלתי, תחבורה ציבורית)\
            כדאי בכל מקרה להגיש תלונה\
