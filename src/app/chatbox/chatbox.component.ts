@@ -208,7 +208,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
               if (!this.matchScenarios(record, org.scenarios)) {
                 continue;
               }
-              this.content.addTo(`האם תרצו לשתף את המקרה עם ${org['Organization Name']}?`,
+              this.content.addTo(`האם הפונה מעוניינ/ת לשתף את המקרה עם ${org['Organization Name']}?`,
                                  () => { this.infocards.appendCard('org:' + org.slug); });
               this.content.addOptions(null, [
                 { display: 'כן', value: () => { console.log('yes');
@@ -228,7 +228,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
               if (!this.matchScenarios(record, org.scenarios)) {
                 continue;
               }
-              this.content.addTo(`האם תרצו לשתף את המקרה עם ${org['Organization Name']}?`,
+              this.content.addTo(`האם הפונה מעוניינ/ת לשתף את המקרה עם ${org['Organization Name']}?`,
                                  () => { this.infocards.appendCard('org:' + org.slug); });
               this.content.addOptions(null, [
                 { display: 'כן', value: () => { console.log('yes');
