@@ -3042,7 +3042,7 @@
                         "meta": [
                             {
                                 "key": "on:yes",
-                                "value": "contact_health_ministry_zero_racims"
+                                "value": "contact_health_ministry_zero_racism"
                             }
                         ],
                         "quick_replies": [
@@ -3192,7 +3192,7 @@
                         "meta": [
                             {
                                 "key": "on:anonymously",
-                                "value": "send_to_helath_ministry_public_inqueries_anonymously"
+                                "value": "send_to_health_ministry_public_inqueries_anonymously"
                             },
                             {
                                 "key": "on:yes",
@@ -3236,7 +3236,7 @@
                         "meta": [
                             {
                                 "key": "on:ok",
-                                "value": "contact_health_ministry_zero_racims"
+                                "value": "contact_health_ministry_zero_racism"
                             }
                         ],
                         "quick_replies": [
