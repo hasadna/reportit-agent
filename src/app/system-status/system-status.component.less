@@ -30,7 +30,7 @@
         display: flex;
         flex-flow: column;
         margin-top: 25px;
-        margin-bottom: 10px;
+        margin-bottom: 0px;
     
         .number {
             font-size: 48px;
@@ -41,15 +41,47 @@
             display: flex;
             flex-flow: row;
             align-items: center;
+            cursor: pointer;
+            padding: 10px 20px;
+            padding-bottom: 9px;
+            margin-top: -10px;
+            margin-right: -20px;
+            margin-left: -40px;
+            border-radius: 25px;
 
             label {
                 font-size: 20px;
                 font-weight: normal;
                 color: #b0b0b0;
+                cursor: pointer;
             }
 
             i {
                 margin-right: auto;
+                cursor: pointer;
+
+                &.fa-chevron-left {
+                    display: inline-block;
+                }
+                &.fa-times {
+                    display: none;
+                }
+            }
+
+            &.active {
+                background-color: #eee;
+                label {
+                    color: black;
+                }
+
+                i {
+                    &.fa-chevron-left {
+                        display: none;
+                    }
+                    &.fa-times {
+                        display: inline-block;
+                    }    
+                }
             }
         }
     }

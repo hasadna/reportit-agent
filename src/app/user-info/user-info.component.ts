@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import * as gravatar from 'gravatar';
 import { StrapiService } from '../strapi.service';
@@ -12,6 +12,7 @@ export class UserInfoComponent implements OnInit {
 
   @Input() profile;
   @Input() reports;
+  @Output() filtering = new EventEmitter<any>();
   avatar_url = null;
 
   constructor(public api: StrapiService) { }

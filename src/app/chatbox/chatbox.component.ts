@@ -168,18 +168,8 @@ export class ChatboxComponent implements OnInit, OnDestroy {
                  ]);
                  (await this.content.waitForInput())();
                }}},
-      countFiles: async (record) => {
-          let counter = 0;
-          for (let index = 1; index <= 5; index++) {
-            const fileName = `file${index.toString()}description`;
-
-            if (fileName in record && record[fileName] !== null ) {
-              console.log(`Found file ${index}: ${record[fileName]}`);
-              counter += 1;
-            }
-          }
-          console.log('File Counter: ' + counter.toString());
-          return counter.toString();
+        countFiles: async (record) => {
+          return record.evidence_files.length.toString();
         },
         checkIfUltraOrthodoxEducationOrg: async (record) => {
           if (record.offender_details === 'חינוך חרדי') {
@@ -258,13 +248,17 @@ export class ChatboxComponent implements OnInit, OnDestroy {
         },
         uploader: async (record, key, uploader: FileUploader) => {
           uploader.active = true;
-          const uploaded = await this.strapi.uploadFile(
+          const uploaded = this.strapi.uploadFile(
             record.id,
             uploader.selectedFile, record.id + '/' + key,
               (progress) => { uploader.progress = progress; },
               (success) => { uploader.success = success; }
           );
-          return uploaded;
+          return uploaded.then((report: any) => {
+            console.log('NEW RECORD', report);
+            record.evidence_files = report.evidence_files;
+          });
+          // return uploaded;
         },
       },
       (key, value) => {},

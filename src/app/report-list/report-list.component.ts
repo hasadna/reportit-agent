@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 
 import * as moment from 'moment';
 import { Router } from '@angular/router';
@@ -8,9 +8,11 @@ import { Router } from '@angular/router';
   templateUrl: './report-list.component.html',
   styleUrls: ['./report-list.component.less']
 })
-export class ReportListComponent implements OnInit {
+export class ReportListComponent implements OnInit, OnChanges {
 
   @Input() reports: any[];
+  @Input() filtering: string;
+  visibleReports: any[];
   moment = null;
 
   constructor(private router: Router) {
@@ -18,6 +20,13 @@ export class ReportListComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnChanges() {
+    console.log('reports', this.filtering, this.reports)
+    this.visibleReports = this.reports.filter(
+      (r) => this.filtering === 'none' || r.status === this.filtering
+    );
   }
 
   humanize(x) {

@@ -1,2 +1,2 @@
-<app-user-info *ngIf='profile' [profile]='profile' [reports]='reports'></app-user-info>
-<app-report-list *ngIf='reports' [reports]='reports'></app-report-list>
+<app-user-info *ngIf='profile' [profile]='profile' [reports]='reports' (filtering)='filtering = $event'></app-user-info>
+<app-report-list *ngIf='reports' [reports]='reports' [filtering]='filtering'></app-report-list>

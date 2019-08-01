@@ -11,7 +11,7 @@
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor='let report of reports'>
+    <ng-container *ngFor='let report of visibleReports'>
       <tr>
           <td (click)='select(report)' class='name'>{{report.full_name}}</td>
           <td>
