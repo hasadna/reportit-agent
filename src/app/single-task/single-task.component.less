@@ -14,8 +14,19 @@
         
         .emblem {
             padding: 5px;
-            font-size: 30px;
-            color: darken(#61ce9c, 30%);
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            span {
+                font-size: 13px;
+                min-width: 40px;
+                text-align: center;
+            }
+            i {
+                font-size: 30px;
+                color: darken(#61ce9c, 30%);
+                cursor: pointer;
+            }
         }
         
         .content {
@@ -40,11 +51,11 @@
                 display: flex;
                 flex-flow: row;
                 align-items: center;
-                justify-content: flex-end;
+                justify-content: space-between;
                 margin: 10px 0;
 
                 > * {
-                    width: 30%;
+                    margin: 0 5px;
                     text-align: left;
                     font-size: 14px;
 
@@ -52,6 +63,10 @@
                         margin-left: 5px;
                         font-weight: bold;
                     }
+                }
+
+                .date {
+                    // white-space: nowrap;
                 }
             }
 

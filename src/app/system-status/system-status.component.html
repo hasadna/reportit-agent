@@ -5,25 +5,25 @@
 </span>
 <span>לחיצה על כל אחת מהכותרות הללו תפעיל סינון לסוג שנבחר</span>
 </div>
-<div class='counter'>
+<div class='counter' (click)='setFilter(null)'>
 <span class='number'>{{count_new}}</span>
-<span class='text' [class.active]='filter === null' (click)='setFilter(null)'>
+<span class='text' [class.active]='filter === null'>
 <label>פניות חדשות</label>
 <i class="fas fa-chevron-left"></i>
 <i class="fas fa-times"></i>
 </span>
 </div>
-<div class='counter'>
+<div class='counter' (click)='setFilter("active")'>
 <span class='number'>{{count_active}}</span>
-<span class='text' [class.active]='filter === "active"' (click)='setFilter("active")'>
+<span class='text' [class.active]='filter === "active"'>
 <label>פניות בטיפול</label>
 <i class="fas fa-chevron-left"></i>
 <i class="fas fa-times"></i>
 </span>
 </div>
-<div class='counter'>
+<div class='counter' (click)='setFilter("done")'>
 <span class='number'>{{count_done}}</span>
-<span class='text' [class.active]='filter === "done"' (click)='setFilter("done")'>
+<span class='text' [class.active]='filter === "done"'>
 <label>פניות שהטיפול בהן הושלם</label>
 <i class="fas fa-chevron-left"></i>
 <i class="fas fa-times"></i>

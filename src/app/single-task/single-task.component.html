@@ -1,6 +1,13 @@
 <div class='task' [class.complete]='task.complete'>
   <div class='emblem'>
-      <i class="checkbox far fa-check-square"></i>
+    <ng-container *ngIf='task.complete' >
+      <i class="checkbox far fa-check-square" (click)='task.complete = false; changed()'></i>
+      <span>הושלמה</span>
+    </ng-container>
+    <ng-container *ngIf='!task.complete' >
+      <i class="checkbox far fa-square" (click)='task.complete = true; changed()'></i>
+      <span>פתוחה</span>
+    </ng-container>
   </div>
   <div class='content'>
     <div class='title' (click)='requestToggle()'>
@@ -14,10 +21,6 @@
       <div class='date'>
         <label>עודכנה:</label>
         <span>{{ humanize(task.updated_at) }}</span>
-      </div>
-      <div class='complete'>
-        <label>הושלמה:</label>
-        <input type='checkbox' [(ngModel)]='task.complete' (change)='changed()'/>
       </div>
     </div>
     <div class='body' *ngIf='open'>

@@ -33,6 +33,7 @@ export class SystemStatusComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.count_total = this.reports.length;
+    this.count_active = this.count_done = this.count_new = 0;
     for (const report of this.reports) {
       if (report.status === 'active') {
         this.count_active += 1;
