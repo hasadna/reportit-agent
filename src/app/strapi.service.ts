@@ -47,7 +47,6 @@ export class StrapiService {
       this.token.next(currentToken);
     }
     this.token.subscribe((token) => {
-      console.log('TOKEN', token);
       if (token) {
         window.localStorage.jwt = token;
         this.getProfile(token);

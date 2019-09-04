@@ -16,7 +16,8 @@ export class LoginPageComponent implements OnInit {
 
   constructor(public api: StrapiService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router) {
+  }
 
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['next'] || '/';

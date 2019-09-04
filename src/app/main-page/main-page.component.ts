@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { StrapiService } from '../strapi.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-page',
@@ -11,7 +12,12 @@ export class MainPageComponent implements OnInit {
   profile: any = null;
   reports: any[] = [];
 
-  constructor(public api: StrapiService) {
+  constructor(public api: StrapiService, private router: Router) {
+    this.api.loggedIn.subscribe((loggedIn) => {
+      if (loggedIn === false) {
+        this.router.navigate(['login']);
+      }
+    });
     this.api.profile.subscribe(
       (profile) => {
         this.profile = profile;

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { ScriptRunner, ContentManager, FileUploader } from 'hatool';
+import { ContentManager, FileUploader, ScriptRunnerNew as ScriptRunnerImpl } from 'hatool';
 import { switchMap } from 'rxjs/operators';
 import { StrapiService } from '../strapi.service';
 import { InfoCardsService } from '../info-cards.service';
@@ -16,14 +16,14 @@ export class ChatboxComponent implements OnInit, OnDestroy {
   @Input() report: any;
   subscription: Subscription = null;
   content: ContentManager;
-  runner: ScriptRunner;
+  runner: ScriptRunnerImpl;
 
   constructor(private strapi: StrapiService,
               private infocards: InfoCardsService,
               private http: HttpClient,
   ) {
     this.content = new ContentManager();
-    this.runner = new ScriptRunner(this.http, this.content);
+    this.runner = new ScriptRunnerImpl(this.http, this.content);
     console.log('CHAT INIT!!');
   }
 
@@ -78,7 +78,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     this.content.inputPlaceholder = 'הקלידו הודעה...';
 
     this.subscription = this.runner.run(
-      'assets/script.json',
+      'https://raw.githubusercontent.com/hasadna/reportit-scripts/master/src/agent/script.json',
       0,
       {
         /// Specific Utils
@@ -108,12 +108,12 @@ export class ChatboxComponent implements OnInit, OnDestroy {
           }
           return new_description;
         },
-          addMunicipalReaction: async (record) => {
-                const new_description = `${record.event_description} \n\n\
-                                  פרטי הפניה ותגובת הרשות המקומית, כפי שתוארו בשיחה עם המוקדנ/ית: \n\
-                                  ${record._details_to_add_to_description}`;
-                return new_description;
-          },
+        addMunicipalReaction: async (record) => {
+              const new_description = `${record.event_description} \n\n\
+                                פרטי הפניה ותגובת הרשות המקומית, כפי שתוארו בשיחה עם המוקדנ/ית: \n\
+                                ${record._details_to_add_to_description}`;
+              return new_description;
+        },
         combinedEventDescription: async (record) => {
           let new_description = record.event_description;
           if (record._add_details_to_description === 'true') {
@@ -169,7 +169,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
                  (await this.content.waitForInput())();
                }}},
         countFiles: async (record) => {
-          return record.evidence_files.length.toString();
+          return record.evidence_files.length;
         },
         checkIfUltraOrthodoxEducationOrg: async (record) => {
           if (record.offender_details === 'חינוך חרדי') {
@@ -241,11 +241,16 @@ export class ChatboxComponent implements OnInit, OnDestroy {
             }
           }
         },
-        /// Generic Utils
-        saveUser: async (record) => {
-          this.strapi.updateReport(record)
-              .subscribe(() => { console.log('SAVED!'); }, () => {});
+        addTask: async (record, task) => {
+          this.infocards.addTask(record, task, {}, '');
         },
+        showInfoCard: async (card) => {
+          this.infocards.appendCard(card);
+        },
+        print: async (record, field) => {
+          console.log(`value of record[${field}] is`, record[field]);
+        },
+        /// Generic Utils
         uploader: async (record, key, uploader: FileUploader) => {
           uploader.active = true;
           const uploaded = this.strapi.uploadFile(
@@ -261,18 +266,12 @@ export class ChatboxComponent implements OnInit, OnDestroy {
           // return uploaded;
         },
       },
-      (key, value) => {},
-      this.report,
-      (meta) => {
-        for (const item of meta) {
-          if (item.key === 'infocard') {
-            this.infocards.appendCard(item.value);
-          }
-        }
+      async (key, value, record) => {
+        console.log('SETTING record[',key,'] <= ',value);
+        this.strapi.updateReport(record)
+          .subscribe(() => { console.log('SAVED!'); }, () => {});
       },
-      (event) => {
-        this.infocards.addTask(this.report, event, {}, '');
-      }
+      this.report
     ).pipe(
       switchMap(() => {
         this.content.addOptions(null, [
