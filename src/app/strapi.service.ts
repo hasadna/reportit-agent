@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, from, Subject } from 'rxjs';
 import { HttpClient, HttpEventType, HttpResponse, HttpRequest } from '@angular/common/http';
-import { map, catchError, filter, switchMap } from 'rxjs/operators';
+import { map, catchError, filter, switchMap, mergeMap, reduce } from 'rxjs/operators';
 
 import * as gravatar from 'gravatar';
 
@@ -31,6 +31,8 @@ export class StrapiService {
 
   URL_UPDATE_REPORT = this.URL_GET_REPORT;
   URL_UPDATE_TASK = this.URL_GET_TASK;
+
+  URL_DELETE_TASK = this.URL_GET_TASK;
 
   FILE_UPLOAD = this.BASE_URL + '/upload/';
 
@@ -252,5 +254,23 @@ export class StrapiService {
         );
     }
     return from([this.profile_cache[user_id]]);
+  }
+
+  deleteTasks(tasks) {
+    if (tasks && tasks.length) {
+      return from(tasks)
+        .pipe(
+          mergeMap((task: any) => {
+            console.log('deleting task', task.id);
+            return this.http.delete(
+              this.URL_DELETE_TASK + task.id, 
+              {headers: {Authorization: `Bearer ${this.token.getValue()}`}}
+            );
+          }),
+          reduce(() => true)
+      );
+    } else {
+      return from([true]);
+    }
   }
 }

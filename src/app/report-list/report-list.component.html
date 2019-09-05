@@ -3,6 +3,7 @@
     <tr>
       <th i18n>שם מלא</th>
       <th i18n>סטטוס</th>
+      <th i18n>משימות פתוחות</th>
       <th i18n>שפה</th>
       <th i18n>מושא התלונה</th>
       <th i18n>מוקדנ/ית</th>
@@ -17,6 +18,7 @@
           <td>
             <app-status-widget [report]='report'></app-status-widget>
           </td>
+          <td>{{num_open_tasks(report)}}</td>
           <td>{{report.language || 'עברית'}}</td>
           <td>{{report.offender}}</td>
           <td>{{report.agent? report.agent.username: ''}}</td>

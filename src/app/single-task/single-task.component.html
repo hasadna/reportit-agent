@@ -1,17 +1,20 @@
 <div class='task' [class.complete]='task.complete'>
   <div class='emblem'>
     <ng-container *ngIf='task.complete' >
-      <i class="checkbox far fa-check-square" (click)='task.complete = false; changed()'></i>
+      <i class="checkbox far fa-check-square" (click)='mark_complete(false)'></i>
       <span>הושלמה</span>
     </ng-container>
     <ng-container *ngIf='!task.complete' >
-      <i class="checkbox far fa-square" (click)='task.complete = true; changed()'></i>
+      <i class="checkbox far fa-square" (click)='mark_complete(true)'></i>
       <span>פתוחה</span>
     </ng-container>
   </div>
   <div class='content'>
-    <div class='title' (click)='requestToggle()'>
-      <h1>{{task.title}}</h1>
+    <div class='title' *ngIf='!editTitle'>
+      <h1 (click)='requestToggle()'>{{task.title}}<span class='edit-button' (click)='editTitle=true'></span></h1>
+    </div>
+    <div class='title' *ngIf='editTitle'>
+      <textarea rows='3' [(ngModel)]='task.title' (blur)='editTitle=false' #titleEditor></textarea>
     </div>
     <div class='status'>
       <div class='date'>
@@ -24,7 +27,14 @@
       </div>
     </div>
     <div class='body' *ngIf='open'>
-      <p [innerHTML]='content' *ngIf='content'></p>
+      <ng-container *ngIf='content && !editDescription'>
+        <p [innerHTML]='content'></p>
+        <span class='edit-button' (click)='editDescription=true'></span>
+      </ng-container>
+      <ng-container *ngIf='editDescription'>
+        <textarea rows='7' [(ngModel)]='task.description' (blur)='editDescription=false' #descriptionEditor></textarea>
+      </ng-container>
+
       <div class='updates'>
         <app-single-task-update [update]='update' *ngFor='let update of task.updates'></app-single-task-update>
         <input type='text' placeholder='השארת עדכון' (change)='addUpdate($event)'/>

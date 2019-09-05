@@ -1,4 +1,14 @@
 :host {
+
+    .edit-button {
+        background-image: url('../../assets/img/edit.svg');
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        display: inline-block;
+        vertical-align: middle;
+    }                
+
     .task {
         max-width: 100%;
         margin: 15px;
@@ -6,9 +16,6 @@
         padding: 10px 15px;
         padding-bottom: 0;
         color: #000000;
-        &.complete {
-            color: #888;
-        }
         display: flex;
         flex-flow: row;
         
@@ -40,11 +47,11 @@
                 align-items: center;
                 cursor: pointer;
                 
-                h1 {
+                h1, textarea {
                     font-size: 18px;
                     font-weight: 500;
                     width: 100%;
-                }    
+                }
             }
             
             .status {
@@ -75,6 +82,12 @@
                 font-weight: 300;
                 margin-bottom: 20px;
 
+                textarea {
+                    width: 100%;
+                    font-size: 18px;
+                    font-weight: 300;
+                }
+
                 .updates {
                     display: flex;
                     flex-flow: column;                    
@@ -102,5 +115,13 @@
             }
 
         }
+
+        &.complete {
+            color: #888;
+            .edit-button {
+                display: none;
+            }
+        }
+
     }
 }

@@ -18,10 +18,14 @@ export class ChatboxComponent implements OnInit, OnDestroy {
   content: ContentManager;
   runner: ScriptRunnerImpl;
 
-  constructor(private strapi: StrapiService,
+  constructor(private api: StrapiService,
               private infocards: InfoCardsService,
               private http: HttpClient,
   ) {
+    this.init();
+  }
+
+  init() {
     this.content = new ContentManager();
     this.runner = new ScriptRunnerImpl(this.http, this.content);
     console.log('CHAT INIT!!');
@@ -77,6 +81,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     this.content.notUploadedFileText = 'תקלה בהעלאת קובץ';
     this.content.inputPlaceholder = 'הקלידו הודעה...';
 
+    this.infocards.clear();
     this.subscription = this.runner.run(
       'https://raw.githubusercontent.com/hasadna/reportit-scripts/master/src/agent/script.json',
       0,
@@ -90,7 +95,6 @@ export class ChatboxComponent implements OnInit, OnDestroy {
           return record.offender_organization_category;
         },
         getComplaintType: async (record) => {
-          console.log('complaint type: ', record.complaint_type);
           return record.complaint_type;
         },
         combinedPoliceEventDescription: async (record) => {
@@ -138,14 +142,13 @@ export class ChatboxComponent implements OnInit, OnDestroy {
             לממונה על טיפול בתלונות בנושא גזענות במשרד הרלוונטי');
            this.infocards.appendCard('office_preventing_racism');
            this.content.addOptions('בדקו האם ישנו ממונה במשרד הרלוונטי:', [
-                { display: 'כן', value: () => { console.log('yes');
-                                                this.infocards.addTask(record,
+                { display: 'כן', value: () => { this.infocards.addTask(record,
                                                                        'share_with_office_fight_racism_contact',
                                                                        {},
                                                                         '');
                                               }
                                             },
-                { display: 'לא', value: () => { console.log('no'); } },
+                { display: 'לא', value: () => {} },
               ]);
               (await this.content.waitForInput())();
           }
@@ -157,39 +160,18 @@ export class ChatboxComponent implements OnInit, OnDestroy {
                                   למחלקת האבטחה והרישוי במשטרת ישראל.');
               this.infocards.appendCard('police_security_department');
               this.content.addOptions('האם הפונה מעוניינ/ת לקבל סיוע בפנייה למחלקת האבטחה והרישוי במשטרה והגשת תלונה על המאבטח?', [
-                   { display: 'כן', value: () => { console.log('yes');
-                                                   this.infocards.addTask(record,
+                   { display: 'כן', value: () => { this.infocards.addTask(record,
                                                                           'compaint_guard_to_police',
                                                                           {},
                                                                            '');
                                                  }
                                                },
-                   { display: 'לא', value: () => { console.log('no'); } },
+                   { display: 'לא', value: () => {} },
                  ]);
                  (await this.content.waitForInput())();
                }}},
         countFiles: async (record) => {
           return record.evidence_files.length;
-        },
-        checkIfUltraOrthodoxEducationOrg: async (record) => {
-          if (record.offender_details === 'חינוך חרדי') {
-            return 'true';
-          }
-          return 'false';
-        },
-        shareWithJusticeMinistry: async (record) => {
-          this.infocards.addTask(record,
-                                 'share_full_details_with_justice_ministry',
-                                 {},
-                                 ''
-                                 );
-        },
-        shareAnonymouslyWithJusticeMinistry: async (record) => {
-          this.infocards.addTask(record,
-                                  'share_anonymously_with_justice_ministry',
-                                  {},
-                                  ''
-                                );
         },
         selectGovOrgs: async (record) => {
           for (const org of this.infocards.allOrgs) {
@@ -201,11 +183,10 @@ export class ChatboxComponent implements OnInit, OnDestroy {
               this.content.addTo(`האם הפונה מעוניינ/ת לשתף את המקרה עם ${org['Organization Name']}?`,
                                  () => { this.infocards.appendCard('org:' + org.slug); });
               this.content.addOptions(null, [
-                { display: 'כן', value: () => { console.log('yes');
-                                                this.infocards.addTask(record, 'send_report_to_governmental_unit', org, 'org:' + org.slug);
+                { display: 'כן', value: () => { this.infocards.addTask(record, 'send_report_to_governmental_unit', org, 'org:' + org.slug);
                                               }
                                             },
-                { display: 'לא', value: () => { console.log('no'); } },
+                { display: 'לא', value: () => {} },
               ]);
               (await this.content.waitForInput())();
             }
@@ -221,28 +202,40 @@ export class ChatboxComponent implements OnInit, OnDestroy {
               this.content.addTo(`האם הפונה מעוניינ/ת לשתף את המקרה עם ${org['Organization Name']}?`,
                                  () => { this.infocards.appendCard('org:' + org.slug); });
               this.content.addOptions(null, [
-                { display: 'כן', value: () => { console.log('yes');
-                                                this.infocards.addTask(record, 'send_to_ngo', org, 'org:' + org.slug);
-                                              }
+                { display: 'כן', value: () => { this.infocards.addTask(record, 'send_to_ngo', org, 'org:' + org.slug); }
                 },
                { display: 'מאשר/ת להעביר את תיאור המקרה, ללא פרטים מזהים',
-                 value: () => {
-                              console.log('Anonymously');
-                              this.infocards.addTask(record, 'org_send_anonymously', org, 'org:' + org.slug);
-                              }
+                 value: () => { this.infocards.addTask(record, 'org_send_anonymously', org, 'org:' + org.slug); }
                 },
                 { display: 'לא',
-                  value: () => {
-                      console.log('no');
-                    }
+                  value: () => {}
                 }
               ]);
               (await this.content.waitForInput())();
             }
           }
         },
-        addTask: async (record, task) => {
-          this.infocards.addTask(record, task, {}, '');
+        getTaskCount: async (record) => {
+          return record.tasks.length;
+        },
+        restartConversation: async () => {
+          this.restart();
+        },
+        addTask: async (record, task, org?, slugs?) => {
+          let context = {};
+          slugs = slugs || '';
+          if (org) {
+            context = this.infocards.getOrg(org);
+            if (context) {
+              if (slugs.length) {
+                slugs += ',';
+              }
+              slugs += 'org:' + org;
+            } else {
+              context = {};
+            }
+          }
+          this.infocards.addTask(record, task, context, slugs);
         },
         showInfoCard: async (card) => {
           this.infocards.appendCard(card);
@@ -253,7 +246,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
         /// Generic Utils
         uploader: async (record, key, uploader: FileUploader) => {
           uploader.active = true;
-          const uploaded = this.strapi.uploadFile(
+          const uploaded = this.api.uploadFile(
             record.id,
             uploader.selectedFile, record.id + '/' + key,
               (progress) => { uploader.progress = progress; },
@@ -267,8 +260,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
         },
       },
       async (key, value, record) => {
-        console.log('SETTING record[',key,'] <= ',value);
-        this.strapi.updateReport(record)
+        this.api.updateReport(record)
           .subscribe(() => { console.log('SAVED!'); }, () => {});
       },
       this.report
@@ -281,12 +273,25 @@ export class ChatboxComponent implements OnInit, OnDestroy {
       }),
       switchMap(() => {
         const report = Object.assign({}, this.report, {finished_intake: true});
-        return this.strapi.updateReport(report);
+        return this.api.updateReport(report);
       })
     ).subscribe((report) => {
         this.report = Object.assign(this.report, report);
-        console.log('done!');
     }, () => {});
+  }
+
+  restart() {
+    this.api.getReport(this.report.id)
+      .pipe(
+        switchMap((report) => this.api.deleteTasks(report.tasks || [])),
+        switchMap(() => this.api.getReport(this.report.id))
+      )
+      .subscribe((report) => {
+        this.report = Object.assign(this.report, report);
+        this.ngOnDestroy();
+        this.init();
+        this.ngOnInit();
+      });
   }
 
 }

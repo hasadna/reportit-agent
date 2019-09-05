@@ -18,13 +18,6 @@ export class TasksComponent implements OnInit {
     this.infoCards.clear();
   }
 
-  restart() {
-    this.api.updateReport(Object.assign({}, this.report, {finished_intake: false}))
-      .subscribe((report) => {
-        this.report = Object.assign(this.report, report);
-      }, () => {});
-  }
-
   toggle(task) {
     this.infoCards.clear();
     if (this.open === task) {
@@ -37,5 +30,9 @@ export class TasksComponent implements OnInit {
         }
       }
     }
+  }
+
+  newTask() {
+    this.infoCards.addTask(this.report, 'new_task', {}, '');
   }
 }

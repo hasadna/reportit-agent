@@ -21,7 +21,6 @@ export class DetailPageComponent implements OnInit {
       )
       .subscribe((report) => {
         this.report = report;
-        console.log('CURRENT REPORT', report);
         this.infoCards.clear();
       });
   }

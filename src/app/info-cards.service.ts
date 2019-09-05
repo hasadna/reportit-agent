@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { StrapiService } from './strapi.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -93,8 +94,21 @@ export class InfoCardsService {
         card_slugs: this._combineSlugs(related_slugs, task_template.infocard_slugs)
       };
       this.api.addTask(newTask)
-        .subscribe((task) => {
-          this.appendCardValue(Object.assign(task, {'_kind': 'task'}));
+        .pipe(
+          switchMap((task) => {
+            this.appendCardValue(Object.assign(task, {'_kind': 'task'}));
+            return this.api.getReport(report.id);
+          }),
+          switchMap((new_report) => {
+            if (new_report.tasks.length === 1 && new_report.status !== 'done') {
+              new_report.status = 'active';
+              return this.api.updateReport(new_report);
+            }
+            return of(new_report);
+          })
+        )
+        .subscribe((new_report) => {
+          Object.assign(report, new_report);
         });
     }
   }

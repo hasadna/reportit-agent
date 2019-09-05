@@ -94,7 +94,6 @@ export class OrgCardComponent implements OnInit {
 
   ngOnInit() {
     const c = this.card;
-    console.log('CARD', c);
     this.inner = {
       title: c['Organization Name'],
       content: `

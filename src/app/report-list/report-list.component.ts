@@ -37,4 +37,7 @@ export class ReportListComponent implements OnInit, OnChanges {
     this.router.navigate(['report', report.id]);
   }
 
+  num_open_tasks(report) {
+    return report.tasks.filter((t) => !t.completed).length;
+  }
 }

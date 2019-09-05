@@ -1,6 +1,11 @@
 <div class='container'>
-  <span class='restart' (click)='restart()'>אתחל שיחה</span>
-  <app-single-task *ngFor='let task of report.tasks'
-                   [task]='task' [open]='task === open'
-                   (toggle)='toggle($event)'></app-single-task>
+  <div class='controls'>
+    <span class='new-task' (click)='newTask()'>משימה חדשה</span>
+  </div>
+  <div class='tasks'>
+    <app-single-task *ngFor='let task of report.tasks'
+                    [task]='task' [open]='task === open'
+                    [report]='report'
+                    (toggle)='toggle($event)'></app-single-task>
+  </div>
 </div>
