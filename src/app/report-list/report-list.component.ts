@@ -38,6 +38,6 @@ export class ReportListComponent implements OnInit, OnChanges {
   }
 
   num_open_tasks(report) {
-    return report.tasks.filter((t) => !t.completed).length;
+    return report.tasks.filter((t) => !t.complete).length;
   }
 }
