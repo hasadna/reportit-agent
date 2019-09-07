@@ -97,6 +97,9 @@ export class ChatboxComponent implements OnInit, OnDestroy {
         getComplaintType: async (record) => {
           return record.complaint_type;
         },
+        checkOnlyEmail: async (record) => {
+          return record.email && !record.phone && !record.whatsapp && !record.facebook;
+        },
         combinedPoliceEventDescription: async (record) => {
           let new_description = record.event_description + `\n \n פרטים נוספים, משיחה עם המוקדנ/ית: \n`;
           if (record._police_more_details !== 'false') {
