@@ -10,6 +10,6 @@
   </span>
   <span class='edit'>
     <input #textInput *ngIf='!text' type='text' [(ngModel)]='report[field]'/>
-    <textarea #textArea *ngIf='text' [(ngModel)]='report[field]'></textarea>
+    <textarea #textArea *ngIf='text' [(ngModel)]='report[field]' [rows]='rows'></textarea>
   </span>
 </div>

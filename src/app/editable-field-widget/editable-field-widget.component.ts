@@ -16,6 +16,7 @@ export class EditableFieldWidgetComponent implements OnInit {
   @ViewChild('textArea') textArea: ElementRef;
 
   active = false;
+  rows = 1;
 
   constructor(private api: StrapiService) { }
 
@@ -42,6 +43,10 @@ export class EditableFieldWidgetComponent implements OnInit {
     if (!this.active) {
       window.setTimeout(() => {
         this.active = true;
+        this.rows = this.report[this.field].toString().split('\n').length;
+        if (this.rows < 3) {
+          this.rows = 3;
+        }
       }, 0);
     }
   }
