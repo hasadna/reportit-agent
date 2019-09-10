@@ -43,6 +43,13 @@ export class SentryErrorHandler implements ErrorHandler {
   }
 }
 
+const providers: any[] = [
+  AuthGuard,
+];
+if (window.location.hostname !== 'localhost') {
+  providers.push({provide: ErrorHandler, useClass: SentryErrorHandler});
+}
+
 
 @NgModule({
   declarations: [
@@ -76,10 +83,7 @@ export class SentryErrorHandler implements ErrorHandler {
     FormsModule,
     HatoolLibModule,
   ],
-  providers: [
-    AuthGuard,
-    {provide: ErrorHandler, useClass: SentryErrorHandler}
-  ],
+  providers: providers,
   bootstrap: [AppComponent]
 
 })

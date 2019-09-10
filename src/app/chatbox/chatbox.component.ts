@@ -28,6 +28,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
   init() {
     this.content = new ContentManager();
     this.runner = new ScriptRunnerImpl(this.http, this.content);
+    this.runner.debug = false;
     console.log('CHAT INIT!!');
   }
 
@@ -35,6 +36,12 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    const report = Object.assign({}, this.report, {saved_state: this.runner.state});
+    this.api
+      .updateReport(report)
+      .subscribe((ret) => {
+        Object.assign(this.report, ret);
+      });
   }
 
   matchScenarios(record, scenarios) {
@@ -82,6 +89,10 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     this.content.inputPlaceholder = 'הקלידו הודעה...';
 
     this.infocards.clear();
+    this.runner.state = this.report.saved_state || {};
+    console.log('STATE:', this.runner.state);
+
+    this.report._num_tasks = this.report.tasks.length;
 
     this.subscription = this.runner.run(
       'https://raw.githubusercontent.com/hasadna/reportit-scripts/master/src/agent/script.json',
@@ -220,7 +231,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
           }
         },
         getTaskCount: async (record) => {
-          return record.tasks.length;
+          return record.tasks._num_tasks;
         },
         restartConversation: async () => {
           this.restart();
@@ -269,14 +280,20 @@ export class ChatboxComponent implements OnInit, OnDestroy {
       },
       this.report
     ).pipe(
-      switchMap(() => {
-        this.content.addOptions(null, [
-          {value: true, display: 'לחצו לסיום השיחה והצגת רשימת המשימות'},
-        ]);
+      switchMap((retval) => {
+        if (retval === this.runner.COMPLETE) {
+          this.content.addOptions(null, [
+            {value: true, display: 'לחצו לסיום השיחה והצגת רשימת המשימות'},
+          ]);
+        } else {
+          this.content.addOptions(null, [
+            {value: true, display: 'השיחה הופסקה אולם תוכלו לחזור אליה בהמשך - לחצו להצגת רשימת המשימות'},
+          ]);
+        }
         return this.content.waitForInput();
       }),
       switchMap(() => {
-        const report = Object.assign({}, this.report, {finished_intake: true});
+        const report = Object.assign({}, this.report, {finished_intake: true, saved_state: this.runner.state});
         return this.api.updateReport(report);
       })
     ).subscribe((report) => {
@@ -291,7 +308,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
         switchMap(() => this.api.getReport(this.report.id))
       )
       .subscribe((report) => {
-        this.report = Object.assign(this.report, report);
+        this.report = Object.assign(this.report, report, {saved_state: {}});
         this.ngOnDestroy();
         this.init();
         this.ngOnInit();

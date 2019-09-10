@@ -43,7 +43,7 @@ export class EditableFieldWidgetComponent implements OnInit {
     if (!this.active) {
       window.setTimeout(() => {
         this.active = true;
-        this.rows = this.report[this.field].toString().split('\n').length;
+        this.rows = (this.report[this.field] || '').toString().split('\n').length;
         if (this.rows < 3) {
           this.rows = 3;
         }

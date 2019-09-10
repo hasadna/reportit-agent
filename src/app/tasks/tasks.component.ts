@@ -35,4 +35,12 @@ export class TasksComponent implements OnInit {
   newTask() {
     this.infoCards.addTask(this.report, 'new_task', {}, '');
   }
+
+  returnToChat() {
+    const report = Object.assign(this.report, {finished_intake: false});
+    this.api.updateReport(report)
+      .subscribe((res) => {
+        Object.assign(this.report, res);
+      });
+  }
 }

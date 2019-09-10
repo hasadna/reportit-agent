@@ -93,6 +93,7 @@ export class InfoCardsService {
         complete: false,
         card_slugs: this._combineSlugs(related_slugs, task_template.infocard_slugs)
       };
+      report._num_tasks = report.tasks.length + 1;
       this.api.addTask(newTask)
         .pipe(
           switchMap((task) => {
@@ -109,6 +110,7 @@ export class InfoCardsService {
         )
         .subscribe((new_report) => {
           Object.assign(report, new_report);
+          report._num_tasks = report.tasks.length;
         });
     }
   }
