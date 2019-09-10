@@ -23,7 +23,6 @@ export class ReportListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log('reports', this.filtering, this.reports)
     this.visibleReports = this.reports.filter(
       (r) => this.filtering === 'none' || r.status === this.filtering
     );

@@ -9,7 +9,7 @@ import * as gravatar from 'gravatar';
   providedIn: 'root'
 })
 export class StrapiService {
-  BASE_URL = 'https://reportit-cms.obudget.org';
+  BASE_URL = 'https://cms.equality.org.il';
 
   URL_GET_PROFILE = this.BASE_URL + '/users/me';
   URL_LOGIN = this.BASE_URL + '/auth/local';
@@ -263,7 +263,7 @@ export class StrapiService {
           mergeMap((task: any) => {
             console.log('deleting task', task.id);
             return this.http.delete(
-              this.URL_DELETE_TASK + task.id, 
+              this.URL_DELETE_TASK + task.id,
               {headers: {Authorization: `Bearer ${this.token.getValue()}`}}
             );
           }),

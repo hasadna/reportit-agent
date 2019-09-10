@@ -82,6 +82,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     this.content.inputPlaceholder = 'הקלידו הודעה...';
 
     this.infocards.clear();
+
     this.subscription = this.runner.run(
       'https://raw.githubusercontent.com/hasadna/reportit-scripts/master/src/agent/script.json',
       0,

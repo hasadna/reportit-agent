@@ -3,7 +3,7 @@ git checkout master && \
 (git branch -D dist || true) && \
 git checkout -b dist && \
 rm .gitignore && \
-ng build --prod  --baseHref=/reportit-agent/ && \
+ng build --prod && \
 git add dist/reportit-agent && \
 git commit -m dist && \
 (git branch -D gh-pages || true) && \
