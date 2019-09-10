@@ -23,7 +23,9 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
+              "src/favicon-16x16.png",
+              "src/favicon-32x32.png",
+              "src/favicon-96x96.png",
               "src/assets"
             ],
             "styles": [
@@ -87,7 +89,9 @@
             ],
             "scripts": [],
             "assets": [
-              "src/favicon.ico",
+              "src/favicon-16x16.png",
+              "src/favicon-32x32.png",
+              "src/favicon-96x96.png",
               "src/assets"
             ]
           }
