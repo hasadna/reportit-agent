@@ -1,4 +1,7 @@
-<input type='text' for='username' [(ngModel)]='username'/>
-<input type='password' for='password' [(ngModel)]='password'/>
-<button (click)='login()'>Login</button>
-<h4>{{error}}</h4>
+<div class='container'>
+    <h1 i18n>כניסה למערכת</h1>
+    <input type='text' for='username' [(ngModel)]='username' placeholder='שם משתמש'/>
+    <input type='password' for='password' [(ngModel)]='password' placeholder='סיסמא'/>
+    <button (click)='login()'>כניסה</button>
+    <h4>{{error}}</h4>
+</div>
