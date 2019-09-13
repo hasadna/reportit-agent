@@ -187,7 +187,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
                }}},
         getGuardCompany: async (record) => {
           if (record.offender === 'מאבטח/ת') {
-            if (record.offender_organization === null) {
+            if (record.offender_organization === null || record.offender_organization === '') {
               return ''
             }
             else { return record.offender_organization}
