@@ -185,6 +185,13 @@ export class ChatboxComponent implements OnInit, OnDestroy {
                  ]);
                  (await this.content.waitForInput())();
                }}},
+        getGuardCompany: async (record) => {
+          if (record.offender === 'מאבטח/ת') {
+            if (record.offender_organization === 'undefined') {
+              return ''
+            }
+            else { return record.offender_organization}
+        }},
         countFiles: async (record) => {
           return record.evidence_files.length;
         },
