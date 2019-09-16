@@ -2,11 +2,11 @@
   <div class='emblem'>
     <ng-container *ngIf='task.complete' >
       <i class="checkbox far fa-check-square" (click)='mark_complete(false)'></i>
-      <span>הושלמה</span>
+      <span i18n>הושלמה</span>
     </ng-container>
     <ng-container *ngIf='!task.complete' >
       <i class="checkbox far fa-square" (click)='mark_complete(true)'></i>
-      <span>פתוחה</span>
+      <span i18n>פתוחה</span>
     </ng-container>
   </div>
   <div class='content'>
@@ -18,11 +18,11 @@
     </div>
     <div class='status'>
       <div class='date'>
-        <label>נוצרה:</label>
+        <label i18n>נוצרה:</label>
         <span>{{ humanize(task.created_at) }}</span>
       </div>
       <div class='date'>
-        <label>עודכנה:</label>
+        <label i18n>עודכנה:</label>
         <span>{{ humanize(task.updated_at) }}</span>
       </div>
     </div>
@@ -37,7 +37,7 @@
 
       <div class='updates'>
         <app-single-task-update [update]='update' *ngFor='let update of task.updates'></app-single-task-update>
-        <input type='text' placeholder='השארת עדכון' (change)='addUpdate($event)'/>
+        <input type='text' placeholder='השארת עדכון'  i18n i18n-placeholder (change)='addUpdate($event)'/>
       </div>
     </div>
     <div class='footer' [class.open]='open' (click)='requestToggle()'>

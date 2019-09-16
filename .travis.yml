@@ -1,0 +1,21 @@
+language: python
+python:
+- 3.6
+sudo: required
+env:
+  global:
+  - secure: a8zmabLWZEusa3AgbOefefPynsR+3O5QzZxw6jTIqDEzeqO1qMGcdDoMEQK5l+9ikwz7K4+GrtJ2I9pPjvm8Mvlxgc9EQZ3q4tQHgaS/EJiT2QroX6aOiTkr+D3rbxIbUpnbTbT6ldswLzO8la2bcpTZcihIHcIGfPbG/iZZd2R2RmzY6Dql2o3WoM9WSXnE/cTMmJaoYQyUSYVTfPbQWi09sw7XcJCt17o13EgQVUlV4WZTSjGvSefu7pvFT8Tq5eqwfh8OVQBQsyNU0FDF4PTWeNBNE12boq7LyTBuEhLwOprC0Gd7bFqXupAsqPfWMzIy2sBfl8hiNznwG7ouchzg+/fbgrRO8LWs1jVO/p1LzcEHjhZE16wvJettfDokKckQoRZaSa7uaKORNWcFcVxZ9JLzUwW5zbl7bZMXYlZk+b275cnNJRHAUxPVWCtQUw9t/3QJpgdxW4kfKBlNakqQGj0WydTkRCCc4DujqPGdQDC0t2hHPaJCUSNhQRB9NI0t93lgc8+k3ajmLBGlnPeCLpZ9yZpVXk2Ic8a3T5wP9ty8w1gJSEax4E+vltBSTFtTmtPxsmNeNqAmc7JP7qlOq0HewIVN2GLzuhjmK5efs5tdQu0TtkOM5P/sfyDdwn19uorT2RkuncK/ohzpa3K8anGBXoO2mXRS9SUCuTw=
+  - secure: f+ispKaxBazpyFVqGWS3DdjnIDyupzNS/b9Np8qxLdzKz+vaLnO3wl6paRKKjkw6Z8bKkUUOuq1f4s5RBLbgDtkJmfZwr5A5h3A3lAvYFs+1nnaIHbKkEhu0veHakR1R8+GcoUkpaHeKI7oYi6Eci/fLHry6vexikZEaAyshgnA1H10X7wSj7mnGigLFYJTlj5AgF4X5h9JkffN8/GGNs82+4fCfIXOA03wN88oFkRLnfO+SJMDF3vzi/MEtVKIK4NQU6F3n9P664hfQ4X6pKvwYOgV2L+OF3yO67cM3AoHZglQC4ZsIzVU9q6xMQKmrGGOtSKlH/cat83B4h/KpcKOeqNOopyhvQ2J9I8xwa/aJQNlkfwZ9rHWR27NNxq/6xvR1egUlwvK03huKlGd0giRpwCgmngJ4HiOBzXBuELnOQd5W3KU86tzgKY/n9ZE4/C7ekoDyyyu2hrZXucoOytvCcAbD4wS4mswD6efOUSxdhk5D30ZPzT1gjXAhvCvuZU8G9QAZD2sJkUfNeibn/nihiblHUdIfueGDAhbC0L1E2tNt07A0IgsPh9Ae6pThtlXvQHPqZmin0czl3SdxKsdS6q9z9N2dAAnHU7jvnsLSxcMZJmZ/JS3qEbzsNWx/k0LV0i4oCK85OhNXLTBy6zGcVFMvk5Gpy+glEo2brJA=
+install:
+- pip install transifex-client
+- 'curl https://raw.githubusercontent.com/hasadna/reportit-scripts/master/tools/prepare_github.sh > prepare_github.sh'
+script:
+- . extract_i18n.sh
+- tx push --source
+- tx pull --mode sourceastranslation -l ar,en,am,ru
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: "./travis_deploy.sh"
+  on:
+    branch: master

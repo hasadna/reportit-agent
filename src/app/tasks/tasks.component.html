@@ -1,7 +1,7 @@
 <div class='container'>
   <div class='controls'>
-    <span class='new-task' (click)='newTask()'>משימה חדשה</span>
-    <span class='return-to-chat' (click)='returnToChat()'>חזרה לשיחה</span>
+    <span class='new-task' (click)='newTask()' i18n>משימה חדשה</span>
+    <span class='return-to-chat' (click)='returnToChat()' i18n>חזרה לשיחה</span>
   </div>
   <div class='tasks'>
     <app-single-task *ngFor='let task of report.tasks'

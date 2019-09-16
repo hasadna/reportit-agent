@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="he" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="867b53a186dfac8cc99450177b4984f423d27443" datatype="html">
+        <source>כניסה למערכת</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/login-page/login-page.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c510bee51ec750fa3155235f2f26336925cc6be6" datatype="html">
+        <source>שם מלא</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-list/report-list.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="845dbb1c808a5dd1fefadbe9978c532feebfc671" datatype="html">
+        <source>סטטוס</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-list/report-list.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="33d7fa23e0c2a305848bc2802ec0d5a069c38caa" datatype="html">
+        <source>משימות פתוחות</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-list/report-list.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="53e0d69b2cf7c32b8654db0c0b280b2e7aa7fc37" datatype="html">
+        <source>שפה</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-list/report-list.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7fce7da00fc0bd36e62313e33d2fea8d6b731fa6" datatype="html">
+        <source>מושא התלונה</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-list/report-list.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a516fab35f2bdfa8ce932daa7dfbe2a55ae860cb" datatype="html">
+        <source>מוקדנ/ית</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-list/report-list.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4bd3d11b704b6906e3def1d794141688070c548a" datatype="html">
+        <source>התקבל</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-list/report-list.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b1626564a06ded0af880d40754f96ced2f06aaef" datatype="html">
+        <source>עודכן לאחרונה</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-list/report-list.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="aaad6ab7bd502bac3ff0c8ebc69a5f6ecf0f7e9c" datatype="html">
+        <source>המוקדן הממונה: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="43747762baf14fa3ea2ee3535b6ab012e46dec1d" datatype="html">
+        <source>תאריך הפניה הראשונה </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e52fb21094712be096d8c374d674c57adb9ccc9f" datatype="html">
+        <source>עודכן לאחרונה </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d8a67987aecfe6f0944b87e43467b59563241a95" datatype="html">
+        <source>שם הפונה</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="24f0dbc8e4ea4a374c623eb222e4e8e35f7051a1" datatype="html">
+        <source>אמצעי יצירת קשר</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="18f4294f669a563f77bf3bf570c4a99e9a9427fd" datatype="html">
+        <source>מספר טלפון: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d3f0005a33c51f06ae6b0a8dafbc912cf0163a7f" datatype="html">
+        <source>אימייל: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c4561675cdb13b5ce5ca13176a5d3c25111a2302" datatype="html">
+        <source>וואטספ: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c7035ab63d92efeb80253d6e510b85cd0bfa768d" datatype="html">
+        <source>פייסבוק: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6782dcd44a1c9a8c9f140edb51b1921c9589dee1" datatype="html">
+        <source>סוג התלונה</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="843141596491836376c07c00dc2fe06e159f16ae" datatype="html">
+        <source>תיאור המקרה</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="92d388278184d12c7ecab1af252a123532decdcc" datatype="html">
+        <source>מיקום האירוע</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="aba223d158cf23733d1e7d5084919d192de3c4f2" datatype="html">
+        <source>מידע נוסף על מושא התלונה</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="78c8a43267b0aa44c9af8f1a89b2f3e4fadee1f6" datatype="html">
+        <source>פרטים אישיים של מושא התלונה</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bea5c3440ac424b149157b1097bc5d09a83ecb12" datatype="html">
+        <source>שם המוסד או הארגון</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="01716b30530df83827fa53aceb95ad65988626eb" datatype="html">
+        <source>סוג המוסד או הארגון</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d1db9685436ee103ff418e11af34cf9358449dcb" datatype="html">
+        <source>פרטי קשר עם המוסד או הארגון</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="99832caba3d234d868625df3a380b4b7665bcfbc" datatype="html">
+        <source>השירות שביקש/ה</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b8eb042640a8614726c5342ba3b58144b4d84de7" datatype="html">
+        <source>קבצים מצורפים:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/report-edit/report-edit.component.html</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ffaf460e869282b46ef216ed449979fda0dff96a" datatype="html">
+        <source>
+    <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
+    <x id="START_TAG_SPAN_1" ctype="x-span" equiv-text="&lt;span&gt;"/>פניה חדשה<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
+    <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/>
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/status-widget/status-widget.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2db4615ab04ad51043f3e2544719b75409ea7c78" datatype="html">
+        <source>
+    <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
+    <x id="START_TAG_SPAN_1" ctype="x-span" equiv-text="&lt;span&gt;"/>בטיפול<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
+    <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/>
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/status-widget/status-widget.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9017fa04c1e45f85cb85241bdf6002481e07550c" datatype="html">
+        <source>
+    <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
+    <x id="START_TAG_SPAN_1" ctype="x-span" equiv-text="&lt;span&gt;"/>הטיפול הושלם<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
+    <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/>
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/status-widget/status-widget.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9133d745aa0107131db376582b6b27a1ca6212d9" datatype="html">
+        <source>
+    <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
+    <x id="START_TAG_SPAN_1" ctype="x-span" equiv-text="&lt;span&gt;"/>פניה חדשה<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/status-widget/status-widget.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a676e83ac32ac98217fdd1d5f1c33671cf8a5e98" datatype="html">
+        <source>
+    <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
+    <x id="START_TAG_SPAN_1" ctype="x-span" equiv-text="&lt;span&gt;"/>בטיפול<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/status-widget/status-widget.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="924b6f4adfa3d975fbe45331cde71ac19e76d287" datatype="html">
+        <source>
+    <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
+    <x id="START_TAG_SPAN_1" ctype="x-span" equiv-text="&lt;span&gt;"/>הטיפול הושלם<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/status-widget/status-widget.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,14 +1,14 @@
-<div class='total'>{{count_total}} פניות במערכת</div>
+<div class='total' i18n>{{count_total}} פניות במערכת</div>
 <div class='info'>
 <span>
 <img src='assets/img/tip.svg'/>
 </span>
-<span>לחיצה על כל אחת מהכותרות הללו תפעיל סינון לסוג שנבחר</span>
+<span i18n>לחיצה על כל אחת מהכותרות הללו תפעיל סינון לסוג שנבחר</span>
 </div>
 <div class='counter' (click)='setFilter(null)'>
 <span class='number'>{{count_new}}</span>
 <span class='text' [class.active]='filter === null'>
-<label>פניות חדשות</label>
+<label i18n>פניות חדשות</label>
 <i class="fas fa-chevron-left"></i>
 <i class="fas fa-times"></i>
 </span>
@@ -16,7 +16,7 @@
 <div class='counter' (click)='setFilter("active")'>
 <span class='number'>{{count_active}}</span>
 <span class='text' [class.active]='filter === "active"'>
-<label>פניות בטיפול</label>
+<label i18n>פניות בטיפול</label>
 <i class="fas fa-chevron-left"></i>
 <i class="fas fa-times"></i>
 </span>
@@ -24,7 +24,7 @@
 <div class='counter' (click)='setFilter("done")'>
 <span class='number'>{{count_done}}</span>
 <span class='text' [class.active]='filter === "done"'>
-<label>פניות שהטיפול בהן הושלם</label>
+<label i18n>פניות שהטיפול בהן הושלם</label>
 <i class="fas fa-chevron-left"></i>
 <i class="fas fa-times"></i>
 </span>
