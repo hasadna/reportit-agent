@@ -1,30 +1,30 @@
 <div class='current'  (click)='toggle($event)'>
-  <span i18n class='new' *ngIf='report.status !== "active" && report.status !== "done"'>
+  <span class='new' *ngIf='report.status !== "active" && report.status !== "done"'>
     <span class='circle'></span>
     <span i18n>פניה חדשה</span>
     <i class="fas fa-caret-down"></i>
   </span>
-  <span i18n class='active' *ngIf='report.status === "active"'>
+  <span class='active' *ngIf='report.status === "active"'>
     <span class='circle'></span>
     <span i18n>בטיפול</span>
     <i class="fas fa-caret-down"></i>
   </span>
-  <span i18n class='done' *ngIf='report.status === "done"'>
+  <span class='done' *ngIf='report.status === "done"'>
     <span class='circle'></span>
     <span i18n>הטיפול הושלם</span>
     <i class="fas fa-caret-down"></i>
   </span>
 </div>
 <div class='dropdown' [class.show]='show'>
-  <span i18n class='new' *ngIf='report.status === "active" || report.status === "done"' (click)='select("new")'>
+  <span class='new' *ngIf='report.status === "active" || report.status === "done"' (click)='select("new")'>
     <span class='circle'></span>
     <span i18n>פניה חדשה</span>
   </span>
-  <span i18n class='active' *ngIf='report.status !== "active"' (click)='select("active")'>
+  <span class='active' *ngIf='report.status !== "active"' (click)='select("active")'>
     <span class='circle'></span>
     <span i18n>בטיפול</span>
   </span>
-  <span i18n class='done' *ngIf='report.status !== "done"' (click)='select("done")'>
+  <span class='done' *ngIf='report.status !== "done"' (click)='select("done")'>
     <span class='circle'></span>
     <span i18n>הטיפול הושלם</span>
   </span>
