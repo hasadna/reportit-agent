@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Inject, LOCALE_ID } from '@angular/core';
 import { ContentManager, FileUploader, ScriptRunnerNew as ScriptRunnerImpl } from 'hatool';
 import { switchMap } from 'rxjs/operators';
 import { StrapiService } from '../strapi.service';
@@ -21,13 +21,14 @@ export class ChatboxComponent implements OnInit, OnDestroy {
   constructor(private api: StrapiService,
               private infocards: InfoCardsService,
               private http: HttpClient,
+              @Inject(LOCALE_ID) private locale,
   ) {
     this.init();
   }
 
   init() {
     this.content = new ContentManager();
-    this.runner = new ScriptRunnerImpl(this.http, this.content);
+    this.runner = new ScriptRunnerImpl(this.http, this.content, this.locale);
     this.runner.debug = false;
     console.log('CHAT INIT!!');
   }
@@ -188,9 +189,10 @@ export class ChatboxComponent implements OnInit, OnDestroy {
         getGuardCompany: async (record) => {
           if (record.offender === 'מאבטח/ת') {
             if (record.offender_organization === null || record.offender_organization === '') {
-              return ''
+              return '';
+            } else {
+              return record.offender_organization;
             }
-            else { return record.offender_organization}
         }},
         countFiles: async (record) => {
           return record.evidence_files.length;
