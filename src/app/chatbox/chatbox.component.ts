@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, Inject, LOCALE_ID } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Inject, LOCALE_ID, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ContentManager, FileUploader, ScriptRunnerNew as ScriptRunnerImpl } from 'hatool';
 import { switchMap } from 'rxjs/operators';
 import { StrapiService } from '../strapi.service';
@@ -11,12 +11,17 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.less']
 })
-export class ChatboxComponent implements OnInit, OnDestroy {
+export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @Input() report: any;
   subscription: Subscription = null;
   content: ContentManager;
   runner: ScriptRunnerImpl;
+
+  @ViewChild('uploadFileText') uploadFileText: ElementRef;
+  @ViewChild('uploadedFileText') uploadedFileText: ElementRef;
+  @ViewChild('notUploadedFileText') notUploadedFileText: ElementRef;
+  @ViewChild('inputPlaceholder') inputPlaceholder: ElementRef;
 
   constructor(private api: StrapiService,
               private infocards: InfoCardsService,
@@ -82,12 +87,15 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  ngAfterViewInit() {
+    this.content.uploadFileText = this.uploadFileText.nativeElement.innerHTML;
+    this.content.uploadedFileText = this.uploadedFileText.nativeElement.innerHTML;
+    this.content.notUploadedFileText = this.notUploadedFileText.nativeElement.innerHTML;
+    this.content.inputPlaceholder = this.inputPlaceholder.nativeElement.innerHTML;
+  }
+
   ngOnInit() {
     this.content.sendButtonText = '';
-    this.content.uploadFileText = 'לחצ/י לבחירת קובץ';
-    this.content.uploadedFileText = 'קובץ הועלה בהצלחה';
-    this.content.notUploadedFileText = 'תקלה בהעלאת קובץ';
-    this.content.inputPlaceholder = 'הקלידו הודעה...';
 
     this.infocards.clear();
     this.runner.state = this.report.saved_state || {};

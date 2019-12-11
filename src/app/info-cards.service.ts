@@ -84,6 +84,12 @@ export class InfoCardsService {
   }
 
   addTask(report, task_slug, context, related_slugs) {
+    for (const task of report.tasks) {
+      if (task.slug === task_slug) {
+        console.log('Not creating duplication of already existing task', task_slug);
+        return;
+      }
+    }
     const task_template = this.taskTemplates[task_slug];
     if (task_template) {
       const newTask = {
