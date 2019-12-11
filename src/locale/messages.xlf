@@ -288,6 +288,34 @@
           <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="09cb388d5fd77f659c9fc3863c435be6806e675b" datatype="html">
+        <source>לחצ/י לבחירת קובץ</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/chatbox/chatbox.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="69f58cbcb82ed576d10bceb98edc7b982760f1bc" datatype="html">
+        <source>קובץ הועלה בהצלחה</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/chatbox/chatbox.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e624eb14d0ca7713b8765e17aeb00125b6f085ac" datatype="html">
+        <source>תקלה בהעלאת קובץ</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/chatbox/chatbox.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c00c844a49bdb12f820709d1a86ed36a9f19fb7a" datatype="html">
+        <source>הקלידו הודעה...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/chatbox/chatbox.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="5b80ad7b099448d3d858b91f19d015b367e58a3b" datatype="html">
         <source>פניה חדשה</source>
         <context-group purpose="location">
