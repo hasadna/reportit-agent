@@ -140,7 +140,8 @@ export class InfoCardsService {
             return this.api.getReport(report.id);
           }),
           switchMap((new_report) => {
-            if (new_report.tasks.length === 1) {
+            if (new_report.tasks.filter((x) => !x.complete).length > 0) {
+              console.log('Setting report status to active!');
               new_report.status = 'active';
               return this.api.updateReport(new_report);
             }
