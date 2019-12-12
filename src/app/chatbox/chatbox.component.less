@@ -28,6 +28,55 @@
             width: 100%;
             height: ~'calc(100vh - 40px)';
         }
+
+        .modal-bg {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 1;
+
+            .modal {
+                border-radius: 10px;
+                background: white;
+                border: 1px solid black;
+                padding: 20px;
+                pointer-events: all;
+
+                .buttons {
+                    margin: 20px;
+                    display: flex;
+                    flex-flow: row;
+                    align-items: center;
+                    justify-content: space-evenly; 
+
+                    span {
+                        padding: 5px 20px;
+                        border-radius: 20px;
+                        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.08);
+                        border: solid 1px #6ddea1;
+                        margin: 8px 0;
+                        min-width: 30%;
+                        color: #1a7f4e;
+                        background-color: transparent;
+                        text-align: center;
+                        cursor: pointer;
+
+                        &:hover {
+                            border-width: 2px;
+                            margin: 7px 0;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     .placeholder-tx {

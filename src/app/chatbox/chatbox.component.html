@@ -1,9 +1,19 @@
 <div class='container'>
   <div class='controls'>
-    <span class='restart' (click)='restart()' i18n>אתחול שיחה</span>
+    <span class='restart' (click)='restart_modal_active = true' i18n>אתחול שיחה</span>
   </div>
   <div class='chat'>
     <htl-hatool [content]='content'></htl-hatool>
+  </div>
+  <div class='modal-bg' *ngIf='restart_modal_active'>
+    <div class='modal'>
+      <h1 i18n>האם תרצו לאתחל את תהליך ההנחיה?</h1>
+      <div class='buttons'>
+        <span (click)='restart(); restart_modal_active = false'>כן</span>
+        <span (click)='restart_modal_active = false'>לא</span>
+      </div>
+      <h2 i18n>חשוב! לחיצה על ״כן״ עלולה לגרום למידע שנשמר להמחק</h2>
+    </div>
   </div>
 </div>
 
