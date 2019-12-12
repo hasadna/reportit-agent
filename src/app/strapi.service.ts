@@ -15,9 +15,6 @@ export class StrapiService {
   URL_LOGIN = this.BASE_URL + '/auth/local';
 
   URL_GET_REPORTS = this.BASE_URL + '/reports';
-  URL_GET_INFOCARDS = this.BASE_URL + '/infocards';
-  URL_GET_ORGS = this.BASE_URL + '/organizations';
-  URL_GET_TASK_TEMPLATES = this.BASE_URL + '/tasktemplates';
   URL_GET_TASKS = this.BASE_URL + '/tasks';
   URL_GET_TASK_UPDATES = this.BASE_URL + '/taskupdates';
   URL_GET_USERS = this.BASE_URL + '/users';
@@ -210,18 +207,6 @@ export class StrapiService {
 
   getReports(): Observable<any[]> {
     return this.getByType(this.URL_GET_REPORTS);
-  }
-
-  getInfoCards(): Observable<any[]> {
-    return this.getByType(this.URL_GET_INFOCARDS);
-  }
-
-  getOrgCards(): Observable<any[]> {
-    return this.getByType(this.URL_GET_ORGS);
-  }
-
-  getTaskTemplates(): Observable<any[]> {
-    return this.getByType(this.URL_GET_TASK_TEMPLATES);
   }
 
   addByType(url: string, newItem: any): Observable<any> {

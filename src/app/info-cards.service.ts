@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, LOCALE_ID, Inject } from '@angular/core';
 import { StrapiService } from './strapi.service';
-import { BehaviorSubject, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { BehaviorSubject, of, Observable } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -13,24 +14,55 @@ export class InfoCardsService {
   public allOrgs = [];
   public taskTemplates = {};
 
-  constructor(private api: StrapiService) {
-    api.getInfoCards().subscribe((cards) => {
+  constructor(private http: HttpClient,
+              private api: StrapiService,
+              @Inject(LOCALE_ID) private locale) {
+    this.getInfoCards().subscribe((cards) => {
       for (const card of cards) {
         this.infoCardMap['info:' + card.slug] = Object.assign(card, {_kind: 'infocard'});
       }
     });
-    api.getOrgCards().subscribe((cards) => {
+    this.getOrgCards().subscribe((cards) => {
       for (const card of cards) {
         const orgCard = Object.assign(card, {_kind: 'org'});
         this.infoCardMap['org:' + card.slug] = orgCard;
         this.allOrgs.push(orgCard);
       }
     });
-    api.getTaskTemplates().subscribe((templates) => {
+    this.getTaskTemplates().subscribe((templates) => {
       for (const template of templates) {
         this.taskTemplates[template.slug] = template;
       }
     });
+  }
+
+  getDataset(kind): Observable<any[]> {
+    return this.http.get(`https://raw.githubusercontent.com/hasadna/reportit-scripts/master/src/datasets/${kind}.datapackage.tx.json`)
+      .pipe(
+        map((datapackage: any) => {
+          const ret = [];
+          for (const item of datapackage.resources[0].data) {
+            const translated = {};
+            for (const k of Object.keys(item)) {
+              translated[k] = (item['.tx'] ? item['.tx'][this.locale] || item['.tx']['he'] : null) || item[k];
+            }
+            ret.push(translated);
+          }
+          return ret;
+        })
+      );
+  }
+
+  getInfoCards(): Observable<any[]> {
+    return this.getDataset('infocards');
+  }
+
+  getOrgCards(): Observable<any[]> {
+    return this.getDataset('organizations');
+  }
+
+  getTaskTemplates(): Observable<any[]> {
+    return this.getDataset('tasktemplates');
   }
 
   clear() {
@@ -84,17 +116,18 @@ export class InfoCardsService {
   }
 
   addTask(report, task_slug, context, related_slugs) {
+    const task_template = this.taskTemplates[task_slug];
+    const task_title = this._fillIn(task_template.Title, report, context);
     for (const task of report.tasks) {
-      if (task.slug === task_slug) {
-        console.log('Not creating duplication of already existing task', task_slug);
+      if (task.title === task_title) {
+        console.log('Not creating duplication of already existing task', task_title);
         return;
       }
     }
-    const task_template = this.taskTemplates[task_slug];
     if (task_template) {
       const newTask = {
         report: '' + report.id,
-        title: this._fillIn(task_template.Title, report, context),
+        title: task_title,
         description: this._fillIn(task_template.Description, report, context),
         complete: false,
         card_slugs: this._combineSlugs(related_slugs, task_template.infocard_slugs)
