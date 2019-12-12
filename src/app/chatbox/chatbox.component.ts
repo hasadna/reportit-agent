@@ -17,6 +17,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   subscription: Subscription = null;
   content: ContentManager;
   runner: ScriptRunnerImpl;
+  restart_modal_active = false;
 
   @ViewChild('uploadFileText') uploadFileText: ElementRef;
   @ViewChild('uploadedFileText') uploadedFileText: ElementRef;
