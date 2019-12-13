@@ -82,4 +82,7 @@
 .no-scrollbar {
     scrollbar-width: none; /* Also needed to disable scrollbar Firefox */
     -ms-overflow-style: none;  /* Disable scrollbar IE 10+ */
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
