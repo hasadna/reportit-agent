@@ -278,10 +278,11 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         },
         /// Generic Utils
         uploader: async (record, key, uploader: FileUploader) => {
+          console.log('uploader');
           uploader.active = true;
           const uploaded = this.api.uploadFile(
             record.id,
-            uploader.selectedFile, record.id + '/' + key,
+            uploader.selectedFile, record.id + '/',
               (progress) => { uploader.progress = progress; },
               (success) => { uploader.success = success; }
           );
