@@ -2,11 +2,23 @@
   <div class='controls'>
     <span class='new-task' (click)='newTask()' i18n>משימה חדשה</span>
     <span class='return-to-chat' (click)='returnToChat()' i18n>חזרה לשיחה</span>
+    <span class='close-report' *ngIf='report.status !== "done"' (click)='close_report_modal_active = true' i18n>סגירת הפניה</span>
   </div>
   <div class='tasks'>
     <app-single-task *ngFor='let task of report.tasks'
                     [task]='task' [open]='task === open'
                     [report]='report'
                     (toggle)='toggle($event)'></app-single-task>
+  </div>
+  <div class='modal-bg' *ngIf='close_report_modal_active'>
+    <div class='modal'>
+      <h1 i18n>האם תרצו לסגור את הפניה?</h1>
+      <div class='buttons'>
+        <span [class.disabled]='!close_report_explanation' (click)='closeReport()'>כן</span>
+        <span (click)='close_report_modal_active = false'>לא</span>
+      </div>
+      <h2 i18n>סיבת הסגירה:</h2>
+      <textarea [(ngModel)]='close_report_explanation'></textarea>
+    </div>
   </div>
 </div>

@@ -152,6 +152,44 @@ export class InfoCardsService {
     }
   }
 
+  addClosingTask(report, explanation) {
+    const task_template = this.taskTemplates['report_closed'];
+    if (task_template) {
+      const newTask = {
+        report: '' + report.id,
+        title: task_template.Title,
+        description: task_template.Description,
+        complete: true,
+        card_slugs: ''
+      };
+      report._num_tasks = report.tasks.length + 1;
+      this.api.addTask(newTask)
+        .pipe(
+          switchMap((task) => {
+            this.appendCardValue(Object.assign(task, {'_kind': 'task'}));
+            const user = this.api.profile.getValue();
+            return this.api.addTaskUpdate({
+              content: explanation,
+              task: task.id,
+              user: user.id
+            });
+          }),
+          switchMap((update) => {
+            return this.api.getReport(report.id);
+          }),
+          switchMap((new_report) => {
+            console.log('Setting report status to done!');
+            new_report.status = 'done';
+            return this.api.updateReport(new_report);
+          })
+        )
+        .subscribe((new_report) => {
+          Object.assign(report, new_report);
+          report._num_tasks = report.tasks.length;
+        });
+    }
+  }
+
   getOrg(org_slug) {
     return this.infoCardMap['org:' + org_slug];
   }

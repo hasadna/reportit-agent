@@ -12,6 +12,9 @@ export class TasksComponent implements OnInit {
   @Input() report: any;
   open = null;
 
+  close_report_explanation = '';
+  close_report_modal_active = false;
+
   constructor(private infoCards: InfoCardsService, private api: StrapiService) { }
 
   ngOnInit() {
@@ -42,5 +45,12 @@ export class TasksComponent implements OnInit {
       .subscribe((res) => {
         Object.assign(this.report, res);
       });
+  }
+
+  closeReport() {
+    if (this.close_report_explanation) {
+      this.infoCards.addClosingTask(this.report, this.close_report_explanation);
+      this.close_report_modal_active = false;
+    }
   }
 }

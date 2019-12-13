@@ -308,7 +308,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
             {value: true, display: 'השיחה הופסקה אולם תוכלו לחזור אליה בהמשך - לחצו להצגת רשימת המשימות'},
           ]);
         }
-        return this.content.waitForInput();
+        return this.content.waitForInput(false);
       }),
       switchMap(() => {
         const report = Object.assign({}, this.report, {finished_intake: true, saved_state: this.runner.state});
