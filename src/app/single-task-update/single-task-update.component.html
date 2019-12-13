@@ -1,5 +1,5 @@
   <div class='update'>
-    <div class='update-content'>{{ update.content }}</div>
+    <div class='update-content' [innerHTML]='update.content | nl2br'></div>
     <div class='update-footer'>
       <div class='updater-avatar'><img [src]='avatar'></div>
       <div class='updater-name'>{{ username }}</div>

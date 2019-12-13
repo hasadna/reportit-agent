@@ -98,15 +98,37 @@
 
                 .updates {
                     display: flex;
-                    flex-flow: column;                    
-                    input {
-                        width: 75%;
-                        border-radius: 3px;
-                        margin: 13px;
-                        padding: 5px;
-                        align-self: flex-end;
-                        border: 1px solid #ccc;
-                    }
+                    flex-flow: column;
+                    .new-update {
+                        display: flex;
+                        flex-flow: row;
+                        align-items: center;
+
+                        input {
+                            flex: 1 1 100%;
+                            border-radius: 3px;
+                            margin: 13px;
+                            padding: 5px;
+                            align-self: flex-end;
+                            border: 1px solid #ccc;
+                        }
+    
+                        button.send {
+                            flex: 0 0 auto;
+                            border: none;
+                            width: 26px;
+                            height: 26px;
+                            margin-right: 13px;
+                            background-color: transparent;
+                            background-image: url('../../assets/img/send.svg');
+                            background-position: center center;
+                            background-size: 25px;
+                            background-repeat: no-repeat;
+                            cursor: pointer;
+                        }    
+                    } 
+
+
                 }
             }
 

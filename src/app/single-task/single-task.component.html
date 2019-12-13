@@ -37,7 +37,10 @@
 
       <div class='updates'>
         <app-single-task-update [update]='update' *ngFor='let update of task.updates'></app-single-task-update>
-        <input type='text' placeholder='השארת עדכון'  i18n i18n-placeholder (change)='addUpdate($event)'/>
+        <div class='new-update'>
+          <textarea rows='1' placeholder='השארת עדכון' i18n i18n-placeholder [(ngModel)]='updateContent'></textarea>
+          <button class='send' (click)='addUpdate()'></button>
+        </div>
       </div>
     </div>
     <div class='footer' [class.open]='open' (click)='requestToggle()'>

@@ -27,6 +27,7 @@ export class SingleTaskComponent implements OnInit, OnChanges {
   _editDescription = false;
   converter: showdown.Converter;
   content = '';
+  updateContent = '';
 
   constructor(public api: StrapiService) {
     this.converter = new showdown.Converter({
@@ -72,7 +73,7 @@ export class SingleTaskComponent implements OnInit, OnChanges {
   }
 
   addUpdate(val: Event) {
-    const content = val.currentTarget['value'];
+    const content = this.updateContent;
     if (!content) {
       return;
     }
