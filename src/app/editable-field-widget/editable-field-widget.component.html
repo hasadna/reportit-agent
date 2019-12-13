@@ -3,7 +3,7 @@
     <ng-content select='label'></ng-content>
     <span class='edit-button' (click)='edit()'></span>
   </span>
-  <span class='static'>
+  <span class='static no-scrollbar'>
     <span [innerHTML]='report[field] | nl2br' *ngIf='report[field]'></span>
     <span *ngIf='!report[field]' class='empty' i18n>אין מידע</span>
     <span class='edit-button' (click)='edit()'></span>
