@@ -36,7 +36,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.content = new ContentManager();
     this.runner = new ScriptRunnerImpl(this.http, this.content, this.locale);
     this.runner.debug = false;
-    console.log('CHAT INIT!!');
+    this.content.debug = false;
   }
 
   ngOnDestroy() {
@@ -97,7 +97,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.content.sendButtonText = '';
-
     this.infocards.clear();
     this.runner.state = this.report.saved_state || {};
     console.log('STATE:', this.runner.state);
@@ -175,7 +174,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
                                             },
                 { display: 'לא', value: () => {} },
               ]);
-              (await this.content.waitForInput())();
+              (<any>await this.content.waitForInput())();
           }
         },
         checkSpecificGuardComplain: async (record) => {
@@ -193,7 +192,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
                                                },
                    { display: 'לא', value: () => {} },
                  ]);
-                 (await this.content.waitForInput())();
+                 (<any>await this.content.waitForInput())();
                }}},
         getGuardCompany: async (record) => {
           if (record.offender === 'מאבטח/ת') {
@@ -221,7 +220,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
                                             },
                 { display: 'לא', value: () => {} },
               ]);
-              (await this.content.waitForInput())();
+              (<any>await this.content.waitForInput())();
             }
           }
         },
@@ -244,7 +243,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
                   value: () => {}
                 }
               ]);
-              (await this.content.waitForInput())();
+              (<any>await this.content.waitForInput())();
             }
           }
         },
@@ -331,6 +330,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         this.ngOnDestroy();
         this.init();
         this.ngOnInit();
+        this.ngAfterViewInit();
       });
   }
 
