@@ -44,7 +44,10 @@ export class InfoCardsService {
           for (const item of datapackage.resources[0].data) {
             const translated = {};
             for (const k of Object.keys(item)) {
-              translated[k] = (item['.tx'] ? item['.tx'][this.locale] || item['.tx']['he'] : null) || item[k];
+              translated[k] = (
+                (item[k] && item[k]['.tx']) ?
+                item[k]['.tx'][this.locale] || item[k]['.tx']['_'] :
+                null) || item[k];
             }
             ret.push(translated);
           }
