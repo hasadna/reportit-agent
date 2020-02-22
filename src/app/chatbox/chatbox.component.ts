@@ -150,10 +150,10 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
               return record.getNextRelevantNgoOrg(record).push(org);
             }
             else {
-              return record.getNextRelevantNgoOrg(record)
+              return record.getNextRelevantNgoOrg(record);
             }
           }
-        }
+        },
         getOffender: async (record) => {
           console.log('OFFENDER', record.offender);
           return record.offender;
