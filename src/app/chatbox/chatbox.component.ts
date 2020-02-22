@@ -108,6 +108,52 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       0,
       {
         /// Specific Utils
+        GovOrgsArray: async (record) => {
+          let selectedOrgs = [];
+          for (const org of this.infocards.allOrgs) {
+            if (org['Organization Type'] === 'יחידה ממשלתית') {
+              selectedOrgs.push(org)
+            }
+            return selectedOrgs;
+          }
+        },
+        NgoOrgsArray: async (record) => {
+          let GovOrgs = [];
+          for (const org of this.infocards.allOrgs) {
+            if (org['Organization Type'] === 'ארגון חברה אזרחית'){
+              GovOrgs.push(org)
+            }
+            return GovOrgs;
+          }
+        },
+        getNextRelevantGovOrg: async (record) => {
+          if (record._selectedGovOrgs.length == 0) {
+            return [];
+          }
+          else {
+            let org = record._selectedNgoOrgs.pop();
+            if (this.matchScenarios(record, org.scenarios)) {
+              return record.getNextRelevantGovOrg(record).push(org);
+            }
+            else {
+              return record.getNextRelevantNgoOrg(record)
+            }
+          }
+        },
+        getNextRelevantNgoOrg: async (record) => {
+          if (record._selectedGovOrgs.length == 0) {
+            return [];
+          }
+          else {
+            let org = record._selectedNgoOrgs.pop();
+            if (this.matchScenarios(record, org.scenarios)) {
+              return record.getNextRelevantNgoOrg(record).push(org);
+            }
+            else {
+              return record.getNextRelevantNgoOrg(record)
+            }
+          }
+        }
         getOffender: async (record) => {
           console.log('OFFENDER', record.offender);
           return record.offender;
@@ -314,6 +360,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         const report = Object.assign({}, this.report, {finished_intake: true, saved_state: this.runner.state});
         return this.api.updateReport(report);
       })
+      
     ).subscribe((report) => {
         this.report = Object.assign(this.report, report);
     }, () => {});
