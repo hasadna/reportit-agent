@@ -65,7 +65,7 @@ export class InfoCardsService {
   }
 
   getTaskTemplates(): Observable<any[]> {
-    return this.getDataset('tasktemplates');
+    return this.getDataset('taskTemplates');
   }
 
   clear() {
@@ -120,7 +120,7 @@ export class InfoCardsService {
 
   addTask(report, task_slug, context, related_slugs) {
     const task_template = this.taskTemplates[task_slug];
-    const task_title = this._fillIn(task_template.Title, report, context);
+    const task_title = this._fillIn(task_template.title, report, context);
     for (const task of report.tasks) {
       if (task.title === task_title) {
         console.log('Not creating duplication of already existing task', task_title);
@@ -131,9 +131,9 @@ export class InfoCardsService {
       const newTask = {
         report: '' + report.id,
         title: task_title,
-        description: this._fillIn(task_template.Description, report, context),
+        description: this._fillIn(task_template.description, report, context),
         complete: false,
-        card_slugs: this._combineSlugs(related_slugs, task_template.infocard_slugs)
+        card_slugs: this._combineSlugs(related_slugs, task_template.infocardSlugs)
       };
       report._num_tasks = report.tasks.length + 1;
       this.api.addTask(newTask)
@@ -160,8 +160,8 @@ export class InfoCardsService {
     if (task_template) {
       const newTask = {
         report: '' + report.id,
-        title: task_template.Title,
-        description: task_template.Description,
+        title: task_template.title,
+        description: task_template.description,
         complete: true,
         card_slugs: ''
       };

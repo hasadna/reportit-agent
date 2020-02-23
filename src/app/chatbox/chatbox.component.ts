@@ -208,7 +208,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         selectGovOrgs: async (record) => {
           for (const org of this.infocards.allOrgs) {
             console.log('select Gov org:', org);
-            if (org['Organization Type'] === 'יחידה ממשלתית') {
+            if (org['organizationType'] === 'יחידה ממשלתית') {
               if (!this.matchScenarios(record, org.scenarios)) {
                 continue;
               }
@@ -227,7 +227,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         selectNGO: async (record) => {
           for (const org of this.infocards.allOrgs) {
             console.log('selectNGO org:', org);
-            if (org['Organization Type'] === 'ארגון חברה אזרחית') {
+            if (org['organizationType'] === 'ארגון חברה אזרחית') {
               if (!this.matchScenarios(record, org.scenarios)) {
                 continue;
               }

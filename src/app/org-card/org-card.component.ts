@@ -36,7 +36,7 @@ export class OrgCardComponent implements OnInit {
 
   email() {
     return this.section(
-      ['Email '],
+      ['email'],
       'כתובת מייל',
       (x) => `[${x[0]}](mailto:${x[0]})`
     );
@@ -44,7 +44,7 @@ export class OrgCardComponent implements OnInit {
 
   website() {
     return this.section(
-      ['website label ', 'website url '],
+      ['websiteLabel', 'websiteUrl'],
       'קישורים',
       (x) => `[${x[0]}](${x[1]})`
     );
@@ -52,7 +52,7 @@ export class OrgCardComponent implements OnInit {
 
   phone() {
     return this.section(
-      ['Phone number '],
+      ['phoneNumber'],
       'קשר טלפוני',
       (x) => `[${x[0]}](tel:${x[1]})`
     );
@@ -60,7 +60,7 @@ export class OrgCardComponent implements OnInit {
 
   fax() {
     return this.section(
-      'Fax',
+      'fax',
       'פקס',
       (x) => x
     );
@@ -69,7 +69,7 @@ export class OrgCardComponent implements OnInit {
 
   street_address() {
     return this.section(
-      'Mail Address',
+      'mailAddress',
       'כתובת משלוח דואר',
       (x) => x
     );
@@ -77,7 +77,7 @@ export class OrgCardComponent implements OnInit {
 
   phone_response_details() {
     return this.section(
-      'Phone response details',
+      'phoneResponseDetails',
       null,
       (x) => x
     );
@@ -85,7 +85,7 @@ export class OrgCardComponent implements OnInit {
 
   contacts() {
     return this.section(
-      ['Contact Person '],
+      ['contactPerson'],
       'אנשי קשר',
       (x) => x
     );
@@ -95,7 +95,7 @@ export class OrgCardComponent implements OnInit {
   ngOnInit() {
     const c = this.card;
     this.inner = {
-      title: c['Organization Name'],
+      title: c['organizationName'],
       content: `
 ${c['Description'] || ''}
 
