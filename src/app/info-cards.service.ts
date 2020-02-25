@@ -39,9 +39,9 @@ export class InfoCardsService {
   getDataset(kind): Observable<any[]> {
     return this.http.get(`https://raw.githubusercontent.com/hasadna/reportit-scripts/master/src/datasets/${kind}.datapackage.tx.json`)
       .pipe(
-        map((datapackage: any) => {
+        map((dataset: any) => {
           const ret = [];
-          for (const item of datapackage.resources[0].data) {
+          for (const item of dataset) {
             const translated = {};
             for (const k of Object.keys(item)) {
               translated[k] = (
@@ -83,7 +83,7 @@ export class InfoCardsService {
     if (card) {
       this.appendCardValue(card);
     } else {
-      console.log('Unknown card slug ' + slug);
+      console.log('Unknown card slug ' + slug, this.infoCardMap);
       throw new Error('Unknown card slug ' + slug);
     }
   }
@@ -120,6 +120,9 @@ export class InfoCardsService {
 
   addTask(report, task_slug, context, related_slugs) {
     const task_template = this.taskTemplates[task_slug];
+    if (!task_template) {
+      console.log('Unknown task template', task_slug, this.taskTemplates);
+    }
     const task_title = this._fillIn(task_template.title, report, context);
     for (const task of report.tasks) {
       if (task.title === task_title) {

@@ -53,10 +53,13 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
   matchScenarios(record, scenarios) {
     console.log('MATCH SCENARIOS', record, scenarios);
-    if (!record || !scenarios) {
+    if (!record) {
       return false;
     }
-    scenarios = scenarios.scenarios || [];
+    scenarios = scenarios || [];
+    if (scenarios.length === 0) {
+      return true;
+    }
     for (const scenario of scenarios) {
       let matchingScenario = true;
       console.log('> SCENARIO', scenario);
@@ -88,6 +91,18 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     return false;
   }
 
+  prepareOrgs(record, kind) {
+    const ret = [];
+    for (const org of this.infocards.allOrgs) {
+      if (org['organizationType'] === kind) {
+        if (this.matchScenarios(record, org.scenarios)) {
+          ret.push(org);
+        }
+      }
+    }
+    return ret;
+  }
+
   ngAfterViewInit() {
     this.content.uploadFileText = this.uploadFileText.nativeElement.innerHTML;
     this.content.uploadedFileText = this.uploadedFileText.nativeElement.innerHTML;
@@ -98,7 +113,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.content.sendButtonText = '';
     this.infocards.clear();
-    this.runner.state = this.report.saved_state || {};
+    this.runner.state = Object.assign({}, this.report.saved_state || {});
     console.log('STATE:', this.runner.state);
 
     this.report._num_tasks = this.report.tasks.length;
@@ -108,51 +123,30 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       0,
       {
         /// Specific Utils
-        GovOrgsArray: async (record) => {
-          let selectedOrgs = [];
-          for (const org of this.infocards.allOrgs) {
-            if (org['Organization Type'] === 'יחידה ממשלתית') {
-              selectedOrgs.push(org)
-            }
-            return selectedOrgs;
-          }
+        prepareGovOrgs: async (record) => {
+          record._selectedGovOrgs = this.prepareOrgs(record, 'יחידה ממשלתית');
         },
-        NgoOrgsArray: async (record) => {
-          let GovOrgs = [];
-          for (const org of this.infocards.allOrgs) {
-            if (org['Organization Type'] === 'ארגון חברה אזרחית'){
-              GovOrgs.push(org)
-            }
-            return GovOrgs;
-          }
+        prepareNgoOrgs: async (record) => {
+          record._selectedNgoOrgs = this.prepareOrgs(record, 'ארגון חברה אזרחית');
         },
-        getNextRelevantGovOrg: async (record) => {
-          if (record._selectedGovOrgs.length == 0) {
-            return [];
+        nextGovOrg: async (record) => {
+          if (!record._selectedGovOrgs || record._selectedGovOrgs.length === 0) {
+            return null;
           }
-          else {
-            let org = record._selectedNgoOrgs.pop();
-            if (this.matchScenarios(record, org.scenarios)) {
-              return record.getNextRelevantGovOrg(record).push(org);
-            }
-            else {
-              return record.getNextRelevantNgoOrg(record)
-            }
-          }
+          const org = (<any[]>record._selectedGovOrgs).shift();
+          this.infocards.appendCard('org:' + org.slug);
+          return org;
         },
-        getNextRelevantNgoOrg: async (record) => {
-          if (record._selectedGovOrgs.length == 0) {
-            return [];
+        nextNgoOrg: async (record) => {
+          if (!record._selectedNgoOrgs || record._selectedNgoOrgs.length === 0) {
+            return null;
           }
-          else {
-            let org = record._selectedNgoOrgs.pop();
-            if (this.matchScenarios(record, org.scenarios)) {
-              return record.getNextRelevantNgoOrg(record).push(org);
-            }
-            else {
-              return record.getNextRelevantNgoOrg(record);
-            }
-          }
+          const org = (<any[]>record._selectedNgoOrgs).shift();
+          this.infocards.appendCard('org:' + org.slug);
+          return org;
+        },
+        addOrgTask: async (record, field_name, task_name) => {
+          this.infocards.addTask(record, task_name, record[field_name], 'org:' + record[field_name].slug);
         },
         getOffender: async (record) => {
           console.log('OFFENDER', record.offender);
@@ -251,48 +245,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         countFiles: async (record) => {
           return record.evidence_files.length;
         },
-        selectGovOrgs: async (record) => {
-          for (const org of this.infocards.allOrgs) {
-            console.log('select Gov org:', org);
-            if (org['organizationType'] === 'יחידה ממשלתית') {
-              if (!this.matchScenarios(record, org.scenarios)) {
-                continue;
-              }
-              this.content.addTo(`האם הפונה מעוניינ/ת לשתף את המקרה עם ${org['Organization Name']}?`,
-                                 () => { this.infocards.appendCard('org:' + org.slug); });
-              this.content.addOptions(null, [
-                { display: 'כן', value: () => { this.infocards.addTask(record, 'send_report_to_governmental_unit', org, 'org:' + org.slug);
-                                              }
-                                            },
-                { display: 'לא', value: () => {} },
-              ]);
-              (<any>await this.content.waitForInput())();
-            }
-          }
-        },
-        selectNGO: async (record) => {
-          for (const org of this.infocards.allOrgs) {
-            console.log('selectNGO org:', org);
-            if (org['organizationType'] === 'ארגון חברה אזרחית') {
-              if (!this.matchScenarios(record, org.scenarios)) {
-                continue;
-              }
-              this.content.addTo(`האם הפונה מעוניינ/ת לשתף את המקרה עם ${org['Organization Name']}?`,
-                                 () => { this.infocards.appendCard('org:' + org.slug); });
-              this.content.addOptions(null, [
-                { display: 'כן', value: () => { this.infocards.addTask(record, 'send_to_ngo', org, 'org:' + org.slug); }
-                },
-               { display: 'מאשר/ת להעביר את תיאור המקרה, ללא פרטים מזהים',
-                 value: () => { this.infocards.addTask(record, 'org_send_anonymously', org, 'org:' + org.slug); }
-                },
-                { display: 'לא',
-                  value: () => {}
-                }
-              ]);
-              (<any>await this.content.waitForInput())();
-            }
-          }
-        },
         getTaskCount: async (record) => {
           return record.tasks._num_tasks;
         },
@@ -360,7 +312,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         const report = Object.assign({}, this.report, {finished_intake: true, saved_state: this.runner.state});
         return this.api.updateReport(report);
       })
-      
+
     ).subscribe((report) => {
         this.report = Object.assign(this.report, report);
     }, () => {});
