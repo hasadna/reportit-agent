@@ -131,15 +131,16 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         },
         nextGovOrg: async (record) => {
           if (!record._selectedGovOrgs || record._selectedGovOrgs.length === 0) {
-            return null;
+            return '';
           }
           const org = (<any[]>record._selectedGovOrgs).shift();
           this.infocards.appendCard('org:' + org.slug);
           return org;
         },
         nextNgoOrg: async (record) => {
+          console.log('nextNgoOrg', record._selectedNgoOrgs);
           if (!record._selectedNgoOrgs || record._selectedNgoOrgs.length === 0) {
-            return null;
+            return '';
           }
           const org = (<any[]>record._selectedNgoOrgs).shift();
           this.infocards.appendCard('org:' + org.slug);
